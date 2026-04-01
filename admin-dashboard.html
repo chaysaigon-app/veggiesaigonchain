@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PhoBut — Admin Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<style>
+:root{
+  --bg:#07090e;--s1:#0c1018;--s2:#131924;--s3:#1a2232;--s4:#1f2a3c;
+  --brd:#283450;--brd2:#1a2232;
+  --acc:#ff6b35;--acc2:#ff8c5a;--acc-d:rgba(255,107,53,.12);
+  --grn:#00d97e;--grn-d:rgba(0,217,126,.12);
+  --blu:#4f9cff;--blu-d:rgba(79,156,255,.12);
+  --red:#ff4766;--red-d:rgba(255,71,102,.12);
+  --ylw:#ffcb47;--ylw-d:rgba(255,203,71,.12);
+  --pur:#b06fff;--pur-d:rgba(176,111,255,.12);
+  --txt:#dde4f5;--txt2:#7a8eb0;--txt3:#3d4f70;
+  --font:'Be Vietnam Pro',sans-serif;--mono:'JetBrains Mono',monospace;
+  --r:10px;--r2:16px;--sh:0 8px 32px rgba(0,0,0,.5);
+  --sw:224px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--font);font-size:14px;height:100vh;display:flex;overflow:hidden}
+button{font-family:var(--font);cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font-family:var(--font);color:var(--txt)}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--brd);border-radius:4px}
+
+/* AUTH */
+#auth{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;padding:24px}
+.ac{width:100%;max-width:360px;background:var(--s1);border:1px solid var(--brd);border-radius:20px;padding:44px 36px}
+.al{text-align:center;margin-bottom:24px}
+.al-ico{font-size:40px;margin-bottom:8px}
+.al h1{font-size:26px;font-weight:900;color:var(--acc);letter-spacing:-1px}
+.al p{color:var(--txt2);font-size:13px;margin-top:4px}
+.afl{margin-bottom:12px}
+.afl label{display:block;font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.afl input{width:100%;background:var(--s3);border:1px solid var(--brd);border-radius:var(--r);padding:11px 14px;color:var(--txt);font-size:14px;outline:none;transition:border-color .2s}
+.afl input:focus{border-color:var(--acc)}
+.ap{width:100%;background:var(--acc);color:#fff;border-radius:var(--r);padding:12px;font-weight:800;font-size:15px;transition:all .2s;letter-spacing:.3px}
+.ap:hover{background:var(--acc2)}
+#ae{color:var(--red);font-size:12px;text-align:center;min-height:16px;margin-top:8px}
+
+/* SIDEBAR */
+#sb{width:var(--sw);background:var(--s1);border-right:1px solid var(--brd);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+.sb-br{padding:15px;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:8px}
+.sb-ico{font-size:20px}
+.sb-txt{font-weight:900;font-size:15px;letter-spacing:-0.5px}
+.sb-txt span{color:var(--acc)}
+#br-sel{padding:8px;border-bottom:1px solid var(--brd);flex-shrink:0}
+#br-sel select{width:100%;background:var(--s3);border:1px solid var(--brd);border-radius:8px;padding:7px 10px;color:var(--txt);font-size:12px;outline:none;cursor:pointer}
+.sbn{flex:1;overflow-y:auto;padding:6px}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;color:var(--txt2);font-weight:500;font-size:13px;transition:all .15s;margin-bottom:2px;width:100%;text-align:left}
+.ni:hover{background:var(--s3);color:var(--txt)}
+.ni.on{background:var(--acc-d);color:var(--acc)}
+.ni .ico{font-size:15px;width:20px;text-align:center}
+.ns{font-size:10px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.8px;padding:12px 12px 4px;margin-top:4px}
+.sb-bot{padding:10px;border-top:1px solid var(--brd)}
+.su{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;background:var(--s3)}
+.sav{width:30px;height:30px;border-radius:50%;background:var(--acc-d);border:2px solid var(--acc);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:var(--acc);flex-shrink:0}
+.sui{flex:1;overflow:hidden}
+.sue{font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sur{font-size:10px;color:var(--txt3)}
+.lout{margin-top:8px;width:100%;background:none;border:1px solid var(--brd);color:var(--txt2);border-radius:8px;padding:7px;font-size:12px;font-family:var(--font);transition:all .15s}
+.lout:hover{border-color:var(--red);color:var(--red)}
+
+/* MAIN */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#pg-hdr{padding:14px 24px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+#pg-ttl{font-size:19px;font-weight:800;letter-spacing:-0.5px}
+#pg-acts{display:flex;gap:8px;align-items:center}
+/* Export PDF+Email buttons in header */
+.hdr-export-btn{
+  display:flex;align-items:center;gap:6px;
+  background:var(--s3);border:1px solid var(--brd);color:var(--txt2);
+  border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;
+  transition:all .15s;
+}
+.hdr-export-btn:hover{border-color:var(--acc);color:var(--acc)}
+.hdr-export-btn.pdf{border-color:var(--red);color:var(--red);background:var(--red-d)}
+.hdr-export-btn.email{border-color:var(--grn);color:var(--grn);background:var(--grn-d)}
+.bs-acc{background:var(--acc);border:1px solid var(--acc);color:#fff;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;font-family:var(--font)}
+.bs-acc:hover{background:var(--acc2)}
+#pg-c{flex:1;overflow-y:auto;padding:20px 24px}
+
+/* REPORT SECTION — the div that becomes PDF */
+#report-pdf-target{/* wraps the dashboard content for PDF export */}
+
+/* KPI */
+.kg{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:12px;margin-bottom:20px}
+.kc{background:var(--s2);border:1px solid var(--brd);border-radius:var(--r2);padding:16px;position:relative;overflow:hidden}
+.kc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kc.or::before{background:var(--acc)}
+.kc.gr::before{background:var(--grn)}
+.kc.bl::before{background:var(--blu)}
+.kc.pu::before{background:var(--pur)}
+.kl{font-size:11px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.kv{font-family:var(--mono);font-size:20px;font-weight:700;margin-bottom:4px}
+.ks{font-size:11px;color:var(--txt3)}
+.ki{position:absolute;right:12px;top:12px;font-size:22px;opacity:.18}
+
+/* Charts row */
+.cr{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.cc{background:var(--s2);border:1px solid var(--brd);border-radius:var(--r2);padding:16px}
+.ct{font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.bc{display:flex;flex-direction:column;gap:6px}
+.bi{display:flex;align-items:center;gap:8px}
+.blab{width:108px;color:var(--txt2);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btr{flex:1;height:17px;background:var(--s4);border-radius:4px;overflow:hidden}
+.bf{height:100%;border-radius:4px;transition:width .65s cubic-bezier(.4,0,.2,1)}
+.bval{width:68px;text-align:right;font-family:var(--mono);font-size:11px;color:var(--txt2)}
+.dw{display:flex;align-items:center;gap:14px}
+.dl{display:flex;flex-direction:column;gap:7px}
+.dli{display:flex;align-items:center;gap:6px;font-size:11px}
+.dld{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* Section title */
+.stl{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:var(--txt)}
+.stl::after{content:'';flex:1;height:1px;background:var(--brd)}
+
+/* Date filter */
+.df{display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.df label{font-size:12px;color:var(--txt2);font-weight:600}
+.df input{background:var(--s3);border:1px solid var(--brd);border-radius:8px;padding:6px 10px;color:var(--txt);font-size:12px;outline:none;transition:border-color .2s}
+.df input:focus{border-color:var(--acc)}
+.df-btn{background:var(--acc-d);border:1px solid var(--acc);color:var(--acc);border-radius:8px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:700;font-family:var(--font)}
+
+/* DATA TABLE */
+.dt{width:100%;border-collapse:collapse;font-size:13px}
+.dt th{text-align:left;padding:10px 12px;font-size:11px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--brd)}
+.dt td{padding:10px 12px;border-bottom:1px solid var(--brd2)}
+.dt tr:hover td{background:var(--s3)}
+.dt tr:last-child td{border-bottom:none}
+.bdg{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase}
+.badm{background:var(--acc-d);color:var(--acc)}
+.bcsh{background:var(--blu-d);color:var(--blu)}
+.bact{background:var(--grn-d);color:var(--grn)}
+.bins{background:var(--red-d);color:var(--red)}
+
+/* FORMS */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ff{display:flex;flex-direction:column;gap:5px}
+.ff.full{grid-column:1/-1}
+.ff label{font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px}
+.ff input,.ff select,.ff textarea{background:var(--s3);border:1px solid var(--brd);border-radius:var(--r);padding:9px 12px;color:var(--txt);font-size:13px;outline:none;transition:border-color .2s}
+.ff input:focus,.ff select:focus,.ff textarea:focus{border-color:var(--acc)}
+.ff textarea{resize:vertical;min-height:70px}
+.fa{display:flex;gap:8px;margin-top:16px}
+.fcn{background:none;border:1px solid var(--brd);color:var(--txt2);border-radius:var(--r);padding:8px 18px;cursor:pointer;font-family:var(--font);font-size:13px;font-weight:600}
+.fsv{background:var(--acc);border:none;color:#fff;border-radius:var(--r);padding:8px 22px;cursor:pointer;font-family:var(--font);font-size:13px;font-weight:700}
+.fsv:hover{background:var(--acc2)}
+.fdl{background:var(--red-d);border:1px solid var(--red);color:var(--red);border-radius:var(--r);padding:8px 14px;cursor:pointer;font-family:var(--font);font-size:13px;font-weight:600}
+
+/* Image upload area */
+.iua{border:2px dashed var(--brd);border-radius:var(--r);padding:18px;text-align:center;cursor:pointer;transition:border-color .2s;position:relative}
+.iua:hover{border-color:var(--acc)}
+.iua img{max-height:90px;max-width:100%;border-radius:6px;margin-bottom:8px}
+.iua p{font-size:12px;color:var(--txt3)}
+.iua input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.upb{height:3px;background:var(--s4);border-radius:2px;margin-top:6px;overflow:hidden}
+.upbf{height:100%;background:var(--acc);width:0;transition:width .3s}
+
+/* Card */
+.cvd{background:var(--s2);border:1px solid var(--brd);border-radius:var(--r2);padding:18px;margin-bottom:14px}
+
+/* MODAL */
+#mo{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:500;display:none;align-items:center;justify-content:center;padding:16px}
+#mo.open{display:flex}
+.mod{background:var(--s1);border:1px solid var(--brd);border-radius:var(--r2);padding:24px;width:540px;max-width:100%;max-height:90vh;overflow-y:auto;position:relative}
+.mod h3{font-size:16px;font-weight:800;margin-bottom:18px}
+.mclose{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--txt2);font-size:19px;cursor:pointer}
+
+/* EMAIL MODAL */
+#email-mo{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:600;display:none;align-items:center;justify-content:center;padding:16px}
+#email-mo.open{display:flex}
+.email-card{background:var(--s1);border:1px solid var(--grn);border-radius:var(--r2);padding:24px;width:400px;max-width:100%}
+.email-card h3{font-size:16px;font-weight:800;margin-bottom:4px;color:var(--grn)}
+.email-card p{font-size:12px;color:var(--txt2);margin-bottom:16px}
+.email-inp{width:100%;background:var(--s3);border:1.5px solid var(--brd);border-radius:var(--r);padding:11px 14px;color:var(--txt);font-size:14px;outline:none;transition:border-color .2s;margin-bottom:12px}
+.email-inp:focus{border-color:var(--grn)}
+.email-send{width:100%;background:var(--grn);color:#000;border-radius:var(--r);padding:12px;font-weight:800;font-size:14px;margin-bottom:8px}
+.email-cancel{width:100%;background:none;border:1px solid var(--brd);color:var(--txt2);border-radius:var(--r);padding:10px;font-size:13px;font-weight:600;font-family:var(--font)}
+
+/* TOAST */
+#toast{position:fixed;bottom:20px;right:20px;background:var(--s1);border:1px solid var(--brd);border-radius:10px;padding:11px 18px;font-size:13px;font-weight:500;z-index:9999;transform:translateY(60px);opacity:0;transition:all .28s;box-shadow:var(--sh)}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.ok{border-color:var(--grn);color:var(--grn)}
+#toast.err{border-color:var(--red);color:var(--red)}
+#toast.inf{border-color:var(--blu);color:var(--blu)}
+.spin{width:22px;height:22px;border:3px solid var(--brd);border-top-color:var(--acc);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ldr{display:flex;align-items:center;justify-content:center;gap:12px;padding:36px;color:var(--txt2)}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="auth">
+  <div class="ac">
+    <div class="al"><div class="al-ico">🍜</div><h1>PhoBut Admin</h1><p>Bảng điều khiển quản trị hệ thống</p></div>
+    <div class="afl"><label>Email</label><input id="ai-em" type="email" placeholder="admin@email.com"/></div>
+    <div class="afl"><label>Mật khẩu</label><input id="ai-pw" type="password" placeholder="••••••••"/></div>
+    <button class="ap" onclick="doLogin()">Đăng nhập</button>
+    <div id="ae"></div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div id="sb">
+  <div class="sb-br"><div class="sb-ico">🍜</div><div class="sb-txt">Pho<span>But</span></div></div>
+  <div id="br-sel"><select id="brs" onchange="onBrCh()"><option>Chọn chi nhánh...</option></select></div>
+  <nav class="sbn">
+    <div class="ns">Tổng quan</div>
+    <button class="ni on" onclick="goP('dashboard')"><span class="ico">📊</span>Dashboard</button>
+    <button class="ni" onclick="goP('orders')"><span class="ico">📋</span>Đơn hàng</button>
+    <div class="ns">Quản lý</div>
+    <button class="ni" onclick="goP('menu')"><span class="ico">🍽️</span>Thực đơn & Kho</button>
+    <button class="ni" onclick="goP('staff')"><span class="ico">👥</span>Nhân viên</button>
+    <button class="ni" onclick="goP('vouchers')"><span class="ico">🎟️</span>Voucher</button>
+    <div class="ns" id="sa-s">Hệ thống</div>
+    <button class="ni" id="n-br" onclick="goP('branches')"><span class="ico">🏢</span>Chi nhánh</button>
+    <button class="ni" onclick="goP('settings')"><span class="ico">⚙️</span>Cài đặt</button>
+  </nav>
+  <div class="sb-bot">
+    <div class="su"><div class="sav" id="sav">?</div><div class="sui"><div class="sue" id="sue"></div><div class="sur" id="sur"></div></div></div>
+    <button class="lout" onclick="doLogout()">Đăng xuất</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="pg-hdr">
+    <div id="pg-ttl">Dashboard</div>
+    <div id="pg-acts"></div>
+  </div>
+  <!-- Printable/exportable report wrapper -->
+  <div id="pg-c"><div class="ldr"><div class="spin"></div><span>Đang tải...</span></div></div>
+</div>
+
+<!-- MODAL (CRUD) -->
+<div id="mo" onclick="closeMo(event)">
+  <div class="mod" id="mod-box">
+    <button class="mclose" onclick="closeMo2()">✕</button>
+    <div id="mod-c"></div>
+  </div>
+</div>
+
+<!-- EMAIL MODAL (gửi báo cáo PDF qua email) -->
+<div id="email-mo" onclick="closeEmailMo(event)">
+  <div class="email-card">
+    <h3>📧 Gửi Báo Cáo PDF</h3>
+    <p id="email-mo-desc">Nhập email để nhận báo cáo dạng PDF</p>
+    <input class="email-inp" id="report-email" type="email" placeholder="email@domain.com"/>
+    <button class="email-send" onclick="confirmSendReport()">📤 Gửi Báo Cáo</button>
+    <button class="email-cancel" onclick="closeEmailMoDirect()">Huỷ</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, collection, doc, getDocs, getDoc,
+  addDoc, setDoc, updateDoc, deleteDoc,
+  query, orderBy, serverTimestamp, limit }
+  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+/* ── CONFIG ── */
+const firebaseConfig={apiKey:"AIzaSyA0zujbTZbHe_7gAe_y9QkrcR4qXKC6Abo",authDomain:"phobut-95574.firebaseapp.com",projectId:"phobut-95574"};
+const ADMIN_EMAIL="chaysaigon@gmail.com";
+const cloudName="dym7dwnji", uploadPreset="qjrpdbhs";
+/* EmailJS — thay bằng IDs của bạn */
+const EJS_SVC="service_phobut", EJS_REPORT_TPL="template_report", EJS_KEY="YOUR_EMAILJS_PUBLIC_KEY";
+
+const fbApp=initializeApp(firebaseConfig);
+const auth=getAuth(fbApp);
+const db=getFirestore(fbApp);
+
+let me=null, myRole=null, isSA=false;
+let curBrId=null, curBrName="";
+let allBranches=[];
+let curPage="dashboard";
+let allOrders=[];
+/* email send context */
+let pendingReportTitle="";
+
+/* ── AUTH ── */
+window.doLogin=async()=>{
+  const e=document.getElementById("ai-em").value.trim();
+  const p=document.getElementById("ai-pw").value;
+  document.getElementById("ae").textContent="";
+  try{await signInWithEmailAndPassword(auth,e,p);}
+  catch{document.getElementById("ae").textContent="Email hoặc mật khẩu không đúng.";}
+};
+window.doLogout=()=>signOut(auth);
+
+onAuthStateChanged(auth,async u=>{
+  if(!u){document.getElementById("auth").style.display="flex";return;}
+  me=u;isSA=u.email===ADMIN_EMAIL;
+  document.getElementById("auth").style.display="none";
+  document.getElementById("sav").textContent=u.email[0].toUpperCase();
+  document.getElementById("sue").textContent=u.email;
+  document.getElementById("sa-s").style.display=isSA?"":"none";
+  document.getElementById("n-br").style.display=isSA?"":"none";
+  if(typeof emailjs!=="undefined") emailjs.init(EJS_KEY);
+  await loadBranches(u);
+});
+
+async function loadBranches(u){
+  const snap=await getDocs(collection(db,"Branches"));
+  allBranches=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const sel=document.getElementById("brs");
+  sel.innerHTML="";
+  if(isSA){
+    myRole="admin";document.getElementById("sur").textContent="Super Admin";
+    sel.innerHTML=allBranches.map(b=>`<option value="${b.id}">${b.info?.name||b.id}</option>`).join("");
+  } else {
+    const myB=[];
+    for(const b of allBranches){
+      const sd=await getDoc(doc(db,"Branches",b.id,"Staff",u.email));
+      if(sd.exists()) myB.push({...b,role:sd.data().role});
+    }
+    if(!myB.length){showT("Chưa được phân công chi nhánh","err");signOut(auth);return;}
+    sel.innerHTML=myB.map(b=>`<option value="${b.id}" data-role="${b.role}">${b.info?.name||b.id}</option>`).join("");
+    myRole=myB[0].role;
+  }
+  document.getElementById("sur").textContent=myRole==="admin"?"Branch Admin":"Thu Ngân";
+  if(sel.options.length){sel.selectedIndex=0;onBrCh();}
+}
+
+window.onBrCh=()=>{
+  const sel=document.getElementById("brs");
+  const opt=sel.options[sel.selectedIndex];
+  curBrId=opt.value;curBrName=opt.text;
+  if(!isSA&&opt.dataset.role) myRole=opt.dataset.role;
+  document.getElementById("sur").textContent=myRole==="admin"?"Branch Admin":"Thu Ngân";
+  if(curBrId) goP(curPage);
+};
+
+/* ── NAV ── */
+const PTITLES={dashboard:"📊 Dashboard",orders:"📋 Đơn hàng",menu:"🍽️ Thực đơn & Kho",staff:"👥 Nhân viên",vouchers:"🎟️ Voucher",branches:"🏢 Chi nhánh",settings:"⚙️ Cài đặt"};
+window.goP=async p=>{
+  curPage=p;
+  document.querySelectorAll(".ni").forEach(n=>n.classList.remove("on"));
+  document.getElementById("pg-ttl").textContent=PTITLES[p]||p;
+  document.getElementById("pg-acts").innerHTML="";
+  const pc=document.getElementById("pg-c");
+  pc.innerHTML='<div class="ldr"><div class="spin"></div><span>Đang tải...</span></div>';
+  if(!curBrId&&p!=="branches"){pc.innerHTML='<div class="ldr" style="color:var(--txt3)">Vui lòng chọn chi nhánh</div>';return;}
+  switch(p){
+    case"dashboard":await rDash();break;
+    case"orders":await rOrders();break;
+    case"menu":await rMenu();break;
+    case"staff":await rStaff();break;
+    case"vouchers":await rVouchers();break;
+    case"branches":await rBranches();break;
+    case"settings":await rSettings();break;
+  }
+};
+
+/* ════════════════════════════════════
+   REPORT EXPORT — SHARED HELPERS
+   Every report page calls these
+════════════════════════════════════ */
+
+/**
+ * Render export buttons into the page header
+ * @param {string} reportTitle — used as PDF filename & email subject
+ * @param {string} targetId    — id of the DOM element to export as PDF
+ */
+function addExportButtons(reportTitle, targetId="pg-c"){
+  pendingReportTitle=reportTitle;
+  document.getElementById("pg-acts").innerHTML=`
+    <button class="hdr-export-btn pdf" onclick="exportReportPDF('${targetId}','${reportTitle}')">
+      📥 Tải PDF
+    </button>
+    <button class="hdr-export-btn email" onclick="openEmailMo('${targetId}','${reportTitle}')">
+      📧 Gửi Email
+    </button>`;
+}
+
+window.exportReportPDF=async(targetId,title)=>{
+  showT("Đang tạo PDF báo cáo...","inf");
+  const el=document.getElementById(targetId);
+  const opt={
+    margin:[10,10,10,10],
+    filename:`${title.replace(/[^a-zA-Z0-9]/g,"-")}-${fD(new Date())}.pdf`,
+    image:{type:"jpeg",quality:.93},
+    html2canvas:{scale:2,useCORS:true,backgroundColor:"#ffffff",
+      /* Force light mode for PDF */
+      onclone:(doc)=>{
+        doc.documentElement.style.setProperty("--bg","#ffffff");
+        doc.documentElement.style.setProperty("--s1","#f5f7fa");
+        doc.documentElement.style.setProperty("--s2","#ffffff");
+        doc.documentElement.style.setProperty("--s3","#eef1f6");
+        doc.documentElement.style.setProperty("--s4","#e2e8f0");
+        doc.documentElement.style.setProperty("--brd","#d0d8e8");
+        doc.documentElement.style.setProperty("--txt","#1a2240");
+        doc.documentElement.style.setProperty("--txt2","#4a5680");
+        doc.documentElement.style.setProperty("--txt3","#8898c0");
+      }
+    },
+    jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
+  };
+  await html2pdf().set(opt).from(el).save();
+  showT("✅ Đã tải PDF!","ok");
+};
+
+/* Email modal */
+let _exportTarget="pg-c";
+window.openEmailMo=(targetId,title)=>{
+  _exportTarget=targetId;
+  pendingReportTitle=title;
+  document.getElementById("email-mo-desc").textContent=`Xuất báo cáo "${title}" thành PDF và gửi đến email:`;
+  document.getElementById("report-email").value="";
+  document.getElementById("email-mo").classList.add("open");
+};
+window.closeEmailMo=e=>{if(e.target===document.getElementById("email-mo")) closeEmailMoDirect();};
+window.closeEmailMoDirect=()=>document.getElementById("email-mo").classList.remove("open");
+
+window.confirmSendReport=async()=>{
+  const email=document.getElementById("report-email").value.trim();
+  if(!email){showT("Nhập email nhận báo cáo","err");return;}
+  closeEmailMoDirect();
+  showT("Đang tạo PDF & gửi...","inf");
+  try{
+    const el=document.getElementById(_exportTarget);
+    const opt={
+      margin:[10,10,10,10],
+      image:{type:"jpeg",quality:.9},
+      html2canvas:{scale:2,backgroundColor:"#ffffff",
+        onclone:(doc)=>{
+          doc.documentElement.style.setProperty("--bg","#ffffff");
+          doc.documentElement.style.setProperty("--s2","#ffffff");
+          doc.documentElement.style.setProperty("--txt","#1a2240");
+        }
+      },
+      jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
+    };
+    const pdfUri=await html2pdf().set(opt).from(el).outputPdf("datauristring");
+    await emailjs.send(EJS_SVC,EJS_REPORT_TPL,{
+      to_email:     email,
+      branch_name:  curBrName,
+      report_title: pendingReportTitle,
+      report_date:  fD(new Date()),
+      sent_by:      me.email,
+      pdf_content:  pdfUri
+    });
+    showT("📧 Đã gửi báo cáo!","ok");
+  }catch(e){console.error(e);showT("Lỗi gửi email: "+e.message,"err");}
+};
+
+/* ════════════════════════════════════
+   DASHBOARD
+════════════════════════════════════ */
+async function rDash(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const from=new Date(today);from.setDate(today.getDate()-30);
+  const oSnap=await getDocs(query(collection(db,"Branches",curBrId,"Orders"),orderBy("createdAt","desc"),limit(500)));
+  allOrders=oSnap.docs.map(d=>({id:d.id,...d.data()}));
+  const done=allOrders.filter(o=>["completed","paid","delivered"].includes(o.status));
+  const todayO=done.filter(o=>{const d=o.createdAt?.toDate?.();return d&&d>=today;});
+  const totR=done.reduce((s,o)=>s+(o.total||0),0);
+  const totV=done.reduce((s,o)=>s+(o.vat||0),0);
+  const netR=totR-totV;
+  const totD=done.reduce((s,o)=>s+(o.discount||0),0);
+  const gP=netR-totD;
+  const todayR=todayO.reduce((s,o)=>s+(o.total||0),0);
+  const iC={};done.forEach(o=>(o.items||[]).forEach(i=>{iC[i.name]=(iC[i.name]||0)+i.qty;}));
+  const bs=Object.entries(iC).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const mx=bs[0]?.[1]||1;
+  const pmd={cash:0,card:0,transfer:0};
+  done.forEach(o=>{if(o.paymentMethod in pmd)pmd[o.paymentMethod]+=(o.total||0);});
+  const pmt=Object.values(pmd).reduce((s,v)=>s+v,0)||1;
+  const chd={dinein:0,takeaway:0,weborder:0,apporder:0};
+  done.forEach(o=>{if(o.orderType in chd)chd[o.orderType]++;});
+  const cht=Object.values(chd).reduce((s,v)=>s+v,0)||1;
+
+  document.getElementById("pg-c").innerHTML=`
+  <div id="dash-content">
+    <div class="df">
+      <label>Từ:</label><input type="date" id="df-from" value="${fD(from)}"/>
+      <label>Đến:</label><input type="date" id="df-to" value="${fD(today)}"/>
+      <button class="df-btn" onclick="applyDateFilter()">Lọc</button>
+      <span style="font-size:11px;color:var(--txt3)">${done.length} đơn hoàn thành trong 30 ngày</span>
+    </div>
+    <div class="kg">
+      <div class="kc or"><div class="ki">💰</div><div class="kl">Doanh thu tổng (30 ngày)</div><div class="kv" style="color:var(--acc)">${fmt(totR)}</div><div class="ks">Hôm nay: ${fmt(todayR)}</div></div>
+      <div class="kc gr"><div class="ki">✅</div><div class="kl">Doanh thu thuần</div><div class="kv" style="color:var(--grn)">${fmt(netR)}</div><div class="ks">Sau VAT: ${fmt(totV)}</div></div>
+      <div class="kc bl"><div class="ki">📈</div><div class="kl">Lợi nhuận gộp</div><div class="kv" style="color:var(--blu)">${fmt(gP)}</div><div class="ks">Giảm giá: ${fmt(totD)}</div></div>
+      <div class="kc pu"><div class="ki">🧾</div><div class="kl">Tổng đơn hàng</div><div class="kv" style="color:var(--pur)">${allOrders.length}</div><div class="ks">Hôm nay: ${todayO.length} đơn</div></div>
+    </div>
+    <div class="cr">
+      <div class="cc">
+        <div class="ct">🔥 Món bán chạy nhất (Top 5)</div>
+        <div class="bc">${bs.length?bs.map(([n,q])=>`<div class="bi"><div class="blab">${n}</div><div class="btr"><div class="bf" style="width:${(q/mx*100).toFixed(1)}%;background:var(--acc)"></div></div><div class="bval">${q} suất</div></div>`).join(""):'<div style="color:var(--txt3);font-size:12px;padding:8px 0">Chưa có dữ liệu</div>'}</div>
+      </div>
+      <div class="cc">
+        <div class="ct">💳 Hình thức thanh toán</div>
+        <div class="dw">
+          ${donut([{l:"Tiền mặt",v:pmd.cash/pmt,c:"#00d97e"},{l:"Thẻ",v:pmd.card/pmt,c:"#4f9cff"},{l:"CK",v:pmd.transfer/pmt,c:"#b06fff"}])}
+          <div class="dl">
+            ${[["cash","💵 Tiền mặt","#00d97e"],["card","💳 Thẻ","#4f9cff"],["transfer","🏦 CK","#b06fff"]].map(([k,l,c])=>`<div class="dli"><div class="dld" style="background:${c}"></div><span style="color:var(--txt2)">${l}:</span><strong>${fmt(pmd[k])}</strong></div>`).join("")}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="stl">Kênh bán hàng</div>
+    <div class="cvd">
+      <div class="bc">${Object.entries({dinein:"🪑 Tại chỗ",takeaway:"🥡 Mang về",weborder:"🌐 Web",apporder:"📱 App"}).map(([k,l])=>`<div class="bi"><div class="blab">${l}</div><div class="btr"><div class="bf" style="width:${(chd[k]/cht*100).toFixed(1)}%;background:var(--blu)"></div></div><div class="bval">${chd[k]} đơn</div></div>`).join("")}</div>
+    </div>
+  </div>`;
+
+  // Add export buttons to header — target is the whole dashboard div
+  addExportButtons(`BaoCao-Dashboard-${curBrName}`, "dash-content");
+}
+
+window.applyDateFilter=async()=>{
+  const from=new Date(document.getElementById("df-from").value);
+  const to=new Date(document.getElementById("df-to").value);to.setHours(23,59,59);
+  const filtered=allOrders.filter(o=>{const d=o.createdAt?.toDate?.();return d&&d>=from&&d<=to;});
+  showT(`Lọc: ${filtered.length} đơn trong khoảng đã chọn`,"inf");
+};
+
+/* ════════════════════════════════════
+   ORDERS
+════════════════════════════════════ */
+async function rOrders(){
+  const SL={pending:"Chờ XN",paid:"Đã TT",preparing:"Chuẩn bị",delivering:"Giao hàng",delivered:"Đã giao",completed:"Hoàn thành",cancelled:"Đã hủy"};
+  const SC={pending:"var(--ylw)",paid:"var(--grn)",preparing:"var(--blu)",delivering:"var(--pur)",delivered:"#c8a7ff",completed:"#4dffa6",cancelled:"var(--red)"};
+  const SF=["pending","paid","preparing","delivering","delivered","completed","cancelled"];
+  const snap=await getDocs(query(collection(db,"Branches",curBrId,"Orders"),orderBy("createdAt","desc"),limit(100)));
+  const orders=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const rows=orders.map(o=>{
+    const ts=o.createdAt?.toDate?.();
+    const s=o.status||"pending";
+    return `<tr>
+      <td><span style="font-family:var(--mono);font-size:11px">#${o.id.slice(-6).toUpperCase()}</span></td>
+      <td style="font-size:12px">${ts?ts.toLocaleString("vi-VN"):"—"}</td>
+      <td>${{dinein:"🪑",takeaway:"🥡",weborder:"🌐",apporder:"📱"}[o.orderType]||""} ${o.orderType||"—"}</td>
+      <td style="font-family:var(--mono);font-weight:700;color:var(--acc)">${fmt(o.total)}</td>
+      <td><span class="bdg" style="background:${SC[s]}18;color:${SC[s]}">${SL[s]||s}</span></td>
+      <td>
+        <select style="background:var(--s3);border:1px solid var(--brd);border-radius:6px;padding:4px;color:var(--txt);font-size:11px;font-family:var(--font)" onchange="updSt('${o.id}',this.value)">
+          ${SF.map(st=>`<option value="${st}" ${st===s?"selected":""}>${SL[st]}</option>`).join("")}
+        </select>
+      </td>
+    </tr>`;
+  }).join("");
+  document.getElementById("pg-c").innerHTML=`
+  <div id="orders-content">
+    <div class="cvd" style="overflow-x:auto">
+      <table class="dt">
+        <thead><tr><th>Mã</th><th>Thời gian</th><th>Kênh</th><th>Tổng</th><th>Trạng thái</th><th>Cập nhật</th></tr></thead>
+        <tbody>${rows||'<tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:24px">Chưa có đơn</td></tr>'}</tbody>
+      </table>
+    </div>
+  </div>`;
+  addExportButtons(`DonHang-${curBrName}`, "orders-content");
+}
+window.updSt=async(id,s)=>{
+  try{await updateDoc(doc(db,"Branches",curBrId,"Orders",id),{status:s,updatedAt:serverTimestamp()});showT("Đã cập nhật","ok");}
+  catch(e){showT("Lỗi: "+e.message,"err");}
+};
+
+/* ════════════════════════════════════
+   MENU
+════════════════════════════════════ */
+async function rMenu(){
+  document.getElementById("pg-acts").innerHTML=`<button class="bs-acc" onclick="openAddMenu()">+ Thêm món</button>`;
+  const snap=await getDocs(collection(db,"Branches",curBrId,"Menus"));
+  const items=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const rows=items.map(m=>`<tr>
+    <td><img src="${m.image||"https://placehold.co/36x36/1a2232/3d4f70?text=🍜"}" style="width:36px;height:36px;border-radius:6px;object-fit:cover"/></td>
+    <td><strong>${m.name}</strong></td>
+    <td style="color:var(--txt2)">${m.category||"—"}</td>
+    <td style="font-family:var(--mono);color:var(--acc);font-weight:700">${fmt(m.price)}</td>
+    <td><div style="display:flex;align-items:center;gap:5px"><span style="font-family:var(--mono)">${m.stock>=0?m.stock:"∞"}</span><button style="background:var(--s3);border:1px solid var(--brd);color:var(--txt2);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer" onclick="updStk('${m.id}','${m.name}',${m.stock})">Sửa</button></div></td>
+    <td><span class="bdg ${m.available!==false?"bact":"bins"}">${m.available!==false?"Đang bán":"Tạm ngừng"}</span></td>
+    <td>
+      <button style="background:var(--s3);border:1px solid var(--brd);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:12px" onclick="openEditMenu('${m.id}')">✏️</button>
+      <button style="background:var(--red-d);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:12px;margin-left:4px" onclick="delMenu('${m.id}','${m.name}')">🗑️</button>
+    </td>
+  </tr>`).join("");
+  document.getElementById("pg-c").innerHTML=`<div class="cvd" style="overflow-x:auto"><table class="dt"><thead><tr><th>Ảnh</th><th>Tên món</th><th>Danh mục</th><th>Giá</th><th>Tồn kho</th><th>Trạng thái</th><th>Thao tác</th></tr></thead><tbody>${rows||'<tr><td colspan="7" style="text-align:center;color:var(--txt3);padding:24px">Chưa có món</td></tr>'}</tbody></table></div>`;
+  window._menuItems=items;
+}
+function mForm(m={}){return `
+<form onsubmit="saveMenu(event,'${m.id||''}')">
+<div class="fg">
+  <div class="ff full"><label>Tên món *</label><input name="name" value="${m.name||""}" required placeholder="Phở bò tái"/></div>
+  <div class="ff"><label>Giá (VNĐ) *</label><input name="price" type="number" value="${m.price||""}" required/></div>
+  <div class="ff"><label>Danh mục</label><input name="category" value="${m.category||""}" placeholder="Phở, Cơm..."/></div>
+  <div class="ff"><label>Tồn kho (-1=∞)</label><input name="stock" type="number" value="${m.stock??-1}"/></div>
+  <div class="ff"><label>Trạng thái</label><select name="available"><option value="true" ${m.available!==false?"selected":""}>Đang bán</option><option value="false" ${m.available===false?"selected":""}>Tạm ngừng</option></select></div>
+  <div class="ff full"><label>Mô tả</label><textarea name="description">${m.description||""}</textarea></div>
+  <div class="ff full"><label>Ảnh (Cloudinary)</label>
+    <div class="iua">
+      <img id="mi-pv" src="${m.image||""}" style="display:${m.image?"block":"none"}"/>
+      <p id="mi-tx">${m.image?"Nhấn để đổi":"📷 Click hoặc kéo thả ảnh"}</p>
+      <div class="upb"><div class="upbf" id="mi-pb"></div></div>
+      <input type="hidden" name="image" id="mi-url" value="${m.image||""}"/>
+      <input type="file" accept="image/*" onchange="upImg(this)"/>
+    </div>
+  </div>
+</div>
+<div class="fa"><button type="button" class="fcn" onclick="closeMo2()">Huỷ</button><button type="submit" class="fsv">${m.id?"Lưu thay đổi":"Thêm món"}</button></div>
+</form>`;}
+window.openAddMenu=()=>openMo("➕ Thêm món mới",mForm());
+window.openEditMenu=async id=>{const s=await getDoc(doc(db,"Branches",curBrId,"Menus",id));if(s.exists())openMo("✏️ Sửa món",mForm({id:s.id,...s.data()}));};
+window.upImg=async input=>{
+  const file=input.files[0];if(!file)return;
+  const pb=document.getElementById("mi-pb");pb.style.width="20%";
+  try{
+    const fd=new FormData();fd.append("file",file);fd.append("upload_preset",uploadPreset);
+    pb.style.width="60%";
+    const res=await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,{method:"POST",body:fd});
+    const data=await res.json();pb.style.width="100%";
+    if(data.secure_url){document.getElementById("mi-url").value=data.secure_url;const pv=document.getElementById("mi-pv");pv.src=data.secure_url;pv.style.display="block";document.getElementById("mi-tx").textContent="Nhấn để đổi";showT("Upload thành công!","ok");}
+    else showT("Lỗi upload","err");
+  }catch(e){showT("Lỗi: "+e.message,"err");}
+  setTimeout(()=>pb.style.width="0",1000);
+};
+window.saveMenu=async(e,id)=>{
+  e.preventDefault();const f=e.target;
+  const d={name:f.name.value.trim(),price:Number(f.price.value),category:f.category.value.trim(),stock:Number(f.stock.value),available:f.available.value==="true",description:f.description.value.trim(),image:f.image.value||null,updatedAt:serverTimestamp()};
+  try{
+    if(id){await updateDoc(doc(db,"Branches",curBrId,"Menus",id),d);showT("Đã cập nhật!","ok");}
+    else{d.createdAt=serverTimestamp();await addDoc(collection(db,"Branches",curBrId,"Menus"),d);showT("Đã thêm món!","ok");}
+    closeMo2();rMenu();
+  }catch(e){showT("Lỗi: "+e.message,"err");}
+};
+window.updStk=async(id,name,cur)=>{
+  const n=prompt(`Tồn kho mới cho "${name}" (hiện: ${cur}):`);
+  if(n===null)return;const nv=parseInt(n);
+  if(isNaN(nv)){showT("Số không hợp lệ","err");return;}
+  await updateDoc(doc(db,"Branches",curBrId,"Menus",id),{stock:nv});showT(`Tồn kho "${name}" → ${nv}`,"ok");rMenu();
+};
+window.delMenu=async(id,name)=>{
+  if(!confirm(`Xóa món "${name}"?`))return;
+  await deleteDoc(doc(db,"Branches",curBrId,"Menus",id));showT("Đã xóa","inf");rMenu();
+};
+
+/* ════════════════════════════════════
+   STAFF
+════════════════════════════════════ */
+async function rStaff(){
+  document.getElementById("pg-acts").innerHTML=`<button class="bs-acc" onclick="openAddStaff()">+ Thêm nhân viên</button>`;
+  const snap=await getDocs(collection(db,"Branches",curBrId,"Staff"));
+  const staff=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const rows=staff.map(s=>`<tr>
+    <td>${s.id}</td><td>${s.name||"—"}</td>
+    <td><span class="bdg ${s.role==="admin"?"badm":"bcsh"}">${s.role==="admin"?"Admin":"Thu ngân"}</span></td>
+    <td><select style="background:var(--s3);border:1px solid var(--brd);border-radius:6px;padding:4px;color:var(--txt);font-size:11px;font-family:var(--font)" onchange="chRole('${s.id}',this.value)">
+      <option value="admin" ${s.role==="admin"?"selected":""}>Admin</option>
+      <option value="cashier" ${s.role==="cashier"?"selected":""}>Thu ngân</option>
+    </select></td>
+    <td><button style="background:var(--red-d);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer" onclick="rmStaff('${s.id}')">Xóa</button></td>
+  </tr>`).join("");
+  document.getElementById("pg-c").innerHTML=`<div class="cvd" style="overflow-x:auto"><table class="dt"><thead><tr><th>Email</th><th>Tên</th><th>Vai trò</th><th>Đổi vai trò</th><th>Xóa</th></tr></thead><tbody>${rows||'<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:24px">Chưa có nhân viên</td></tr>'}</tbody></table></div>`;
+}
+window.openAddStaff=()=>openMo("➕ Thêm nhân viên",`<form onsubmit="addStaff(event)"><div class="ff" style="margin-bottom:10px"><label>Email *</label><input name="email" type="email" required placeholder="nhanvien@email.com"/></div><div class="ff" style="margin-bottom:10px"><label>Tên</label><input name="name" placeholder="Nguyễn Văn A"/></div><div class="ff" style="margin-bottom:18px"><label>Vai trò</label><select name="role"><option value="cashier">Thu ngân</option><option value="admin">Admin</option></select></div><div class="fa"><button type="button" class="fcn" onclick="closeMo2()">Huỷ</button><button type="submit" class="fsv">Thêm</button></div></form>`);
+window.addStaff=async e=>{e.preventDefault();const f=e.target;const em=f.email.value.trim();await setDoc(doc(db,"Branches",curBrId,"Staff",em),{name:f.name.value.trim()||em,role:f.role.value,addedAt:serverTimestamp()});showT("Đã thêm","ok");closeMo2();rStaff();};
+window.chRole=async(em,role)=>{await updateDoc(doc(db,"Branches",curBrId,"Staff",em),{role});showT(`Đổi vai trò → ${role}`,"inf");};
+window.rmStaff=async em=>{if(!confirm(`Xóa "${em}"?`))return;await deleteDoc(doc(db,"Branches",curBrId,"Staff",em));showT("Đã xóa","inf");rStaff();};
+
+/* ════════════════════════════════════
+   VOUCHERS
+════════════════════════════════════ */
+async function rVouchers(){
+  document.getElementById("pg-acts").innerHTML=`<button class="bs-acc" onclick="openAddV()">+ Thêm voucher</button>`;
+  const snap=await getDocs(collection(db,"Branches",curBrId,"Vouchers"));
+  const vs=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const rows=vs.map(v=>`<tr>
+    <td style="font-family:var(--mono);font-weight:700">${v.id}</td>
+    <td style="color:var(--grn);font-weight:700">-${v.percent}%</td>
+    <td><span class="bdg ${v.active!==false?"bact":"bins"}">${v.active!==false?"Kích hoạt":"Vô hiệu"}</span></td>
+    <td style="color:var(--txt2)">${v.note||"—"}</td>
+    <td>
+      <button style="background:var(--s3);border:1px solid var(--brd);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer" onclick="togV('${v.id}',${v.active!==false})">${v.active!==false?"Tắt":"Bật"}</button>
+      <button style="background:var(--red-d);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;margin-left:4px" onclick="delV('${v.id}')">Xóa</button>
+    </td>
+  </tr>`).join("");
+  document.getElementById("pg-c").innerHTML=`<div id="vouchers-content"><div class="cvd" style="overflow-x:auto"><table class="dt"><thead><tr><th>Mã code</th><th>Giảm</th><th>Trạng thái</th><th>Ghi chú</th><th>Thao tác</th></tr></thead><tbody>${rows||'<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:24px">Chưa có voucher</td></tr>'}</tbody></table></div></div>`;
+  addExportButtons(`Vouchers-${curBrName}`,"vouchers-content");
+}
+window.openAddV=()=>openMo("➕ Tạo Voucher",`<form onsubmit="addV(event)"><div class="fg"><div class="ff"><label>Mã *</label><input name="code" required placeholder="SALE20" style="text-transform:uppercase"/></div><div class="ff"><label>Giảm %</label><input name="percent" type="number" min="1" max="100" required placeholder="20"/></div><div class="ff full"><label>Ghi chú</label><input name="note" placeholder="Khuyến mãi cuối tuần"/></div></div><div class="fa"><button type="button" class="fcn" onclick="closeMo2()">Huỷ</button><button type="submit" class="fsv">Tạo</button></div></form>`);
+window.addV=async e=>{e.preventDefault();const f=e.target;const code=f.code.value.trim().toUpperCase();await setDoc(doc(db,"Branches",curBrId,"Vouchers",code),{percent:Number(f.percent.value),note:f.note.value,active:true,createdAt:serverTimestamp()});showT("Đã tạo voucher!","ok");closeMo2();rVouchers();};
+window.togV=async(id,cur)=>{await updateDoc(doc(db,"Branches",curBrId,"Vouchers",id),{active:!cur});showT(`${id}: ${!cur?"Kích hoạt":"Vô hiệu"}`,"inf");rVouchers();};
+window.delV=async id=>{if(!confirm(`Xóa voucher "${id}"?`))return;await deleteDoc(doc(db,"Branches",curBrId,"Vouchers",id));showT("Đã xóa","inf");rVouchers();};
+
+/* ════════════════════════════════════
+   BRANCHES (Super Admin)
+════════════════════════════════════ */
+async function rBranches(){
+  if(!isSA){document.getElementById("pg-c").innerHTML='<div class="ldr" style="color:var(--red)">Chỉ Super Admin</div>';return;}
+  document.getElementById("pg-acts").innerHTML=`<button class="bs-acc" onclick="openAddBr()">+ Thêm chi nhánh</button>`;
+  const snap=await getDocs(collection(db,"Branches"));
+  const branches=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const rows=branches.map(b=>`<tr>
+    <td style="font-family:var(--mono);font-size:11px">${b.id}</td>
+    <td><strong>${b.info?.name||"—"}</strong></td>
+    <td>${b.info?.address||"—"}</td>
+    <td>${b.info?.phone||"—"}</td>
+    <td><button style="background:var(--s3);border:1px solid var(--brd);border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer" onclick="openEditBr('${b.id}')">✏️</button><button style="background:var(--red-d);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;margin-left:4px" onclick="delBr('${b.id}','${b.info?.name}')">🗑️</button></td>
+  </tr>`).join("");
+  document.getElementById("pg-c").innerHTML=`<div class="cvd" style="overflow-x:auto"><table class="dt"><thead><tr><th>ID</th><th>Tên</th><th>Địa chỉ</th><th>SĐT</th><th>Thao tác</th></tr></thead><tbody>${rows||'<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:24px">Chưa có chi nhánh</td></tr>'}</tbody></table></div>`;
+}
+function bForm(b={}){return `<form onsubmit="saveBr(event,'${b.id||''}')"><div class="fg"><div class="ff full"><label>Tên *</label><input name="name" value="${b.info?.name||""}" required placeholder="PhoBut - Quận 1"/></div><div class="ff full"><label>Địa chỉ</label><input name="address" value="${b.info?.address||""}" placeholder="123 Lê Lợi, Q.1"/></div><div class="ff"><label>SĐT</label><input name="phone" value="${b.info?.phone||""}"/></div><div class="ff"><label>Email</label><input name="email" type="email" value="${b.info?.email||""}"/></div></div><div class="fa"><button type="button" class="fcn" onclick="closeMo2()">Huỷ</button><button type="submit" class="fsv">${b.id?"Lưu":"Tạo"}</button></div></form>`;}
+window.openAddBr=()=>openMo("🏢 Thêm chi nhánh",bForm());
+window.openEditBr=async id=>{const s=await getDoc(doc(db,"Branches",id));openMo("✏️ Sửa chi nhánh",bForm({id,...s.data()}));};
+window.saveBr=async(e,id)=>{
+  e.preventDefault();const f=e.target;
+  const info={name:f.name.value.trim(),address:f.address.value.trim(),phone:f.phone.value.trim(),email:f.email.value.trim()};
+  if(id){await updateDoc(doc(db,"Branches",id),{info,updatedAt:serverTimestamp()});showT("Đã cập nhật","ok");}
+  else{await addDoc(collection(db,"Branches"),{info,createdAt:serverTimestamp()});showT("Đã tạo chi nhánh","ok");}
+  closeMo2();rBranches();loadBranches(me);
+};
+window.delBr=async(id,name)=>{if(!confirm(`Xóa "${name}"? Mất toàn bộ dữ liệu!`))return;await deleteDoc(doc(db,"Branches",id));showT("Đã xóa","inf");rBranches();};
+
+/* ════════════════════════════════════
+   SETTINGS
+════════════════════════════════════ */
+async function rSettings(){
+  const snap=await getDoc(doc(db,"Branches",curBrId));
+  const info=snap.data()?.info||{};
+  document.getElementById("pg-c").innerHTML=`
+  <div class="cvd" style="max-width:580px">
+    <h3 style="margin-bottom:16px;font-weight:800">Thông tin chi nhánh</h3>
+    <form onsubmit="saveSet(event)">
+      <div class="fg">
+        <div class="ff full"><label>Tên chi nhánh</label><input name="name" value="${info.name||""}" required/></div>
+        <div class="ff full"><label>Địa chỉ</label><input name="address" value="${info.address||""}"/></div>
+        <div class="ff"><label>Số điện thoại</label><input name="phone" value="${info.phone||""}"/></div>
+        <div class="ff"><label>Email</label><input name="email" type="email" value="${info.email||""}"/></div>
+        <div class="ff"><label>VAT (%)</label><input name="vat" type="number" value="${info.vat||10}" min="0" max="100"/></div>
+        <div class="ff"><label>Tiền tệ</label><select name="currency"><option value="VND" ${info.currency==="VND"?"selected":""}>VNĐ (₫)</option><option value="USD" ${info.currency==="USD"?"selected":""}>USD ($)</option></select></div>
+      </div>
+      <div class="fa"><button type="submit" class="fsv">💾 Lưu cài đặt</button></div>
+    </form>
+  </div>`;
+}
+window.saveSet=async e=>{
+  e.preventDefault();const f=e.target;
+  const info={name:f.name.value.trim(),address:f.address.value.trim(),phone:f.phone.value.trim(),email:f.email.value.trim(),vat:Number(f.vat.value),currency:f.currency.value};
+  await updateDoc(doc(db,"Branches",curBrId),{info,updatedAt:serverTimestamp()});
+  showT("Đã lưu cài đặt!","ok");
+};
+
+/* ════════════════════════════════════
+   MODAL (CRUD)
+════════════════════════════════════ */
+function openMo(title,html){document.getElementById("mod-c").innerHTML=`<h3>${title}</h3>${html}`;document.getElementById("mo").classList.add("open");}
+window.closeMo=e=>{if(e.target===document.getElementById("mo"))closeMo2();};
+window.closeMo2=()=>document.getElementById("mo").classList.remove("open");
+
+/* ════════════════════════════════════
+   UTILS
+════════════════════════════════════ */
+function donut(sl){
+  const sz=96,cx=48,cy=48,r=34,sw=11;let cum=0;
+  const paths=sl.map(s=>{
+    const a1=cum*Math.PI*2-Math.PI/2,a2=(cum+s.v)*Math.PI*2-Math.PI/2;
+    cum+=s.v;
+    if(s.v<=0)return"";
+    const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+    return `<path d="M${x1},${y1} A${r},${r} 0 ${s.v>.5?1:0} 1 ${x2},${y2}" fill="none" stroke="${s.c}" stroke-width="${sw}" stroke-linecap="round"/>`;
+  }).join("");
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" style="flex-shrink:0">${paths}</svg>`;
+}
+function fmt(n){return new Intl.NumberFormat("vi-VN",{style:"currency",currency:"VND"}).format(n||0);}
+function fD(d){return d instanceof Date?d.toISOString().slice(0,10):"";}
+let _t;
+function showT(msg,type="inf"){const el=document.getElementById("toast");el.textContent=msg;el.className="show "+type;clearTimeout(_t);_t=setTimeout(()=>el.className="",3200);}
+window.showT=showT;
+</script>
+</body>
+</html>

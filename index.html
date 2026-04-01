@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="theme-color" content="#ff5c00"/>
+<title>PhoBut — Đặt món trực tuyến</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════════
+   DESIGN SYSTEM — Warm Food App, Premium & Playful
+═══════════════════════════════════════════════════ */
+:root{
+  /* Palette */
+  --saffron:#ff5c00;  --saffron2:#ff7a2e; --saffron-d:rgba(255,92,0,.12);
+  --cream:#fff9f4;    --cream2:#fff3ea;   --cream3:#ffe8d6;
+  --cocoa:#2d1a0e;    --cocoa2:#4a2e1a;  --cocoa3:#7a5540;
+  --sage:#00b894;     --sage-d:rgba(0,184,148,.12);
+  --sky:#0984e3;      --sky-d:rgba(9,132,227,.12);
+  --rose:#e84393;     --rose-d:rgba(232,67,147,.12);
+  --warm-grey:#f5ede6;--border:#eaddd6;  --border2:#f0e4da;
+  --txt:#2d1a0e;      --txt2:#7a5540;    --txt3:#b08060;
+  --white:#ffffff;    --black:#1a0a00;
+  /* Typography */
+  --font:'Nunito',sans-serif;
+  --display:'Playfair Display',serif;
+  /* Space / Radius */
+  --r:14px; --r2:22px; --r3:32px;
+  /* Shadows */
+  --sh1:0 2px 12px rgba(45,26,14,.08);
+  --sh2:0 8px 32px rgba(45,26,14,.14);
+  --sh3:0 20px 60px rgba(45,26,14,.22);
+  /* Safe areas */
+  --sat:env(safe-area-inset-top,0px);
+  --sab:env(safe-area-inset-bottom,16px);
+}
+
+/* ── RESET ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+html,body{height:100%;overflow-x:hidden}
+body{font-family:var(--font);font-size:15px;color:var(--txt);background:var(--cream);overscroll-behavior:none}
+button{font-family:var(--font);cursor:pointer;border:none;outline:none;background:none}
+input,select,textarea{font-family:var(--font);outline:none}
+img{display:block;max-width:100%}
+::-webkit-scrollbar{width:0;height:0}
+
+/* ── LOADING SPLASH ── */
+#splash{
+  position:fixed;inset:0;background:var(--saffron);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:9999;transition:opacity .5s,transform .5s;
+}
+#splash.hide{opacity:0;transform:scale(1.05);pointer-events:none}
+.splash-logo{font-family:var(--display);font-size:48px;color:#fff;letter-spacing:-1px;margin-bottom:8px}
+.splash-sub{font-size:14px;color:rgba(255,255,255,.7);font-weight:600;letter-spacing:2px;text-transform:uppercase}
+.splash-dots{display:flex;gap:8px;margin-top:32px}
+.splash-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);animation:dot 1.2s ease-in-out infinite}
+.splash-dot:nth-child(2){animation-delay:.2s}
+.splash-dot:nth-child(3){animation-delay:.4s}
+@keyframes dot{0%,80%,100%{transform:scale(.8);background:rgba(255,255,255,.4)}40%{transform:scale(1.1);background:#fff}}
+
+/* ── SCREEN MANAGER ── */
+.screen{display:none;flex-direction:column;min-height:100vh;animation:fadeUp .35s ease both}
+.screen.active{display:flex}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* ══════════════════════════════════════
+   SCREEN: BRANCH PICKER
+══════════════════════════════════════ */
+#screen-picker{background:var(--cream);padding-bottom:calc(var(--sab) + 20px)}
+.picker-hero{
+  background:linear-gradient(135deg,var(--saffron) 0%,#ff8c42 60%,#ffb347 100%);
+  padding:calc(var(--sat) + 32px) 24px 48px;
+  position:relative;overflow:hidden;
+}
+.picker-hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.picker-brand{font-family:var(--display);font-size:38px;color:#fff;letter-spacing:-1px;position:relative}
+.picker-brand span{font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:.8;display:block;margin-bottom:4px;font-family:var(--font)}
+.picker-tagline{font-size:14px;color:rgba(255,255,255,.8);font-weight:500;margin-top:6px;position:relative}
+.picker-body{padding:24px 20px 0}
+.picker-title{font-size:13px;font-weight:800;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+.branch-card{
+  background:var(--white);border-radius:var(--r2);
+  padding:18px;margin-bottom:14px;
+  box-shadow:var(--sh1);border:1.5px solid var(--border2);
+  display:flex;align-items:center;gap:14px;
+  cursor:pointer;transition:all .2s;position:relative;overflow:hidden;
+}
+.branch-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);border-radius:4px 0 0 4px}
+.branch-card:active{transform:scale(.98);box-shadow:var(--sh2)}
+.branch-card-ico{
+  width:52px;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,var(--saffron),var(--saffron2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;flex-shrink:0;
+}
+.branch-card-info{flex:1;min-width:0}
+.branch-card-name{font-size:16px;font-weight:800;color:var(--txt);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.branch-card-addr{font-size:12px;color:var(--txt2);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.branch-card-arr{font-size:20px;color:var(--saffron);flex-shrink:0}
+.picker-loading{display:flex;align-items:center;justify-content:center;padding:40px;gap:12px;color:var(--txt2);font-size:14px}
+
+/* ══════════════════════════════════════
+   SCREEN: MENU (Main Ordering)
+══════════════════════════════════════ */
+#screen-menu{background:var(--cream);padding-bottom:calc(var(--sab) + 90px)}
+
+/* Top Header */
+.menu-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,249,244,.96);backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding-top:var(--sat);
+}
+.mh-top{display:flex;align-items:center;gap:10px;padding:12px 16px 8px}
+.mh-back{width:36px;height:36px;border-radius:10px;background:var(--cream2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.mh-info{flex:1;min-width:0}
+.mh-name{font-family:var(--display);font-size:18px;font-weight:700;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mh-addr{font-size:11px;color:var(--txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.mh-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.mh-lang{background:var(--cream2);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px;font-weight:800;color:var(--saffron)}
+.mh-track{background:var(--saffron-d);border:1.5px solid var(--saffron);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;color:var(--saffron);display:none}
+.mh-track.show{display:flex;align-items:center;gap:4px}
+
+/* Hero Banner */
+.hero-banner{
+  position:relative;height:180px;overflow:hidden;
+  background:linear-gradient(135deg,var(--saffron),#ff8c42,#ffb347);
+}
+.hero-banner-img{width:100%;height:100%;object-fit:cover;opacity:.85}
+.hero-banner-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(45,26,14,.1) 0%,rgba(45,26,14,.5) 100%);
+  display:flex;align-items:flex-end;padding:16px 18px;
+}
+.hero-banner-txt{color:#fff}
+.hero-banner-name{font-family:var(--display);font-size:26px;font-weight:800;line-height:1.1;margin-bottom:4px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.hero-banner-tag{font-size:12px;font-weight:600;opacity:.88;background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;display:inline-block}
+
+/* Search */
+.search-wrap{padding:12px 16px 0}
+.search-box{
+  display:flex;align-items:center;gap:8px;
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--r);padding:10px 14px;
+  box-shadow:var(--sh1);
+}
+.search-box svg{flex-shrink:0;opacity:.4}
+.search-inp{flex:1;background:none;border:none;font-size:14px;color:var(--txt);font-family:var(--font)}
+.search-inp::placeholder{color:var(--txt3)}
+
+/* Category strip */
+.cat-strip{display:flex;gap:8px;padding:12px 16px;overflow-x:auto}
+.cat-strip::-webkit-scrollbar{display:none}
+.cat-chip{
+  white-space:nowrap;padding:7px 16px;border-radius:24px;
+  border:1.5px solid var(--border2);background:var(--white);
+  font-size:13px;font-weight:700;color:var(--txt2);
+  flex-shrink:0;transition:all .2s;
+  box-shadow:var(--sh1);
+}
+.cat-chip.on{background:var(--saffron);border-color:var(--saffron);color:#fff;box-shadow:0 4px 16px rgba(255,92,0,.3)}
+
+/* Section label */
+.sec-label{padding:4px 16px 10px;font-size:12px;font-weight:800;color:var(--txt3);text-transform:uppercase;letter-spacing:1px}
+
+/* Menu grid — 2 column cards */
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px}
+
+.food-card{
+  background:var(--white);border-radius:var(--r2);
+  overflow:hidden;box-shadow:var(--sh1);
+  border:1.5px solid var(--border2);
+  position:relative;transition:all .2s;
+}
+.food-card:active{transform:scale(.97)}
+.food-card.oos{opacity:.55}
+.food-img-wrap{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--cream3)}
+.food-img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.food-card:not(.oos):active .food-img{transform:scale(1.06)}
+.food-oos-badge{
+  position:absolute;inset:0;
+  background:rgba(45,26,14,.55);backdrop-filter:blur(2px);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;color:#fff;letter-spacing:.5px;text-transform:uppercase;
+}
+.food-body{padding:10px 12px 12px}
+.food-name{font-size:13px;font-weight:800;color:var(--txt);line-height:1.35;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.food-desc{font-size:11px;color:var(--txt2);line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.food-footer{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.food-price{font-size:14px;font-weight:900;color:var(--saffron)}
+/* Add button */
+.add-btn{
+  width:28px;height:28px;border-radius:9px;
+  background:var(--saffron);color:#fff;
+  font-size:18px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .18s;flex-shrink:0;
+  box-shadow:0 3px 10px rgba(255,92,0,.35);
+}
+.add-btn:active{transform:scale(.88)}
+/* Qty controls inside card */
+.qty-ctrl{display:flex;align-items:center;gap:6px}
+.qc-btn{
+  width:26px;height:26px;border-radius:8px;
+  border:1.5px solid var(--border2);background:var(--cream2);
+  font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;
+  transition:all .12s;
+}
+.qc-btn:active{background:var(--saffron);border-color:var(--saffron);color:#fff}
+.qc-num{font-size:14px;font-weight:800;color:var(--txt);min-width:18px;text-align:center}
+
+/* Pop animation on add */
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.22)}100%{transform:scale(1)}}
+.popping{animation:pop .25s ease}
+
+/* ── EMPTY STATE ── */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;gap:12px;color:var(--txt2);text-align:center}
+.empty-state svg{opacity:.25}
+.empty-state p{font-size:14px;font-weight:600}
+
+/* ══════════════════════════════════════
+   FLOATING CART BAR
+══════════════════════════════════════ */
+#cart-bar{
+  position:fixed;bottom:calc(var(--sab) + 12px);left:50%;
+  transform:translateX(-50%) translateY(120px);
+  z-index:200;width:calc(100% - 32px);max-width:480px;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;
+}
+#cart-bar.show{transform:translateX(-50%) translateY(0);pointer-events:all}
+.cart-bar-inner{
+  background:var(--cocoa);color:#fff;
+  border-radius:var(--r2);padding:14px 18px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:var(--sh3);cursor:pointer;
+  transition:transform .15s;
+}
+.cart-bar-inner:active{transform:scale(.98)}
+.cart-bar-badge{
+  background:var(--saffron);color:#fff;
+  min-width:26px;height:26px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:900;padding:0 4px;flex-shrink:0;
+}
+.cart-bar-label{font-size:14px;font-weight:700;flex:1}
+.cart-bar-total{font-family:var(--display);font-size:17px;font-weight:700;color:var(--saffron2)}
+.cart-bar-arr{font-size:20px;opacity:.7}
+
+/* ══════════════════════════════════════
+   BOTTOM SHEET — Cart, Checkout
+══════════════════════════════════════ */
+#sheet-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(45,26,14,.55);backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .28s;
+}
+#sheet-overlay.open{opacity:1;pointer-events:all}
+.sheet{
+  position:fixed;bottom:0;left:0;right:0;z-index:301;
+  background:var(--white);border-radius:24px 24px 0 0;
+  max-height:92vh;display:flex;flex-direction:column;
+  transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+  padding-bottom:var(--sab);
+}
+.sheet.open{transform:translateY(0)}
+.sheet-handle{width:40px;height:5px;border-radius:3px;background:var(--border2);margin:12px auto 0;flex-shrink:0}
+.sheet-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 12px;flex-shrink:0;border-bottom:1px solid var(--border)}
+.sheet-title{font-family:var(--display);font-size:19px;font-weight:700;color:var(--txt)}
+.sheet-close{width:32px;height:32px;border-radius:50%;background:var(--cream2);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--txt2)}
+.sheet-body{flex:1;overflow-y:auto;padding:16px 20px}
+
+/* Cart items */
+.cart-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border2)}
+.cart-item:last-child{border-bottom:none}
+.ci-img{width:54px;height:54px;border-radius:12px;object-fit:cover;background:var(--cream3);flex-shrink:0}
+.ci-info{flex:1;min-width:0}
+.ci-name{font-size:14px;font-weight:700;color:var(--txt);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci-price{font-size:13px;color:var(--txt2)}
+.ci-ctrl{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.ci-qbtn{width:28px;height:28px;border-radius:9px;border:1.5px solid var(--border2);background:var(--cream2);font-size:17px;display:flex;align-items:center;justify-content:center;transition:all .1s}
+.ci-qbtn:active{background:var(--saffron);border-color:var(--saffron);color:#fff}
+.ci-qty{font-size:14px;font-weight:800;width:20px;text-align:center}
+.ci-total{font-size:14px;font-weight:800;color:var(--saffron);width:72px;text-align:right;flex-shrink:0}
+.cart-empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 0;gap:10px;color:var(--txt2)}
+.cart-empty-state svg{opacity:.2}
+
+/* Bill summary */
+.bill-box{background:var(--cream);border-radius:var(--r);padding:14px 16px;margin-top:12px;border:1px solid var(--border2)}
+.bill-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:13px}
+.bill-lbl{color:var(--txt2)}
+.bill-val{font-weight:700;color:var(--txt)}
+.bill-total-row{border-top:1.5px solid var(--border2);margin-top:8px;padding-top:10px}
+.bill-total-lbl{font-size:16px;font-weight:800;color:var(--txt)}
+.bill-total-val{font-family:var(--display);font-size:20px;font-weight:700;color:var(--saffron)}
+
+/* Voucher */
+.voucher-row{display:flex;gap:8px;margin:12px 0}
+.v-inp{flex:1;background:var(--white);border:1.5px solid var(--border2);border-radius:var(--r);padding:10px 14px;font-size:14px;color:var(--txt);transition:border-color .2s}
+.v-inp:focus{border-color:var(--saffron)}
+.v-btn{background:var(--saffron);color:#fff;border-radius:var(--r);padding:10px 18px;font-size:13px;font-weight:800;white-space:nowrap;transition:all .15s}
+.v-btn:active{background:var(--saffron2)}
+.v-msg{font-size:12px;min-height:14px;margin-bottom:4px}
+
+/* Checkout button */
+.checkout-cta{
+  width:100%;background:linear-gradient(135deg,var(--saffron),var(--saffron2));
+  color:#fff;border-radius:var(--r2);padding:16px;
+  font-size:16px;font-weight:900;letter-spacing:.3px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 6px 24px rgba(255,92,0,.35);transition:all .2s;
+  margin-top:14px;
+}
+.checkout-cta:active{transform:scale(.97)}
+.checkout-cta:disabled{opacity:.4}
+
+/* ══════════════════════════════════════
+   SHEET — CHECKOUT FORM
+══════════════════════════════════════ */
+.form-section{margin-bottom:18px}
+.form-label{font-size:11px;font-weight:800;color:var(--txt3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;display:block}
+.form-inp{
+  width:100%;background:var(--cream);border:1.5px solid var(--border2);
+  border-radius:var(--r);padding:12px 14px;font-size:14px;color:var(--txt);
+  transition:border-color .2s;
+}
+.form-inp:focus{border-color:var(--saffron);background:var(--white)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ot-chips{display:flex;gap:8px;margin-top:0}
+.ot-chip{
+  flex:1;padding:11px 8px;border-radius:var(--r);border:1.5px solid var(--border2);
+  background:var(--cream);font-size:13px;font-weight:700;color:var(--txt2);
+  text-align:center;transition:all .2s;
+}
+.ot-chip.on{background:var(--saffron-d);border-color:var(--saffron);color:var(--saffron)}
+.pm-chips{display:flex;gap:8px}
+.pm-chip{
+  flex:1;padding:11px 8px;border-radius:var(--r);border:1.5px solid var(--border2);
+  background:var(--cream);font-size:13px;font-weight:700;color:var(--txt2);
+  text-align:center;transition:all .2s;
+}
+.pm-chip.on{background:var(--sage-d);border-color:var(--sage);color:var(--sage)}
+.note-inp{width:100%;background:var(--cream);border:1.5px solid var(--border2);border-radius:var(--r);padding:12px 14px;font-size:13px;color:var(--txt);resize:none;min-height:70px;transition:border-color .2s}
+.note-inp:focus{border-color:var(--saffron);background:var(--white)}
+
+/* ══════════════════════════════════════
+   SCREEN: ORDER TRACKING
+══════════════════════════════════════ */
+#screen-tracking{background:var(--cream);min-height:100vh}
+.tracking-header{
+  background:linear-gradient(135deg,var(--saffron),#ff8c42);
+  padding:calc(var(--sat) + 20px) 20px 80px;
+  position:relative;overflow:hidden;
+  text-align:center;
+}
+.tracking-header::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.07'%3E%3Cpath d='M20 20.5V18H0v5h5v5H0v5h20v-2.5h5V20h-5zm7.5 11.5h5V25h-5v7zM0 13h7.5V8H0v5zm12.5 0H20V8h-7.5v5zM0 28h7.5v-5H0v5zm12.5 0H20v-5h-7.5v5z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.tracking-icon{font-size:64px;margin-bottom:10px;position:relative;animation:bounce 2s ease infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.tracking-status-title{font-family:var(--display);font-size:26px;font-weight:700;color:#fff;margin-bottom:6px;position:relative}
+.tracking-order-id{font-size:12px;color:rgba(255,255,255,.75);letter-spacing:1px;font-weight:600;position:relative}
+.tracking-card{
+  background:var(--white);border-radius:24px 24px 0 0;
+  margin-top:-36px;padding:28px 20px;
+  min-height:60vh;box-shadow:0 -4px 24px rgba(45,26,14,.1);
+}
+
+/* Progress stepper */
+.steps{display:flex;flex-direction:column;gap:0;margin-bottom:28px}
+.step{display:flex;align-items:flex-start;gap:16px;position:relative}
+.step:not(:last-child)::after{
+  content:'';position:absolute;left:19px;top:42px;bottom:-8px;
+  width:2px;background:var(--border2);z-index:0;
+}
+.step.done::after{background:var(--sage)}
+.step-ico-wrap{position:relative;z-index:1;flex-shrink:0}
+.step-ico{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  border:2.5px solid var(--border2);background:var(--cream2);
+  transition:all .4s;margin-bottom:8px;
+}
+.step.done .step-ico{background:var(--sage);border-color:var(--sage);box-shadow:0 4px 16px rgba(0,184,148,.3)}
+.step.active .step-ico{background:var(--saffron);border-color:var(--saffron);box-shadow:0 4px 16px rgba(255,92,0,.3);animation:pulse 1.5s ease infinite}
+@keyframes pulse{0%,100%{box-shadow:0 4px 16px rgba(255,92,0,.3)}50%{box-shadow:0 4px 24px rgba(255,92,0,.6)}}
+.step-info{padding-top:8px;flex:1}
+.step-title{font-size:15px;font-weight:800;color:var(--txt)}
+.step-desc{font-size:12px;color:var(--txt2);margin-top:2px;line-height:1.4}
+.step.pending .step-ico,.step.pending .step-title,.step.pending .step-desc{opacity:.4}
+
+/* Order summary in tracking */
+.track-summary{background:var(--cream);border-radius:var(--r2);padding:16px;border:1px solid var(--border2);margin-bottom:20px}
+.track-sum-title{font-size:12px;font-weight:800;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.track-sum-row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0}
+.track-sum-key{color:var(--txt2)}
+.track-sum-val{font-weight:700;color:var(--txt)}
+.track-grand{border-top:1.5px solid var(--border2);margin-top:8px;padding-top:10px}
+.track-grand-key{font-size:15px;font-weight:800;color:var(--txt)}
+.track-grand-val{font-family:var(--display);font-size:19px;font-weight:700;color:var(--saffron)}
+.track-new-order-btn{
+  width:100%;background:var(--cocoa);color:#fff;
+  border-radius:var(--r2);padding:15px;
+  font-size:15px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:20px;transition:all .2s;
+}
+.track-new-order-btn:active{transform:scale(.98)}
+
+/* ══════════════════════════════════════
+   FOOTER (inside menu screen)
+══════════════════════════════════════ */
+.store-footer{
+  background:var(--cocoa);color:rgba(255,255,255,.7);
+  padding:28px 20px 16px;margin-top:24px;
+  font-size:13px;line-height:1.7;
+}
+.footer-brand{font-family:var(--display);font-size:22px;color:#fff;margin-bottom:4px}
+.footer-links{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.footer-link{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.1);border-radius:8px;
+  padding:6px 12px;font-size:12px;font-weight:700;color:#fff;
+  text-decoration:none;transition:background .2s;
+}
+.footer-link:hover{background:rgba(255,255,255,.2)}
+
+/* ══════════════════════════════════════
+   UTILITIES
+══════════════════════════════════════ */
+.toast-container{position:fixed;top:calc(var(--sat) + 12px);left:50%;transform:translateX(-50%);z-index:9000;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;width:calc(100% - 32px);max-width:400px}
+.toast{background:var(--cocoa);color:#fff;border-radius:var(--r);padding:12px 18px;font-size:13px;font-weight:600;box-shadow:var(--sh2);display:flex;align-items:center;gap:8px;width:fit-content;max-width:100%;animation:toastIn .3s ease both}
+@keyframes toastIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+.toast.ok{background:var(--sage)}
+.toast.err{background:#e55353}
+
+.divider{height:8px;background:var(--cream2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:12px 0}
+</style>
+</head>
+<body>
+
+<!-- LOADING SPLASH -->
+<div id="splash">
+  <div class="splash-logo">🍜 PhoBut</div>
+  <div class="splash-sub">Đặt món trực tuyến</div>
+  <div class="splash-dots">
+    <div class="splash-dot"></div>
+    <div class="splash-dot"></div>
+    <div class="splash-dot"></div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 1: BRANCH PICKER
+══════════════════════════════════════ -->
+<div class="screen" id="screen-picker">
+  <div class="picker-hero">
+    <div class="picker-brand">
+      <span>🍜 Chào mừng đến với</span>
+      PhoBut
+    </div>
+    <div class="picker-tagline" data-i18n="picker_tagline">Chọn cửa hàng gần bạn nhất để bắt đầu đặt món</div>
+  </div>
+  <div class="picker-body">
+    <div class="picker-title" data-i18n="picker_title">Cửa hàng của chúng tôi</div>
+    <div id="branch-list">
+      <div class="picker-loading">
+        <div class="splash-dots" style="margin-top:0">
+          <div class="splash-dot" style="background:var(--saffron)"></div>
+          <div class="splash-dot" style="background:var(--saffron)"></div>
+          <div class="splash-dot" style="background:var(--saffron)"></div>
+        </div>
+        <span>Đang tải...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 2: MENU
+══════════════════════════════════════ -->
+<div class="screen" id="screen-menu">
+  <!-- Sticky header -->
+  <header class="menu-header">
+    <div class="mh-top">
+      <button class="mh-back" onclick="backToPicker()" id="back-btn">←</button>
+      <div class="mh-info">
+        <div class="mh-name" id="mh-name">PhoBut</div>
+        <div class="mh-addr" id="mh-addr">...</div>
+      </div>
+      <div class="mh-actions">
+        <button class="mh-lang" onclick="toggleLang()" id="lang-btn">EN</button>
+        <button class="mh-track show" id="track-btn" onclick="showTracking()" style="display:none">
+          📦 <span data-i18n="track_btn">Đơn của tôi</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <div class="hero-banner" id="hero-banner">
+    <div class="hero-banner-overlay">
+      <div class="hero-banner-txt">
+        <div class="hero-banner-name" id="banner-name">PhoBut</div>
+        <div class="hero-banner-tag" id="banner-tag" data-i18n="banner_tag">🕐 Đang mở cửa · Đặt ngay</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <div class="search-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search-inp" id="search-inp" placeholder="Tìm món ăn..." oninput="filterMenu()"/>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <div class="cat-strip" id="cat-strip"></div>
+
+  <!-- Menu content -->
+  <div id="menu-content">
+    <!-- injected dynamically -->
+  </div>
+
+  <!-- Footer -->
+  <footer class="store-footer" id="store-footer" style="display:none">
+    <div class="footer-brand" id="footer-brand">🍜 PhoBut</div>
+    <div id="footer-addr"></div>
+    <div id="footer-phone"></div>
+    <div class="footer-links" id="footer-links"></div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════
+     FLOATING CART BAR
+══════════════════════════════════════ -->
+<div id="cart-bar">
+  <div class="cart-bar-inner" onclick="openCartSheet()">
+    <div class="cart-bar-badge" id="cart-count">0</div>
+    <div class="cart-bar-label" data-i18n="view_cart">Xem giỏ hàng</div>
+    <div class="cart-bar-total" id="cart-bar-total">0 ₫</div>
+    <div class="cart-bar-arr">›</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SHEET OVERLAY
+══════════════════════════════════════ -->
+<div id="sheet-overlay" onclick="closeAllSheets()"></div>
+
+<!-- CART SHEET -->
+<div class="sheet" id="cart-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-hdr">
+    <div class="sheet-title" data-i18n="cart_title">Giỏ hàng</div>
+    <button class="sheet-close" onclick="closeSheet('cart-sheet')">✕</button>
+  </div>
+  <div class="sheet-body" id="cart-body">
+    <!-- items injected -->
+  </div>
+</div>
+
+<!-- CHECKOUT SHEET -->
+<div class="sheet" id="checkout-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-hdr">
+    <div class="sheet-title" data-i18n="checkout_title">Thông tin đặt hàng</div>
+    <button class="sheet-close" onclick="closeSheet('checkout-sheet');openCartSheet()">←</button>
+  </div>
+  <div class="sheet-body">
+    <div class="form-section">
+      <label class="form-label" data-i18n="order_type_lbl">Hình thức</label>
+      <div class="ot-chips">
+        <button class="ot-chip on" data-ot="dinein" onclick="setOT('dinein')" data-i18n="ot_dinein">🪑 Tại bàn</button>
+        <button class="ot-chip" data-ot="takeaway" onclick="setOT('takeaway')" data-i18n="ot_takeaway">🥡 Mang về</button>
+        <button class="ot-chip" data-ot="delivery" onclick="setOT('delivery')" data-i18n="ot_delivery">🛵 Giao tận nơi</button>
+      </div>
+    </div>
+    <div class="form-section">
+      <label class="form-label" data-i18n="customer_lbl">Thông tin khách hàng</label>
+      <input class="form-inp" id="cust-name" placeholder="Họ và tên *" style="margin-bottom:10px"/>
+      <input class="form-inp" id="cust-phone" type="tel" placeholder="Số điện thoại *" style="margin-bottom:10px"/>
+      <input class="form-inp" id="cust-addr" placeholder="Địa chỉ giao hàng..." style="display:none;margin-bottom:10px" id="addr-field"/>
+    </div>
+    <div class="form-section">
+      <label class="form-label" data-i18n="payment_lbl">Thanh toán</label>
+      <div class="pm-chips">
+        <button class="pm-chip on" data-pm="cash" onclick="setPM('cash')" data-i18n="pm_cash">💵 Tiền mặt</button>
+        <button class="pm-chip" data-pm="transfer" onclick="setPM('transfer')" data-i18n="pm_transfer">🏦 Chuyển khoản</button>
+      </div>
+    </div>
+    <div class="form-section">
+      <label class="form-label" data-i18n="note_lbl">Ghi chú</label>
+      <textarea class="note-inp" id="order-note" placeholder="Ít cay, không hành..."></textarea>
+    </div>
+    <!-- Bill summary -->
+    <div class="bill-box" id="checkout-bill"></div>
+    <button class="checkout-cta" id="place-order-btn" onclick="placeOrder()">
+      🛵 <span data-i18n="place_order">Đặt hàng ngay</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 3: ORDER TRACKING
+══════════════════════════════════════ -->
+<div class="screen" id="screen-tracking">
+  <div class="tracking-header">
+    <div class="tracking-icon" id="track-icon">🍜</div>
+    <div class="tracking-status-title" id="track-title" data-i18n="track_waiting">Chờ xác nhận</div>
+    <div class="tracking-order-id" id="track-order-id"></div>
+  </div>
+  <div class="tracking-card">
+    <div class="steps" id="steps-container"></div>
+    <div class="track-summary" id="track-summary"></div>
+    <button class="track-new-order-btn" onclick="startNewOrder()">
+      ＋ <span data-i18n="new_order_btn">Đặt thêm món</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     FIREBASE + APP LOGIC
+══════════════════════════════════════ -->
+<script type="module">
+import { FIREBASE_CONFIG, DEFAULT_BRANCH_ID } from './config.js';
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, doc,
+  getDocs, getDoc, addDoc, onSnapshot,
+  query, where, orderBy, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+const fbApp = initializeApp(FIREBASE_CONFIG);
+const db    = getFirestore(fbApp);
+
+/* ══════════════════════════════════════
+   i18n — Inline JSON
+══════════════════════════════════════ */
+const LANG = {
+  vi:{
+    picker_tagline:"Chọn cửa hàng gần bạn nhất để bắt đầu đặt món",
+    picker_title:"Cửa hàng của chúng tôi",
+    banner_tag:"🕐 Đang mở cửa · Đặt ngay",
+    track_btn:"Đơn của tôi",
+    view_cart:"Xem giỏ hàng",
+    cart_title:"Giỏ hàng",
+    checkout_title:"Thông tin đặt hàng",
+    order_type_lbl:"Hình thức",
+    ot_dinein:"🪑 Tại bàn", ot_takeaway:"🥡 Mang về", ot_delivery:"🛵 Giao tận nơi",
+    customer_lbl:"Thông tin khách hàng",
+    payment_lbl:"Thanh toán",
+    pm_cash:"💵 Tiền mặt", pm_transfer:"🏦 Chuyển khoản",
+    note_lbl:"Ghi chú",
+    place_order:"Đặt hàng ngay",
+    subtotal:"Tạm tính", vat_lbl:"Thuế VAT", discount_lbl:"Giảm giá", total_lbl:"Tổng cộng",
+    apply_btn:"Áp dụng",voucher_ph:"Nhập mã giảm giá...",
+    track_waiting:"Chờ xác nhận",track_preparing:"Đang chuẩn bị",
+    track_delivering:"Đang giao hàng",track_done:"Hoàn thành 🎉",track_cancelled:"Đã hủy",
+    new_order_btn:"Đặt thêm món",
+    all_cat:"Tất cả",
+    oos:"Hết hàng",
+    search_ph:"Tìm món ăn...",
+    no_branch:"Không tìm thấy cửa hàng",
+    s_pe:"⏳ Chờ xác nhận",s_pa:"✅ Đã xác nhận",s_pr:"👨‍🍳 Đang chuẩn bị",
+    s_de:"🛵 Đang giao",s_co:"🎉 Hoàn thành",s_ca:"❌ Đã hủy",
+    fill_name:"Vui lòng nhập họ tên",
+    fill_phone:"Vui lòng nhập số điện thoại",
+    fill_addr:"Vui lòng nhập địa chỉ giao hàng",
+    empty_cart_msg:"Giỏ hàng trống",
+    order_ok:"🎉 Đặt hàng thành công!",
+    voucher_ok:"🎟 Áp dụng mã giảm giá thành công!",
+    voucher_err:"Mã giảm giá không hợp lệ",
+    checkout_go:"→ Tiếp tục đặt hàng",
+    cart_empty_note:"Chưa có món nào — quay lại thực đơn nhé!"
+  },
+  en:{
+    picker_tagline:"Choose your nearest store to start ordering",
+    picker_title:"Our Locations",
+    banner_tag:"🕐 Open Now · Order Here",
+    track_btn:"My Order",
+    view_cart:"View Cart",
+    cart_title:"Your Cart",
+    checkout_title:"Order Details",
+    order_type_lbl:"Order Type",
+    ot_dinein:"🪑 Dine In", ot_takeaway:"🥡 Takeaway", ot_delivery:"🛵 Delivery",
+    customer_lbl:"Customer Info",
+    payment_lbl:"Payment",
+    pm_cash:"💵 Cash", pm_transfer:"🏦 Bank Transfer",
+    note_lbl:"Notes",
+    place_order:"Place Order Now",
+    subtotal:"Subtotal", vat_lbl:"VAT", discount_lbl:"Discount", total_lbl:"Total",
+    apply_btn:"Apply",voucher_ph:"Enter voucher code...",
+    track_waiting:"Order Received",track_preparing:"Preparing",
+    track_delivering:"Out for Delivery",track_done:"Delivered 🎉",track_cancelled:"Cancelled",
+    new_order_btn:"Order Again",
+    all_cat:"All",
+    oos:"Sold Out",
+    search_ph:"Search dishes...",
+    no_branch:"Store not found",
+    s_pe:"⏳ Pending",s_pa:"✅ Confirmed",s_pr:"👨‍🍳 Preparing",
+    s_de:"🛵 Delivering",s_co:"🎉 Completed",s_ca:"❌ Cancelled",
+    fill_name:"Please enter your name",
+    fill_phone:"Please enter your phone",
+    fill_addr:"Please enter delivery address",
+    empty_cart_msg:"Your cart is empty",
+    order_ok:"🎉 Order placed successfully!",
+    voucher_ok:"🎟 Voucher applied!",
+    voucher_err:"Invalid voucher code",
+    checkout_go:"→ Continue to Checkout",
+    cart_empty_note:"No items yet — go back to the menu!"
+  }
+};
+let lang = localStorage.getItem("pb_lang") || "vi";
+const t  = k => LANG[lang][k] || k;
+
+function applyLang(){
+  document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = t(el.dataset.i18n));
+  const si = document.getElementById("search-inp");
+  if(si) si.placeholder = t("search_ph");
+  document.getElementById("lang-btn").textContent = lang==="vi" ? "EN" : "VI";
+}
+window.toggleLang = () => {
+  lang = lang==="vi" ? "en" : "vi";
+  localStorage.setItem("pb_lang",lang);
+  applyLang();
+  renderMenuContent();
+  if(trackUnsub) renderTrackingSteps(lastTrackStatus);
+};
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let branchId   = null;
+let branchInfo = {};
+let hiddenItems= [];
+let branchVAT  = 10;
+let globalMenu = [];
+let categories = [];
+let activeCat  = "all";
+let searchQ    = "";
+let cart       = [];
+let discPct    = 0;
+let voucherCode= "";
+let orderType  = "dinein";
+let payMethod  = "cash";
+let currentOrderId = null;
+let trackUnsub = null;
+let lastTrackStatus = null;
+
+/* ══════════════════════════════════════
+   BOOT
+══════════════════════════════════════ */
+window.addEventListener("DOMContentLoaded", async () => {
+  // Resolve branch from URL param or config
+  const urlParams = new URLSearchParams(location.search);
+  const storeId   = urlParams.get("store") || DEFAULT_BRANCH_ID;
+
+  if(storeId){
+    await loadBranch(storeId);
+  } else {
+    showScreen("picker");
+    loadBranchPicker();
+  }
+  // Fade splash
+  setTimeout(()=>document.getElementById("splash").classList.add("hide"), 800);
+  applyLang();
+});
+
+/* ══════════════════════════════════════
+   SCREEN ROUTING
+══════════════════════════════════════ */
+function showScreen(name){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById("screen-"+name).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+/* ══════════════════════════════════════
+   BRANCH PICKER
+══════════════════════════════════════ */
+async function loadBranchPicker(){
+  const list = document.getElementById("branch-list");
+  try{
+    const snap = await getDocs(collection(db,"Branches"));
+    if(snap.empty){
+      list.innerHTML = `<div class="empty-state"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><p>${t("no_branch")}</p></div>`;
+      return;
+    }
+    list.innerHTML = snap.docs.map(d=>{
+      const info = d.data().info||{};
+      return `<div class="branch-card" onclick="loadBranch('${d.id}')">
+        <div class="branch-card-ico">🍜</div>
+        <div class="branch-card-info">
+          <div class="branch-card-name">${info.name||d.id}</div>
+          <div class="branch-card-addr">📍 ${info.address||"—"}</div>
+        </div>
+        <div class="branch-card-arr">›</div>
+      </div>`;
+    }).join("");
+  }catch(e){
+    list.innerHTML = `<div class="empty-state"><p>Lỗi kết nối: ${e.message}</p></div>`;
+  }
+}
+
+/* ══════════════════════════════════════
+   LOAD BRANCH + MENU
+══════════════════════════════════════ */
+async function loadBranch(id){
+  try{
+    // 1. Fetch branch info
+    const bSnap = await getDoc(doc(db,"Branches",id));
+    if(!bSnap.exists()){
+      showToast(t("no_branch"),"err");
+      showScreen("picker");
+      loadBranchPicker();
+      return;
+    }
+    branchId   = id;
+    const bData = bSnap.data();
+    branchInfo  = bData.info || {};
+    hiddenItems = bData.hidden_items || [];
+    branchVAT   = branchInfo.vat ?? 10;
+
+    // 2. Render header / footer
+    document.getElementById("mh-name").textContent    = branchInfo.name || "PhoBut";
+    document.getElementById("mh-addr").textContent    = branchInfo.address || "";
+    document.getElementById("banner-name").textContent= branchInfo.name || "PhoBut";
+    updateFooter();
+    // Update URL silently
+    const url = new URL(location.href);
+    url.searchParams.set("store", id);
+    history.replaceState(null,"",url);
+    // Update page title
+    document.title = `${branchInfo.name||"PhoBut"} — Đặt món`;
+
+    // 3. Load GlobalMenu
+    await loadGlobalMenu();
+    showScreen("menu");
+
+    // 4. Check existing order in sessionStorage
+    const savedOrder = sessionStorage.getItem("pb_order_"+id);
+    if(savedOrder){
+      const tb = document.getElementById("track-btn");
+      tb.style.display="flex"; tb.classList.add("show");
+    }
+  }catch(e){
+    showToast("Lỗi tải dữ liệu: "+e.message,"err");
+    showScreen("picker");
+    loadBranchPicker();
+  }
+}
+
+function updateFooter(){
+  const footer = document.getElementById("store-footer");
+  footer.style.display="block";
+  document.getElementById("footer-brand").textContent = "🍜 " + (branchInfo.name||"PhoBut");
+  document.getElementById("footer-addr").textContent  = branchInfo.address ? "📍 "+branchInfo.address : "";
+  document.getElementById("footer-phone").textContent = branchInfo.phone ? "📞 "+branchInfo.phone : "";
+  // Links
+  const links = [];
+  if(branchInfo.map)     links.push(`<a class="footer-link" href="${branchInfo.map}" target="_blank">🗺️ Bản đồ</a>`);
+  if(branchInfo.facebook)links.push(`<a class="footer-link" href="${branchInfo.facebook}" target="_blank">📘 Facebook</a>`);
+  if(branchInfo.tiktok)  links.push(`<a class="footer-link" href="${branchInfo.tiktok}" target="_blank">🎵 TikTok</a>`);
+  document.getElementById("footer-links").innerHTML = links.join("");
+}
+
+/* ══════════════════════════════════════
+   GLOBAL MENU
+══════════════════════════════════════ */
+async function loadGlobalMenu(){
+  const snap = await getDocs(collection(db,"GlobalMenu"));
+  // Filter out hidden items for this branch
+  globalMenu = snap.docs
+    .map(d=>({id:d.id,...d.data()}))
+    .filter(m=>!hiddenItems.includes(m.id));
+  // Build categories
+  categories = ["all",...[...new Set(globalMenu.map(m=>m.category).filter(Boolean))]];
+  renderCategoryStrip();
+  renderMenuContent();
+}
+
+function renderCategoryStrip(){
+  const strip = document.getElementById("cat-strip");
+  strip.innerHTML = categories.map(c=>`
+    <button class="cat-chip ${activeCat===c?"on":""}" onclick="setCat('${c}')">
+      ${c==="all"?t("all_cat"):c}
+    </button>`).join("");
+}
+
+window.setCat = c => { activeCat=c; renderCategoryStrip(); renderMenuContent(); };
+window.filterMenu = () => { searchQ=document.getElementById("search-inp").value.toLowerCase(); renderMenuContent(); };
+
+function renderMenuContent(){
+  let items = globalMenu;
+  if(activeCat!=="all") items = items.filter(m=>m.category===activeCat);
+  if(searchQ)           items = items.filter(m=>m.name?.toLowerCase().includes(searchQ)||(m.description||"").toLowerCase().includes(searchQ));
+
+  const container = document.getElementById("menu-content");
+  if(!items.length){
+    container.innerHTML=`<div class="empty-state"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><p>Không tìm thấy món</p></div>`;
+    return;
+  }
+
+  // Group by category if "all" selected
+  let html = "";
+  if(activeCat==="all" && !searchQ){
+    const catGroups = categories.filter(c=>c!=="all");
+    catGroups.forEach(cat=>{
+      const catItems = items.filter(m=>m.category===cat);
+      if(!catItems.length) return;
+      html += `<div class="sec-label">${cat}</div><div class="menu-grid">`;
+      html += catItems.map(m=>foodCard(m)).join("");
+      html += `</div><div class="divider"></div>`;
+    });
+    // uncategorised
+    const uncat = items.filter(m=>!m.category);
+    if(uncat.length){
+      html += `<div class="sec-label">Khác</div><div class="menu-grid">`;
+      html += uncat.map(m=>foodCard(m)).join("");
+      html += `</div>`;
+    }
+  } else {
+    html = `<div class="menu-grid">${items.map(m=>foodCard(m)).join("")}</div>`;
+  }
+  container.innerHTML = html;
+}
+
+function foodCard(m){
+  const cartItem = cart.find(c=>c.id===m.id);
+  const qty      = cartItem?.qty||0;
+  const oos      = m.stock===0;
+  const imgSrc   = m.image||`https://placehold.co/300x225/ffe8d6/b08060?text=${encodeURIComponent("🍜")}`;
+  return `
+  <div class="food-card ${oos?"oos":""}" id="card-${m.id}">
+    <div class="food-img-wrap">
+      <img class="food-img" src="${imgSrc}" alt="${m.name}"
+        loading="lazy" onerror="this.src='https://placehold.co/300x225/ffe8d6/b08060?text=🍜'"/>
+      ${oos?`<div class="food-oos-badge">${t("oos")}</div>`:""}
+    </div>
+    <div class="food-body">
+      <div class="food-name">${m.name}</div>
+      ${m.description?`<div class="food-desc">${m.description}</div>`:""}
+      <div class="food-footer">
+        <div class="food-price">${fmt(m.price)}</div>
+        ${oos?"":qty===0
+          ?`<button class="add-btn" onclick="addToCart('${m.id}')" id="add-${m.id}">+</button>`
+          :`<div class="qty-ctrl" id="ctrl-${m.id}">
+              <button class="qc-btn" onclick="changeQty('${m.id}',-1)">−</button>
+              <span class="qc-num">${qty}</span>
+              <button class="qc-btn" onclick="changeQty('${m.id}',1)">+</button>
+            </div>`
+        }
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════
+   CART LOGIC
+══════════════════════════════════════ */
+window.addToCart = id => {
+  const item = globalMenu.find(m=>m.id===id);
+  if(!item||item.stock===0) return;
+  const ex = cart.find(c=>c.id===id);
+  if(ex) ex.qty++;
+  else cart.push({id,name:item.name,price:item.price,image:item.image||"",qty:1});
+  // Pop animation on card
+  const card = document.getElementById("card-"+id);
+  if(card){ card.classList.add("popping"); setTimeout(()=>card.classList.remove("popping"),250); }
+  refreshMenuCardControls(id);
+  updateCartBar();
+};
+
+window.changeQty = (id, delta) => {
+  const i = cart.findIndex(c=>c.id===id);
+  if(i<0) return;
+  cart[i].qty += delta;
+  if(cart[i].qty<=0){ cart.splice(i,1); }
+  refreshMenuCardControls(id);
+  updateCartBar();
+  // Also update cart sheet if open
+  if(document.getElementById("cart-sheet").classList.contains("open")) renderCartSheet();
+};
+
+function refreshMenuCardControls(id){
+  // Only if the current DOM has this card rendered
+  const card = document.getElementById("card-"+id);
+  if(!card) return;
+  const item = globalMenu.find(m=>m.id===id);
+  if(!item||item.stock===0) return;
+  const qty = cart.find(c=>c.id===id)?.qty||0;
+  const footer = card.querySelector(".food-footer");
+  const existing = footer.querySelector(".add-btn,.qty-ctrl");
+  if(existing) existing.remove();
+  if(qty===0){
+    footer.insertAdjacentHTML("beforeend",
+      `<button class="add-btn" onclick="addToCart('${id}')" id="add-${id}">+</button>`);
+  } else {
+    footer.insertAdjacentHTML("beforeend",
+      `<div class="qty-ctrl" id="ctrl-${id}">
+        <button class="qc-btn" onclick="changeQty('${id}',-1)">−</button>
+        <span class="qc-num">${qty}</span>
+        <button class="qc-btn" onclick="changeQty('${id}',1)">+</button>
+      </div>`);
+  }
+}
+
+function updateCartBar(){
+  const bar   = document.getElementById("cart-bar");
+  const total = cart.reduce((s,c)=>s+c.qty,0);
+  const price = calcBill().tot;
+  document.getElementById("cart-count").textContent    = total;
+  document.getElementById("cart-bar-total").textContent= fmt(price);
+  if(total>0) bar.classList.add("show");
+  else        bar.classList.remove("show");
+}
+
+function calcBill(){
+  const sub  = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const vat  = Math.round(sub*branchVAT/100);
+  const disc = Math.round(sub*discPct/100);
+  const tot  = sub+vat-disc;
+  return {sub,vat,disc,tot};
+}
+
+/* ══════════════════════════════════════
+   SHEETS
+══════════════════════════════════════ */
+window.openCartSheet = () => {
+  renderCartSheet();
+  openSheet("cart-sheet");
+};
+
+function openSheet(id){
+  document.getElementById("sheet-overlay").classList.add("open");
+  document.getElementById(id).classList.add("open");
+}
+window.closeSheet = id => {
+  document.getElementById(id).classList.remove("open");
+  // If no sheets open, close overlay
+  const anyOpen = document.querySelectorAll(".sheet.open").length;
+  if(!anyOpen) document.getElementById("sheet-overlay").classList.remove("open");
+};
+window.closeAllSheets = () => {
+  document.querySelectorAll(".sheet").forEach(s=>s.classList.remove("open"));
+  document.getElementById("sheet-overlay").classList.remove("open");
+};
+
+function renderCartSheet(){
+  const body = document.getElementById("cart-body");
+  if(!cart.length){
+    body.innerHTML=`
+    <div class="cart-empty-state">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <p>${t("cart_empty_note")}</p>
+    </div>`;
+    return;
+  }
+  const {sub,vat,disc,tot} = calcBill();
+  body.innerHTML = `
+  ${cart.map(c=>`
+  <div class="cart-item">
+    <img class="ci-img"
+      src="${c.image||"https://placehold.co/54x54/ffe8d6/b08060?text=🍜"}"
+      onerror="this.src='https://placehold.co/54x54/ffe8d6/b08060?text=🍜'"/>
+    <div class="ci-info">
+      <div class="ci-name">${c.name}</div>
+      <div class="ci-price">${fmt(c.price)}</div>
+    </div>
+    <div class="ci-ctrl">
+      <button class="ci-qbtn" onclick="changeQty('${c.id}',-1)">−</button>
+      <span class="ci-qty">${c.qty}</span>
+      <button class="ci-qbtn" onclick="changeQty('${c.id}',1)">+</button>
+    </div>
+    <div class="ci-total">${fmt(c.price*c.qty)}</div>
+  </div>`).join("")}
+
+  <!-- Voucher -->
+  <div style="margin-top:12px">
+    <div class="voucher-row">
+      <input class="v-inp" id="v-inp" placeholder="${t("voucher_ph")}" value="${voucherCode}" maxlength="20"/>
+      <button class="v-btn" onclick="applyVoucher()">${t("apply_btn")}</button>
+    </div>
+    <div class="v-msg" id="v-msg" style="color:${discPct?"var(--sage)":"var(--rose)"}">
+      ${voucherCode?(discPct?`✓ ${t("voucher_ok")} -${discPct}%`:t("voucher_err")):""}
+    </div>
+  </div>
+
+  <!-- Bill -->
+  <div class="bill-box">
+    <div class="bill-row"><span class="bill-lbl">${t("subtotal")}</span><span class="bill-val">${fmt(sub)}</span></div>
+    <div class="bill-row"><span class="bill-lbl">${t("vat_lbl")} (${branchVAT}%)</span><span class="bill-val">${fmt(vat)}</span></div>
+    ${disc?`<div class="bill-row" style="color:var(--sage)"><span class="bill-lbl">${t("discount_lbl")}</span><span class="bill-val">−${fmt(disc)}</span></div>`:""}
+    <div class="bill-row bill-total-row">
+      <span class="bill-total-lbl">${t("total_lbl")}</span>
+      <span class="bill-total-val">${fmt(tot)}</span>
+    </div>
+  </div>
+
+  <button class="checkout-cta" onclick="openCheckout()">${t("checkout_go")}</button>`;
+}
+
+/* ══════════════════════════════════════
+   VOUCHER
+══════════════════════════════════════ */
+window.applyVoucher = async () => {
+  const code = document.getElementById("v-inp").value.trim().toUpperCase();
+  const msg  = document.getElementById("v-msg");
+  if(!code){ discPct=0; voucherCode=""; renderCartSheet(); return; }
+  try{
+    const vs = await getDoc(doc(db,"Branches",branchId,"Vouchers",code));
+    if(!vs.exists()||vs.data().active===false){
+      msg.style.color="var(--rose)"; msg.textContent=t("voucher_err");
+      discPct=0; voucherCode=code; updateCartBar(); return;
+    }
+    discPct     = vs.data().percent||0;
+    voucherCode = code;
+    msg.style.color="var(--sage)"; msg.textContent=`✓ ${t("voucher_ok")} −${discPct}%`;
+    updateCartBar(); renderCartSheet();
+    showToast(t("voucher_ok"),"ok");
+  }catch(e){ msg.style.color="var(--rose)"; msg.textContent="Lỗi kiểm tra mã"; }
+};
+
+/* ══════════════════════════════════════
+   CHECKOUT
+══════════════════════════════════════ */
+window.setOT = ot => {
+  orderType = ot;
+  document.querySelectorAll(".ot-chip").forEach(b=>b.classList.toggle("on",b.dataset.ot===ot));
+  // Show/hide delivery address field
+  const addrField = document.getElementById("cust-addr");
+  if(addrField) addrField.style.display = ot==="delivery"?"block":"none";
+};
+window.setPM = pm => {
+  payMethod = pm;
+  document.querySelectorAll(".pm-chip").forEach(b=>b.classList.toggle("on",b.dataset.pm===pm));
+};
+
+window.openCheckout = () => {
+  if(!cart.length){ showToast(t("empty_cart_msg"),"err"); return; }
+  closeSheet("cart-sheet");
+  // Render bill in checkout sheet
+  const {sub,vat,disc,tot} = calcBill();
+  document.getElementById("checkout-bill").innerHTML=`
+    <div class="bill-row"><span class="bill-lbl">${t("subtotal")}</span><span class="bill-val">${fmt(sub)}</span></div>
+    <div class="bill-row"><span class="bill-lbl">${t("vat_lbl")} (${branchVAT}%)</span><span class="bill-val">${fmt(vat)}</span></div>
+    ${disc?`<div class="bill-row" style="color:var(--sage)"><span class="bill-lbl">${t("discount_lbl")}</span><span class="bill-val">−${fmt(disc)}</span></div>`:""}
+    <div class="bill-row bill-total-row"><span class="bill-total-lbl">${t("total_lbl")}</span><span class="bill-total-val">${fmt(tot)}</span></div>`;
+  openSheet("checkout-sheet");
+};
+
+window.placeOrder = async () => {
+  const name  = document.getElementById("cust-name").value.trim();
+  const phone = document.getElementById("cust-phone").value.trim();
+  const addr  = document.getElementById("cust-addr").value.trim();
+  const note  = document.getElementById("order-note").value.trim();
+
+  if(!name)  { showToast(t("fill_name"),"err");  return; }
+  if(!phone) { showToast(t("fill_phone"),"err"); return; }
+  if(orderType==="delivery"&&!addr){ showToast(t("fill_addr"),"err"); return; }
+
+  const btn = document.getElementById("place-order-btn");
+  btn.disabled=true;
+
+  const {sub,vat,disc,tot} = calcBill();
+  const orderData = {
+    items: cart.map(c=>({id:c.id,name:c.name,price:c.price,qty:c.qty})),
+    customer: {name, phone, address:addr||null},
+    subtotal: sub, vat, discount:disc, total:tot,
+    paymentMethod: payMethod,
+    orderType: "weborder",
+    deliveryType: orderType,
+    voucherCode: voucherCode||null,
+    note: note||null,
+    status: "pending",
+    branchId,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp()
+  };
+
+  try{
+    const ref = await addDoc(collection(db,"Branches",branchId,"Orders"),orderData);
+    currentOrderId = ref.id;
+    sessionStorage.setItem("pb_order_"+branchId, ref.id);
+    // Show tracking btn
+    const tb=document.getElementById("track-btn");
+    tb.style.display="flex"; tb.classList.add("show");
+    closeAllSheets();
+    cart=[]; discPct=0; voucherCode="";
+    renderMenuContent(); updateCartBar();
+    showToast(t("order_ok"),"ok");
+    // Go to tracking
+    await startOrderTracking(ref.id, orderData);
+  }catch(e){
+    showToast("Lỗi: "+e.message,"err");
+  }finally{ btn.disabled=false; }
+};
+
+/* ══════════════════════════════════════
+   ORDER TRACKING — Realtime
+══════════════════════════════════════ */
+const STEPS_CONFIG = [
+  {key:"pending",   icon:"📩", title:()=>t("s_pe"), desc:{vi:"Đang chờ nhà hàng xác nhận...",en:"Waiting for restaurant confirmation..."}},
+  {key:"paid",      icon:"✅", title:()=>t("s_pa"), desc:{vi:"Đơn hàng đã được xác nhận",en:"Your order is confirmed"}},
+  {key:"preparing", icon:"👨‍🍳",title:()=>t("s_pr"), desc:{vi:"Bếp đang chế biến món ăn của bạn",en:"Kitchen is preparing your order"}},
+  {key:"delivering",icon:"🛵", title:()=>t("s_de"), desc:{vi:"Đang trên đường giao đến bạn!",en:"On the way to you!"}},
+  {key:"completed", icon:"🎉", title:()=>t("s_co"), desc:{vi:"Giao hàng thành công! Chúc ngon miệng 🍜",en:"Delivered! Enjoy your meal 🍜"}},
+];
+const STATUS_ORDER = ["pending","paid","preparing","delivering","completed","cancelled"];
+const TRACK_ICONS  = {pending:"📩",paid:"✅",preparing:"👨‍🍳",delivering:"🛵",completed:"🎉",cancelled:"❌"};
+const TRACK_TITLES = {
+  pending: ()=>t("track_waiting"), paid:()=>t("track_waiting"),
+  preparing:()=>t("track_preparing"), delivering:()=>t("track_delivering"),
+  completed:()=>t("track_done"), cancelled:()=>t("track_cancelled")
+};
+
+async function startOrderTracking(orderId, orderSnap){
+  showScreen("tracking");
+  document.getElementById("track-order-id").textContent = `#${orderId.slice(-8).toUpperCase()}`;
+  // Render static summary
+  renderTrackingSummary(orderSnap||{});
+  // Subscribe realtime
+  if(trackUnsub) trackUnsub();
+  const orderRef = doc(db,"Branches",branchId,"Orders",orderId);
+  trackUnsub = onSnapshot(orderRef, snap=>{
+    if(!snap.exists()) return;
+    const data = snap.data();
+    lastTrackStatus = data.status;
+    renderTrackingSteps(data.status);
+    document.getElementById("track-icon").textContent  = TRACK_ICONS[data.status]||"🍜";
+    document.getElementById("track-title").textContent = TRACK_TITLES[data.status]?.() || data.status;
+    // Bounce animation on status change
+    const ico = document.getElementById("track-icon");
+    ico.style.animation="none"; requestAnimationFrame(()=>ico.style.animation="");
+  });
+}
+
+function renderTrackingSteps(currentStatus){
+  const curIdx = STATUS_ORDER.indexOf(currentStatus);
+  const isCancelled = currentStatus==="cancelled";
+  const container = document.getElementById("steps-container");
+  container.innerHTML = STEPS_CONFIG.map((step,i)=>{
+    const stepIdx = STATUS_ORDER.indexOf(step.key);
+    let cls = "pending";
+    if(isCancelled && step.key==="cancelled") cls="active";
+    else if(!isCancelled && stepIdx<curIdx)  cls="done";
+    else if(!isCancelled && stepIdx===curIdx)cls="active";
+    return `
+    <div class="step ${cls}">
+      <div class="step-ico-wrap">
+        <div class="step-ico">${step.icon}</div>
+      </div>
+      <div class="step-info">
+        <div class="step-title">${step.title()}</div>
+        <div class="step-desc">${step.desc[lang]||step.desc.vi}</div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function renderTrackingSummary(order){
+  const items = (order.items||[]).map(i=>`${i.name} ×${i.qty}`).join(", ");
+  const cust  = order.customer||{};
+  document.getElementById("track-summary").innerHTML=`
+  <div class="track-sum-title">Chi tiết đơn hàng</div>
+  ${items?`<div class="track-sum-row"><span class="track-sum-key">Món</span><span class="track-sum-val" style="max-width:60%;text-align:right">${items}</span></div>`:""}
+  ${cust.name?`<div class="track-sum-row"><span class="track-sum-key">Khách</span><span class="track-sum-val">${cust.name}</span></div>`:""}
+  ${cust.phone?`<div class="track-sum-row"><span class="track-sum-key">SĐT</span><span class="track-sum-val">${cust.phone}</span></div>`:""}
+  ${order.subtotal!=null?`<div class="track-sum-row"><span class="track-sum-key">${t("subtotal")}</span><span class="track-sum-val">${fmt(order.subtotal)}</span></div>`:""}
+  ${order.vat?`<div class="track-sum-row"><span class="track-sum-key">${t("vat_lbl")} (${branchVAT}%)</span><span class="track-sum-val">${fmt(order.vat)}</span></div>`:""}
+  ${order.discount?`<div class="track-sum-row" style="color:var(--sage)"><span class="track-sum-key">${t("discount_lbl")}</span><span class="track-sum-val">−${fmt(order.discount)}</span></div>`:""}
+  ${order.total!=null?`<div class="track-sum-row track-grand"><span class="track-grand-key">${t("total_lbl")}</span><span class="track-grand-val">${fmt(order.total)}</span></div>`:""}`;
+}
+
+/* ══════════════════════════════════════
+   NAVIGATION HELPERS
+══════════════════════════════════════ */
+window.showTracking = async () => {
+  const savedId = sessionStorage.getItem("pb_order_"+branchId);
+  if(!savedId){ showToast("Chưa có đơn hàng nào","err"); return; }
+  currentOrderId = savedId;
+  const snap = await getDoc(doc(db,"Branches",branchId,"Orders",savedId));
+  if(!snap.exists()){ showToast("Không tìm thấy đơn","err"); return; }
+  await startOrderTracking(savedId, snap.data());
+};
+
+window.startNewOrder = () => {
+  if(trackUnsub){ trackUnsub(); trackUnsub=null; }
+  showScreen("menu");
+};
+
+window.backToPicker = () => {
+  if(trackUnsub){ trackUnsub(); trackUnsub=null; }
+  branchId=null; branchInfo={}; hiddenItems=[];
+  cart=[]; discPct=0; voucherCode="";
+  const url = new URL(location.href);
+  url.searchParams.delete("store");
+  history.replaceState(null,"",url);
+  document.title="PhoBut — Đặt món trực tuyến";
+  showScreen("picker");
+  loadBranchPicker();
+};
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+function showToast(msg, type="ok"){
+  const tc  = document.getElementById("toast-container");
+  const el  = document.createElement("div");
+  el.className=`toast ${type}`;
+  el.textContent=msg;
+  tc.appendChild(el);
+  setTimeout(()=>{ el.style.opacity="0"; el.style.transform="translateY(-8px)"; el.style.transition="all .3s"; setTimeout(()=>el.remove(),300); },2800);
+}
+window.showToast = showToast;
+
+/* ══════════════════════════════════════
+   FORMAT
+══════════════════════════════════════ */
+function fmt(n){
+  return new Intl.NumberFormat("vi-VN",{style:"currency",currency:"VND"}).format(n||0);
+}
+
+/* ══════════════════════════════════════
+   EXPOSE GLOBALS
+══════════════════════════════════════ */
+window.loadBranch=loadBranch;
+</script>
+</body>
+</html>

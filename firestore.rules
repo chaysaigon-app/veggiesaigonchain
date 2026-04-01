@@ -1,0 +1,166 @@
+// ═══════════════════════════════════════════════════════════════
+//  firestore.rules — PhoBut Multi-tenant POS v3
+//  Firebase Rules v2  |  Project: phobut-95574
+//
+//  RBAC:
+//  SuperAdmin (chaysaigon@gmail.com) → bypass all checks
+//  Branch Admin                      → full CRUD within their branch
+//  Cashier                           → limited: read menu/vouchers,
+//                                      create orders, update status only,
+//                                      create invoices for own orders
+// ═══════════════════════════════════════════════════════════════
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Helpers ────────────────────────────────────────────────
+
+    function authed() {
+      return request.auth != null;
+    }
+
+    function isSuperAdmin() {
+      return authed() && request.auth.token.email == "chaysaigon@gmail.com";
+    }
+
+    function isMember(branchId) {
+      return authed()
+        && exists(/databases/$(database)/documents/Branches/$(branchId)/Staff/$(request.auth.token.email));
+    }
+
+    function getRole(branchId) {
+      return get(/databases/$(database)/documents/Branches/$(branchId)/Staff/$(request.auth.token.email)).data.role;
+    }
+
+    function isAdmin(branchId) {
+      return isSuperAdmin() || (isMember(branchId) && getRole(branchId) == "admin");
+    }
+
+    function isCashier(branchId) {
+      return isMember(branchId) && getRole(branchId) == "cashier";
+    }
+
+    function isStaff(branchId) {
+      return isSuperAdmin() || isMember(branchId);
+    }
+
+    // Order create: only these fields allowed
+    function validOrderCreate() {
+      return request.resource.data.keys().hasOnly([
+        'items','subtotal','vat','discount','total',
+        'paymentMethod','orderType','voucherCode',
+        'status','cashierEmail','createdAt','updatedAt'
+      ]);
+    }
+
+    // Cashier update: only status + updatedAt
+    function validStatusOnly() {
+      return request.resource.data.diff(resource.data)
+        .affectedKeys().hasOnly(['status','updatedAt']);
+    }
+
+    function validStatus(s) {
+      return s in ['pending','paid','preparing','delivering','delivered','completed','cancelled'];
+    }
+
+    // ─── /Branches ───────────────────────────────────────────────
+
+    match /Branches/{branchId} {
+      allow read:   if isStaff(branchId);
+      allow create: if isSuperAdmin();
+      allow update: if isAdmin(branchId);
+      allow delete: if isSuperAdmin();
+
+      // ── Menus: Cashiers READ ONLY ──────────────────────────────
+      match /Menus/{menuId} {
+        allow read:   if isStaff(branchId);
+        allow create: if isAdmin(branchId);
+        allow update: if isAdmin(branchId);
+        allow delete: if isAdmin(branchId);
+      }
+
+      // ── Orders ─────────────────────────────────────────────────
+      // Cashier: create + status-only update
+      // Admin: full CRUD
+      match /Orders/{orderId} {
+        allow read:   if isStaff(branchId);
+        allow create: if isStaff(branchId)
+                      && validOrderCreate()
+                      && validStatus(request.resource.data.status);
+        allow update: if isAdmin(branchId)
+                   || (isCashier(branchId) && validStatusOnly()
+                       && validStatus(request.resource.data.status));
+        allow delete: if isAdmin(branchId);
+      }
+
+      // ── Staff ───────────────────────────────────────────────────
+      // Cashier: read own doc only (for role verification on login)
+      match /Staff/{email} {
+        allow read:   if isAdmin(branchId)
+                   || (authed() && request.auth.token.email == email);
+        allow create: if isAdmin(branchId);
+        allow update: if isAdmin(branchId);
+        allow delete: if isAdmin(branchId);
+      }
+
+      // ── Vouchers: Cashiers READ ONLY ───────────────────────────
+      match /Vouchers/{voucherId} {
+        allow read:   if isStaff(branchId);
+        allow create: if isAdmin(branchId);
+        allow update: if isAdmin(branchId);
+        allow delete: if isAdmin(branchId);
+      }
+
+      // ── Invoices (Paperless system) ────────────────────────────
+      // Stores metadata for every PDF invoice generated/sent.
+      // Cashier: create for their own orders + read all invoices.
+      // Admin: full CRUD.
+      // NOTE: Actual PDF bytes are NOT stored here (too large);
+      //       only metadata (orderId, email, timestamp, sentBy).
+      match /Invoices/{invoiceId} {
+        allow read:   if isStaff(branchId);
+        allow create: if isStaff(branchId)
+                      && request.resource.data.sentBy == request.auth.token.email;
+        allow update: if isAdmin(branchId);
+        allow delete: if isAdmin(branchId);
+      }
+
+      // ── CashLogs (Thu chi tiền mặt tại quầy) ──────────────────
+      match /CashLogs/{logId} {
+        allow read:   if isAdmin(branchId)
+                   || (isCashier(branchId)
+                       && resource.data.cashierEmail == request.auth.token.email);
+        allow create: if isStaff(branchId)
+                      && request.resource.data.cashierEmail == request.auth.token.email;
+        allow update: if isAdmin(branchId);
+        allow delete: if isAdmin(branchId);
+      }
+
+      // ── Settings: Cashiers READ ONLY ────────────────────────────
+      match /Settings/{settingId} {
+        allow read:   if isStaff(branchId);
+        allow create: if isAdmin(branchId);
+        allow update: if isAdmin(branchId);
+        allow delete: if isAdmin(branchId);
+      }
+
+      // ── Deny unmatched sub-collections ─────────────────────────
+      match /{any}/{docId} {
+        allow read, write: if false;
+      }
+    }
+
+    // ─── Global read-only stats (Super Admin writes) ────────────
+    match /GlobalStats/{docId} {
+      allow read:  if authed();
+      allow write: if isSuperAdmin();
+    }
+
+    // ─── Default deny ────────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
