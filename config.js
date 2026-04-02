@@ -25,7 +25,7 @@ export const CLOUDINARY_UPLOAD_PRESET = "qjrpdbhs";
 // ── EmailJS (Gửi hoá đơn / báo cáo PDF qua email) ────────────
 // Đăng ký tại https://www.emailjs.com/ để lấy các giá trị này
 export const EMAILJS_CONFIG = {
-  serviceId:       "service_xxxx",        // ← Thay bằng Service ID thật
+  serviceId:       "service_j8kubcd",        // ← Thay bằng Service ID thật
   invoiceTemplate: "template_invoice",    // ← Template gửi hoá đơn
   reportTemplate:  "template_report",     // ← Template gửi báo cáo
   publicKey:       "YOUR_EMAILJS_PUBLIC_KEY" // ← Public Key
