@@ -637,8 +637,10 @@ async function rMenu() {
 // Chế độ HQ: Super Admin quản lý GlobalMenu
 async function rMenuHQ() {
   // ★ BẮT BUỘC hiện nút "+ Thêm món" ở chế độ HQ
-  document.getElementById('pg-acts').innerHTML =
-    '<button class="bs-acc" onclick="openAddGItem()">+ Thêm món vào HQ</button>';
+  // Thay thế đoạn cấu hình nút của rMenuHQ() cũ bằng đoạn này:
+document.getElementById('pg-acts').innerHTML =
+  `<button class="bs-acc" style="background:var(--grn);border-color:var(--grn);margin-right:8px" onclick="openBulkImportMo()">📥 Nhập JSON</button>` +
+  `<button class="bs-acc" onclick="openAddGItem()">+ Thêm món vào HQ</button>`;
 
   const globalSnap  = await getDocs(collection(db, 'GlobalMenu'));
   const globalItems = globalSnap.docs.map(d => ({ id:d.id, ...d.data() }));
