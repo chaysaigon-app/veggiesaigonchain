@@ -870,15 +870,18 @@ const PM_LBL = { cash:"Tiền mặt",card:"Thẻ",transfer:"Chuyển khoản" };
 
 function subscribeOrders() {
   if (liveUnsub) liveUnsub();
+  // Bỏ lệnh where đi để Firebase không đòi Index
   const q = query(
     collection(db, "Branches", brId, "Orders"),
-    where("status", "in", ["pending","paid","preparing","delivering"]),
     orderBy("createdAt", "desc"), limit(60)
   );
   liveUnsub = onSnapshot(q, snap => {
-    const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderLiveOrders(orders);
-    const n = orders.length;
+    const allOrders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    // Dùng Javascript tự lọc ra các đơn đang hoạt động
+    const liveOrders = allOrders.filter(o => ["pending","paid","preparing","delivering"].includes(o.status));
+
+    renderLiveOrders(liveOrders);
+    const n = liveOrders.length;
     const b = document.getElementById("bn-orders-badge");
     b.style.display = n ? "flex" : "none"; b.textContent = n;
     document.getElementById("orders-cnt").textContent = n ? `${n} đang hoạt động` : "";
