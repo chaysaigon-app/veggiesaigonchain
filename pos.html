@@ -1110,27 +1110,27 @@ window.sendPDFEmail = async () => {
   if (!email) { toast("Nhập email khách hàng", "err"); return; }
   if (!sheetOrder) return;
   if (typeof emailjs === "undefined" || EMAILJS_CONFIG.publicKey === "YOUR_EMAILJS_PUBLIC_KEY") {
-    toast("Chưa cấu hình EmailJS trong config.js", "err"); return;
+    toast("Chưa cấu hình EmailJS", "err"); return;
   }
-  toast("Đang tạo PDF & gửi email...", "inf");
+  toast("Đang gửi email...", "inf"); // Đã bỏ chữ tạo PDF
   try {
-    const pdfBase64 = await html2pdf().set({
-      margin:[8,8,8,8], image:{type:"jpeg",quality:.9},
-      html2canvas:{scale:2,backgroundColor:"#ffffff"},
-      jsPDF:{unit:"mm",format:"a5",orientation:"portrait"}
-    }).from(document.getElementById("inv-card")).outputPdf("datauristring");
+    // Chỉ gửi các biến chữ, không tạo file PDF nặng nề nữa
     await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.invoiceTemplate, {
-      to_email:    email, branch_name: brName,
+      to_email:    email, 
+      branch_name: brName,
       order_id:    sheetOrder.id.slice(-8).toUpperCase(),
-      order_total: fmt(sheetOrder.total), cashier: me.email, pdf_content: pdfBase64
+      order_total: fmt(sheetOrder.total), 
+      cashier:     me.email
     });
     toast(t("email_ok"), "ok");
     await updateDoc(doc(db, "Branches", brId, "Orders", sheetOrder.id), {
       customerEmail: email, updatedAt: serverTimestamp()
     });
   } catch (e) {
-    console.error("sendPDFEmail:", e);
-    toast(t("email_err") + ": " + e.message, "err");
+    console.error("sendEmail error:", e);
+    // Bắt lỗi chuẩn hơn, tránh bị undefined
+    const errMsg = e.text || e.message || "Lỗi máy chủ EmailJS";
+    toast(t("email_err") + ": " + errMsg, "err");
   }
 };
 
