@@ -747,7 +747,8 @@ window.toggleLang = () => {
   lang = lang==="vi" ? "en" : "vi";
   localStorage.setItem("pb_lang",lang);
   applyLang();
-  renderMenuContent();
+   renderCategoryStrip();
+   renderMenuContent();
   if(trackUnsub) renderTrackingSteps(lastTrackStatus);
 };
 
