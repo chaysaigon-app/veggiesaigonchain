@@ -1137,7 +1137,84 @@ window.closeMo2 = () => document.getElementById('mo').classList.remove('open');
 // ═══════════════════════════════════════════════════════════════
 //  UTILS
 // ═══════════════════════════════════════════════════════════════
-function donut(sl) {
+// ═══════════════════════════════════════════════════════════════
+//  BULK IMPORT JSON (Thêm nhiều món cùng lúc)
+// ═══════════════════════════════════════════════════════════════
+window.openBulkImportMo = () => {
+  const sampleJson = `[\n  {\n    "name": "Mì Ý Sốt Cà",\n    "price": 65000,\n    "description": "Mì Ý với sốt cà chua truyền thống"\n  },\n  {\n    "name": "Salad Trộn",\n    "price": 45000,\n    "category": "Khai vị"\n  }\n]`;
+  
+  const html = `
+    <div style="margin-bottom:12px;font-size:13px;color:var(--txt2);line-height:1.5">
+      Dán mảng JSON chứa danh sách món ăn vào đây.<br>
+      Các trường bắt buộc: <strong>name</strong> (Tên), <strong>price</strong> (Giá tiền).<br>
+      Các trường tuỳ chọn: <strong>description</strong> (Mô tả), <strong>category</strong> (Danh mục).
+    </div>
+    <textarea id="bulk-json-input" style="width:100%;height:220px;background:var(--s3);border:1px solid var(--brd);border-radius:var(--r);padding:12px;color:var(--txt);font-family:var(--mono);font-size:12px;resize:vertical" placeholder='${sampleJson}'></textarea>
+    <div class="fa" style="margin-top:16px">
+      <button type="button" class="fcn" onclick="closeMo2()">Huỷ</button>
+      <button type="button" class="fsv" onclick="processBulkImport()">Tiến hành thêm</button>
+    </div>
+  `;
+  openMo('📥 Nhập menu hàng loạt từ JSON', html);
+};
+
+window.processBulkImport = async () => {
+  const rawText = document.getElementById('bulk-json-input').value.trim();
+  if (!rawText) { showT('Vui lòng dán nội dung JSON', 'err'); return; }
+
+  let dataArr;
+  try {
+    dataArr = JSON.parse(rawText);
+    if (!Array.isArray(dataArr)) throw new Error('Dữ liệu JSON phải là một mảng (bắt đầu bằng [ và kết thúc bằng ])');
+  } catch (e) {
+    showT('JSON không hợp lệ: ' + e.message, 'err');
+    return;
+  }
+
+  // Validate các item trong mảng
+  const validItems = [];
+  for (let i = 0; i < dataArr.length; i++) {
+    const item = dataArr[i];
+    if (!item.name || typeof item.price !== 'number') {
+      showT(`Bỏ qua món thứ ${i+1}: Thiếu tên hoặc giá không phải là số`, 'err');
+      continue;
+    }
+    
+    // Chuẩn bị dữ liệu để đẩy lên Firestore
+    validItems.push({
+      name: String(item.name).trim(),
+      price: Number(item.price),
+      description: item.description ? String(item.description).trim() : '',
+      category: item.category ? String(item.category).trim() : '',
+      image: null,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
+  }
+
+  if (validItems.length === 0) {
+    showT('Không có món nào hợp lệ để thêm!', 'err');
+    return;
+  }
+
+  if (!confirm(`Bạn chuẩn bị thêm ${validItems.length} món vào hệ thống HQ. Bạn có chắc chắn không?`)) return;
+
+  closeMo2();
+  showT(`Đang thêm ${validItems.length} món...`, 'inf');
+
+  try {
+    // Chạy song song các lệnh thêm vào Firestore để tăng tốc độ
+    await Promise.all(
+      validItems.map(item => addDoc(collection(db, 'GlobalMenu'), item))
+    );
+    showT(`✅ Đã thêm thành công ${validItems.length} món!`, 'ok');
+    rMenu(); // Cập nhật lại giao diện bảng menu
+  } catch (e) {
+    showT('Có lỗi xảy ra khi thêm: ' + e.message, 'err');
+    console.error(e);
+  }
+};
+  function donut(sl) {
   const sz=96,cx=48,cy=48,r=34,sw=11; let cum=0;
   const paths = sl.map(s => {
     const a1=cum*Math.PI*2-Math.PI/2, a2=(cum+s.v)*Math.PI*2-Math.PI/2; cum+=s.v;
