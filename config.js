@@ -1,26 +1,42 @@
-// config.js — Veggie Saigon System
-// Thay đổi BRANCH_ID để deploy cho từng chi nhánh riêng
-// Hoặc để trống "" để dùng chế độ chọn chi nhánh động qua URL ?store=ID
+// ═══════════════════════════════════════════════════════════════
+//  config.js — Veggie Saigon Chain · Single Source of Truth
+//  Tất cả biến cấu hình tập trung tại đây.
+//  Các file HTML import từ đây, KHÔNG hardcode bất kỳ key nào.
+// ═══════════════════════════════════════════════════════════════
 
+// ── Firebase ─────────────────────────────────────────────────
 export const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCRkd3-uyccqFYq6jWbrIOTsB2ehVt8wK4",
-  authDomain: "veggiesaigonchain.firebaseapp.com",
-  projectId: "veggiesaigonchain",
-  storageBucket: "veggiesaigonchain.firebasestorage.app",
+  apiKey:            "AIzaSyCRkd3-uyccqFYq6jWbrIOTsB2ehVt8wK4",
+  authDomain:        "veggiesaigonchain.firebaseapp.com",
+  projectId:         "veggiesaigonchain",
+  storageBucket:     "veggiesaigonchain.firebasestorage.app",
   messagingSenderId: "1074182475091",
-  appId: "1:1074182475091:web:32ad6ef9717256b88f25a6"
+  appId:             "1:1074182475091:web:32ad6ef9717256b88f25a6"
 };
 
-// Nếu deploy cho 1 chi nhánh cụ thể, điền ID vào đây (để trống là cho phép khách tự chọn chi nhánh):
+// ── Super Admin ───────────────────────────────────────────────
+// Email này có toàn quyền hệ thống (bypass mọi kiểm tra branch)
+export const SUPER_ADMIN_EMAIL = "chaysaigon@gmail.com";
+
+// ── Cloudinary (Upload ảnh) ───────────────────────────────────
+export const CLOUDINARY_CLOUD_NAME   = "dym7dwnji";
+export const CLOUDINARY_UPLOAD_PRESET = "qjrpdbhs";
+
+// ── EmailJS (Gửi hoá đơn / báo cáo PDF qua email) ────────────
+// Đăng ký tại https://www.emailjs.com/ để lấy các giá trị này
+export const EMAILJS_CONFIG = {
+  serviceId:       "service_xxxx",        // ← Thay bằng Service ID thật
+  invoiceTemplate: "template_invoice",    // ← Template gửi hoá đơn
+  reportTemplate:  "template_report",     // ← Template gửi báo cáo
+  publicKey:       "YOUR_EMAILJS_PUBLIC_KEY" // ← Public Key
+};
+
+// ── Customer Web Ordering (index.html) ───────────────────────
+// Để trống "" → khách tự chọn chi nhánh qua URL ?store=ID
+// Điền ID cụ thể → deploy trang đặt hàng riêng cho 1 chi nhánh
 export const DEFAULT_BRANCH_ID = "";
 
-// QUAN TRỌNG: Email Super Admin (Có toàn quyền hệ thống)
-// HÃY THAY BẰNG EMAIL GOOGLE THẬT CỦA BẠN ĐỂ ĐĂNG NHẬP VÀO TRANG ADMIN
-export const SUPER_ADMIN_EMAIL = "chaysaigon@gmail.com"; 
-
-// EmailJS (tuỳ chọn — dành cho tính năng gửi hoá đơn PDF qua email)
-export const EMAILJS_CONFIG = {
-  serviceId:  "service_xxxx",
-  templateId: "template_xxxx",
-  publicKey:  "YOUR_EMAILJS_PUBLIC_KEY"
-};
+// ── App Settings ─────────────────────────────────────────────
+export const APP_NAME      = "Veggie Saigon";
+export const APP_LOGO_EMOJI = "🥗";
+export const DEFAULT_VAT   = 10; // % — dùng khi branch chưa cấu hình VAT

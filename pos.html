@@ -6,15 +6,12 @@
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<title>PhoBut POS</title>
+<title>POS — Thu Ngân</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <style>
-/* ══════════════════════════════════════
-   DESIGN TOKENS
-══════════════════════════════════════ */
 :root{
   --bg:#08090f;--s1:#0f1117;--s2:#161b27;--s3:#1c2233;--s4:#222840;
   --brd:#2c3450;--brd2:#1c2233;
@@ -38,9 +35,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 ::-webkit-scrollbar{width:3px;height:3px}
 ::-webkit-scrollbar-thumb{background:var(--brd);border-radius:3px}
 
-/* ══════════════════════════════════════
-   AUTH
-══════════════════════════════════════ */
+/* AUTH */
 #auth-ov{
   position:fixed;inset:0;z-index:9999;background:var(--bg);
   display:flex;align-items:center;justify-content:center;padding:20px;
@@ -66,9 +61,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 .auth-go:active{background:var(--acc2)}
 #auth-err{color:var(--red);font-size:12px;margin-top:8px;min-height:14px}
 
-/* ══════════════════════════════════════
-   TOPBAR
-══════════════════════════════════════ */
+/* TOPBAR */
 #topbar{
   height:50px;flex-shrink:0;background:var(--s1);border-bottom:1px solid var(--brd);
   display:flex;align-items:center;gap:8px;padding:0 12px;z-index:50;
@@ -77,95 +70,37 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 .tb-br{
   font-size:11px;color:var(--txt2);background:var(--s3);
   border:1px solid var(--brd);padding:2px 8px;border-radius:14px;
-  max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 .tb-sp{flex:1}
-.tb-role{
-  font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px;
-  text-transform:uppercase;letter-spacing:.5px;
-}
+.tb-role{font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px;}
 .role-admin{background:var(--pur-d);color:var(--pur)}
 .role-cashier{background:var(--grn-d);color:var(--grn)}
-.tb-langbtn{
-  background:var(--s3);border:1px solid var(--brd);color:var(--txt2);
-  border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;
-}
+.tb-langbtn{background:var(--s3);border:1px solid var(--brd);color:var(--txt2);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;}
 
-/* ══════════════════════════════════════
-   PAGE LAYOUT
-══════════════════════════════════════ */
+/* PAGES */
 #pages{flex:1;overflow:hidden;position:relative}
-.pg{
-  position:absolute;inset:0;display:flex;flex-direction:column;
-  overflow:hidden;opacity:0;pointer-events:none;transition:opacity .18s;
-}
+.pg{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;opacity:0;pointer-events:none;transition:opacity .18s;}
 .pg.on{opacity:1;pointer-events:all}
 
-/* ══════════════════════════════════════
-   BOTTOM NAV
-══════════════════════════════════════ */
-#bnav{
-  height:56px;flex-shrink:0;
-  background:var(--s1);border-top:1px solid var(--brd);
-  display:flex;padding-bottom:var(--safe-b);
-}
-.bni{
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:2px;
-  padding:6px 4px;color:var(--txt3);
-  transition:color .18s;font-size:10px;font-weight:700;
-  text-transform:uppercase;letter-spacing:.4px;position:relative;
-}
+/* BOTTOM NAV */
+#bnav{height:56px;flex-shrink:0;background:var(--s1);border-top:1px solid var(--brd);display:flex;padding-bottom:var(--safe-b);}
+.bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 4px;color:var(--txt3);transition:color .18s;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;position:relative;}
 .bni.on{color:var(--acc)}
 .bni-ico{font-size:20px;line-height:1}
-.bni-badge{
-  position:absolute;top:4px;right:calc(50% - 20px);
-  background:var(--red);color:#fff;
-  min-width:16px;height:16px;border-radius:8px;
-  font-size:9px;font-weight:900;padding:0 3px;
-  display:none;align-items:center;justify-content:center;
-  border:1.5px solid var(--bg);
-}
+.bni-badge{position:absolute;top:4px;right:calc(50% - 20px);background:var(--red);color:#fff;min-width:16px;height:16px;border-radius:8px;font-size:9px;font-weight:900;padding:0 3px;display:none;align-items:center;justify-content:center;border:1.5px solid var(--bg);}
 
-/* ══════════════════════════════════════
-   PAGE: MENU
-══════════════════════════════════════ */
+/* PAGE: MENU */
 #pg-menu{background:var(--bg)}
-.menu-topbar{
-  padding:10px 12px;background:var(--s1);
-  border-bottom:1px solid var(--brd);flex-shrink:0;
-}
-#search-inp{
-  width:100%;background:var(--s3);border:1.5px solid var(--brd);
-  border-radius:var(--r);padding:9px 12px;font-size:14px;
-  outline:none;color:var(--txt);transition:border-color .2s;
-}
+.menu-topbar{padding:10px 12px;background:var(--s1);border-bottom:1px solid var(--brd);flex-shrink:0;}
+#search-inp{width:100%;background:var(--s3);border:1.5px solid var(--brd);border-radius:var(--r);padding:9px 12px;font-size:14px;outline:none;color:var(--txt);transition:border-color .2s;}
 #search-inp:focus{border-color:var(--acc)}
-#cat-bar{
-  display:flex;gap:6px;padding:8px 12px;
-  overflow-x:auto;flex-shrink:0;
-  background:var(--s1);border-bottom:1px solid var(--brd);
-}
+#cat-bar{display:flex;gap:6px;padding:8px 12px;overflow-x:auto;flex-shrink:0;background:var(--s1);border-bottom:1px solid var(--brd);}
 #cat-bar::-webkit-scrollbar{display:none}
-.cat-p{
-  white-space:nowrap;padding:5px 14px;border-radius:16px;
-  border:1.5px solid var(--brd);color:var(--txt2);
-  font-size:12px;font-weight:700;flex-shrink:0;
-  transition:all .15s;background:none;
-}
+.cat-p{white-space:nowrap;padding:5px 14px;border-radius:16px;border:1.5px solid var(--brd);color:var(--txt2);font-size:12px;font-weight:700;flex-shrink:0;transition:all .15s;background:none;}
 .cat-p.on{background:var(--acc-d);border-color:var(--acc);color:var(--acc)}
-#menu-grid{
-  flex:1;overflow-y:auto;
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:10px;padding:10px;align-content:start;
-}
-/* Menu Card */
-.mc{
-  background:var(--s2);border:1.5px solid var(--brd);
-  border-radius:var(--r);overflow:hidden;cursor:pointer;
-  position:relative;transition:border-color .12s,transform .1s;
-  -webkit-user-select:none;user-select:none;
-}
+#menu-grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px;align-content:start;}
+.mc{background:var(--s2);border:1.5px solid var(--brd);border-radius:var(--r);overflow:hidden;cursor:pointer;position:relative;transition:border-color .12s,transform .1s;-webkit-user-select:none;user-select:none;}
 .mc:active{transform:scale(.95);border-color:var(--acc)}
 .mc.oos{opacity:.35;pointer-events:none}
 .mc-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--s3);display:block}
@@ -173,56 +108,22 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 .mc-name{font-size:13px;font-weight:700;line-height:1.3;margin-bottom:3px}
 .mc-price{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--acc)}
 .mc-stk{font-size:10px;color:var(--txt3);margin-top:2px}
-.mc-oos-lbl{
-  position:absolute;top:6px;left:6px;
-  background:var(--red);color:#fff;
-  font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;
-}
-/* Cart FAB */
-#cart-fab{
-  position:absolute;bottom:14px;right:14px;z-index:20;
-  width:56px;height:56px;border-radius:50%;
-  background:var(--acc);color:#fff;font-size:24px;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 20px rgba(255,107,53,.5);
-  transition:transform .15s;
-}
+.mc-oos-lbl{position:absolute;top:6px;left:6px;background:var(--red);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;}
+#cart-fab{position:absolute;bottom:14px;right:14px;z-index:20;width:56px;height:56px;border-radius:50%;background:var(--acc);color:#fff;font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(255,107,53,.5);transition:transform .15s;}
 #cart-fab:active{transform:scale(.9)}
-#fab-badge{
-  position:absolute;top:-3px;right:-3px;
-  background:var(--red);color:#fff;border:2px solid var(--bg);
-  min-width:20px;height:20px;border-radius:10px;
-  font-size:10px;font-weight:900;padding:0 3px;
-  display:none;align-items:center;justify-content:center;
-}
+#fab-badge{position:absolute;top:-3px;right:-3px;background:var(--red);color:#fff;border:2px solid var(--bg);min-width:20px;height:20px;border-radius:10px;font-size:10px;font-weight:900;padding:0 3px;display:none;align-items:center;justify-content:center;}
 
-/* ══════════════════════════════════════
-   PAGE: BILL (CART)
-══════════════════════════════════════ */
+/* PAGE: BILL */
 #pg-bill{background:var(--bg)}
-.bill-head{
-  padding:10px 14px;background:var(--s1);
-  border-bottom:1px solid var(--brd);flex-shrink:0;
-}
+.bill-head{padding:10px 14px;background:var(--s1);border-bottom:1px solid var(--brd);flex-shrink:0;}
 .bill-head-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .bill-ttl{font-size:16px;font-weight:800}
 .bill-clr{font-size:12px;color:var(--red);font-weight:700;padding:4px 10px}
-/* Order type tabs */
 .ot-tabs{display:flex;gap:5px}
-.ot-tab{
-  flex:1;padding:6px 4px;border-radius:8px;
-  border:1.5px solid var(--brd);color:var(--txt2);
-  font-size:11px;font-weight:700;text-align:center;
-  transition:all .15s;background:none;
-}
+.ot-tab{flex:1;padding:6px 4px;border-radius:8px;border:1.5px solid var(--brd);color:var(--txt2);font-size:11px;font-weight:700;text-align:center;transition:all .15s;background:none;}
 .ot-tab.on{background:var(--acc-d);border-color:var(--acc);color:var(--acc)}
-/* Cart list */
 #bill-list{flex:1;overflow-y:auto;padding:6px 14px}
-.bill-empty{
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  height:100%;gap:10px;color:var(--txt3);
-}
+.bill-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;color:var(--txt3);}
 .bill-empty svg{opacity:.2}
 .ci{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--brd2)}
 .ci:last-child{border-bottom:none}
@@ -230,33 +131,15 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 .ci-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ci-up{font-size:11px;color:var(--txt2);font-family:var(--mono);margin-top:1px}
 .ci-ctrl{display:flex;align-items:center;gap:5px}
-.qbtn{
-  width:26px;height:26px;border-radius:7px;
-  border:1.5px solid var(--brd);background:var(--s3);
-  color:var(--txt);font-size:16px;line-height:1;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .1s;
-}
+.qbtn{width:26px;height:26px;border-radius:7px;border:1.5px solid var(--brd);background:var(--s3);color:var(--txt);font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .1s;}
 .qbtn:active{border-color:var(--acc);color:var(--acc)}
 .ci-qty{width:24px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:700}
 .ci-tot{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--acc);width:72px;text-align:right;flex-shrink:0}
-/* Bill summary box */
-#bill-box{
-  background:var(--s1);border-top:1px solid var(--brd);
-  padding:10px 14px 14px;flex-shrink:0;
-}
+#bill-box{background:var(--s1);border-top:1px solid var(--brd);padding:10px 14px 14px;flex-shrink:0;}
 .vrow{display:flex;gap:7px;margin-bottom:6px}
-.vinp{
-  flex:1;background:var(--s3);border:1.5px solid var(--brd);
-  border-radius:var(--r);padding:8px 12px;font-size:13px;
-  outline:none;color:var(--txt);transition:border-color .2s;
-}
+.vinp{flex:1;background:var(--s3);border:1.5px solid var(--brd);border-radius:var(--r);padding:8px 12px;font-size:13px;outline:none;color:var(--txt);transition:border-color .2s;}
 .vinp:focus{border-color:var(--pur)}
-.vapply{
-  background:var(--pur-d);border:1.5px solid var(--pur);
-  color:var(--pur);border-radius:var(--r);padding:8px 13px;
-  font-size:12px;font-weight:700;
-}
+.vapply{background:var(--pur-d);border:1.5px solid var(--pur);color:var(--pur);border-radius:var(--r);padding:8px 13px;font-size:12px;font-weight:700;}
 .vmsg{font-size:11px;min-height:13px;margin-bottom:4px}
 .brow{display:flex;justify-content:space-between;padding:2px 0}
 .blbl{font-size:13px;color:var(--txt2)}
@@ -264,40 +147,20 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 .btrow{display:flex;justify-content:space-between;padding-top:8px;margin-top:6px;border-top:1px solid var(--brd)}
 .btlbl{font-size:16px;font-weight:900}
 .btval{font-family:var(--mono);font-size:19px;font-weight:900;color:var(--acc)}
-/* Payment */
 .pm-row{display:flex;gap:6px;margin:8px 0}
-.pm-btn{
-  flex:1;padding:9px 4px;border-radius:9px;
-  border:1.5px solid var(--brd);color:var(--txt2);
-  font-size:12px;font-weight:700;background:none;transition:all .15s;
-}
+.pm-btn{flex:1;padding:9px 4px;border-radius:9px;border:1.5px solid var(--brd);color:var(--txt2);font-size:12px;font-weight:700;background:none;transition:all .15s;}
 .pm-btn.on{background:var(--blu-d);border-color:var(--blu);color:var(--blu)}
-/* Checkout */
-#co-btn{
-  width:100%;background:var(--acc);color:#fff;border-radius:var(--r);
-  padding:13px;font-size:15px;font-weight:900;letter-spacing:.3px;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  transition:all .15s;margin-top:6px;
-}
+#co-btn{width:100%;background:var(--acc);color:#fff;border-radius:var(--r);padding:13px;font-size:15px;font-weight:900;letter-spacing:.3px;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;margin-top:6px;}
 #co-btn:active{background:var(--acc2);transform:scale(.98)}
 #co-btn:disabled{opacity:.4}
 
-/* ══════════════════════════════════════
-   PAGE: LIVE ORDERS
-══════════════════════════════════════ */
+/* PAGE: LIVE ORDERS */
 #pg-orders{background:var(--bg)}
-.orders-hdr{
-  padding:10px 12px;background:var(--s1);border-bottom:1px solid var(--brd);
-  flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
-}
+.orders-hdr{padding:10px 12px;background:var(--s1);border-bottom:1px solid var(--brd);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;}
 .orders-hdr-t{font-size:15px;font-weight:800}
 #orders-cnt{font-size:12px;color:var(--txt2)}
 #orders-list{flex:1;overflow-y:auto;padding:10px}
-/* Order Card */
-.oc{
-  background:var(--s2);border:1.5px solid var(--brd);
-  border-radius:var(--r);padding:12px;margin-bottom:8px;
-}
+.oc{background:var(--s2);border:1.5px solid var(--brd);border-radius:var(--r);padding:12px;margin-bottom:8px;}
 .oc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
 .oc-id{font-family:var(--mono);font-size:11px;color:var(--txt3);font-weight:700}
 .oc-time{font-size:10px;color:var(--txt3)}
@@ -309,12 +172,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 .oc-items{font-size:12px;color:var(--txt2);line-height:1.6;margin-bottom:5px}
 .oc-total{font-family:var(--mono);font-weight:800;color:var(--acc);font-size:14px;margin-bottom:8px}
 .status-wrap{display:flex;flex-wrap:wrap;gap:5px}
-.sch{
-  font-size:10px;font-weight:800;padding:4px 9px;
-  border-radius:7px;border:1.5px solid transparent;
-  transition:all .1s;text-transform:uppercase;letter-spacing:.4px;
-  -webkit-user-select:none;user-select:none;
-}
+.sch{font-size:10px;font-weight:800;padding:4px 9px;border-radius:7px;border:1.5px solid transparent;transition:all .1s;text-transform:uppercase;letter-spacing:.4px;-webkit-user-select:none;user-select:none;}
 .sch:active{transform:scale(.93)}
 .sch.cur{box-shadow:0 0 0 2px currentColor}
 .s-pe{background:var(--ylw-d);color:var(--ylw);border-color:var(--ylw)}
@@ -324,42 +182,18 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 .s-dd{background:rgba(176,111,255,.2);color:#c8a7ff;border-color:#c8a7ff}
 .s-co{background:rgba(0,217,126,.2);color:#4dffa6;border-color:#4dffa6}
 .s-ca{background:var(--red-d);color:var(--red);border-color:var(--red)}
-.orders-empty{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  flex:1;gap:10px;color:var(--txt3);font-size:13px;
-}
+.orders-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:10px;color:var(--txt3);font-size:13px;}
 
-/* ══════════════════════════════════════
-   PAGE: ACTIVITY (Lịch sử đơn hàng)
-   → Tap bất kỳ đơn → Xem hoá đơn → Gửi PDF
-══════════════════════════════════════ */
+/* PAGE: ACTIVITY */
 #pg-activity{background:var(--bg)}
-.act-hdr{
-  padding:10px 12px;background:var(--s1);border-bottom:1px solid var(--brd);
-  flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
-}
+.act-hdr{padding:10px 12px;background:var(--s1);border-bottom:1px solid var(--brd);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;}
 .act-hdr-t{font-size:15px;font-weight:800}
-.act-filter{
-  display:flex;gap:6px;padding:8px 12px;
-  background:var(--s1);border-bottom:1px solid var(--brd);flex-shrink:0;
-  overflow-x:auto;
-}
+.act-filter{display:flex;gap:6px;padding:8px 12px;background:var(--s1);border-bottom:1px solid var(--brd);flex-shrink:0;overflow-x:auto;}
 .act-filter::-webkit-scrollbar{display:none}
-.af-btn{
-  white-space:nowrap;padding:5px 12px;border-radius:14px;
-  border:1.5px solid var(--brd);color:var(--txt2);
-  font-size:11px;font-weight:700;background:none;flex-shrink:0;
-  transition:all .15s;
-}
+.af-btn{white-space:nowrap;padding:5px 12px;border-radius:14px;border:1.5px solid var(--brd);color:var(--txt2);font-size:11px;font-weight:700;background:none;flex-shrink:0;transition:all .15s;}
 .af-btn.on{background:var(--acc-d);border-color:var(--acc);color:var(--acc)}
 #act-list{flex:1;overflow-y:auto;padding:10px}
-/* Activity Item */
-.ai{
-  background:var(--s2);border:1.5px solid var(--brd);
-  border-radius:var(--r);padding:12px;margin-bottom:8px;
-  cursor:pointer;transition:border-color .15s;
-  display:flex;align-items:center;gap:10px;
-}
+.ai{background:var(--s2);border:1.5px solid var(--brd);border-radius:var(--r);padding:12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s;display:flex;align-items:center;gap:10px;}
 .ai:active{border-color:var(--acc)}
 .ai-left{flex:1;min-width:0}
 .ai-row1{display:flex;align-items:center;gap:6px;margin-bottom:3px}
@@ -371,42 +205,19 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 .ai-right{text-align:right;flex-shrink:0}
 .ai-total{font-family:var(--mono);font-size:14px;font-weight:800;color:var(--acc)}
 .ai-pm{font-size:10px;color:var(--txt3);margin-top:2px}
-.ai-inv-ico{font-size:20px;margin-left:4px;color:var(--txt3)}
-.act-empty{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  flex:1;gap:10px;color:var(--txt3);font-size:13px;
-}
+.act-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:10px;color:var(--txt3);font-size:13px;}
 
-/* ══════════════════════════════════════
-   INVOICE BOTTOM SHEET
-   (Only opens from Activity tab on demand)
-══════════════════════════════════════ */
-#sheet-ov{
-  position:fixed;inset:0;z-index:300;
-  background:rgba(0,0,0,.72);backdrop-filter:blur(4px);
-  display:flex;align-items:flex-end;
-  opacity:0;pointer-events:none;transition:opacity .22s;
-}
+/* INVOICE SHEET */
+#sheet-ov{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .22s;}
 #sheet-ov.open{opacity:1;pointer-events:all}
-.sheet{
-  width:100%;max-height:95vh;
-  background:var(--s1);border-radius:22px 22px 0 0;
-  overflow:hidden;display:flex;flex-direction:column;
-  transform:translateY(100%);
-  transition:transform .28s cubic-bezier(.32,0,.2,1);
-}
+.sheet{width:100%;max-height:95vh;background:var(--s1);border-radius:22px 22px 0 0;overflow:hidden;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .28s cubic-bezier(.32,0,.2,1);}
 #sheet-ov.open .sheet{transform:translateY(0)}
 .sh-drag{width:36px;height:4px;border-radius:2px;background:var(--brd);margin:12px auto 0;flex-shrink:0}
 .sh-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;flex-shrink:0}
 .sh-ttl{font-size:16px;font-weight:800}
 .sh-close{width:30px;height:30px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;color:var(--txt2);font-size:16px}
 .sh-body{flex:1;overflow-y:auto;padding:0 16px 32px}
-/* Invoice white card for PDF */
-#inv-card{
-  background:#fff;color:#111;border-radius:10px;
-  padding:18px;margin-bottom:14px;font-size:12px;
-  box-shadow:0 2px 12px rgba(0,0,0,.15);
-}
+#inv-card{background:#fff;color:#111;border-radius:10px;padding:18px;margin-bottom:14px;font-size:12px;box-shadow:0 2px 12px rgba(0,0,0,.15);}
 #inv-card *{color:#111;font-family:'Be Vietnam Pro',sans-serif}
 .inv-top{text-align:center;margin-bottom:12px}
 .inv-logo{font-size:19px;font-weight:900;letter-spacing:-0.5px}
@@ -421,40 +232,19 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 .inv-sum{padding:2px 0;display:flex;justify-content:space-between;font-size:11px}
 .inv-grand{font-weight:900;font-size:14px;border-top:1.5px solid #111;padding-top:6px;margin-top:4px;display:flex;justify-content:space-between}
 .inv-foot{text-align:center;font-size:10px;color:#aaa;margin-top:10px;line-height:1.5}
-/* Sheet actions */
 .sh-section-lbl{font-size:11px;font-weight:800;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.sh-act-btn{
-  width:100%;padding:13px;border-radius:var(--r);
-  font-size:14px;font-weight:800;margin-bottom:10px;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
+.sh-act-btn{width:100%;padding:13px;border-radius:var(--r);font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;}
 .sh-pdf-btn{background:var(--red-d);border:1.5px solid var(--red);color:var(--red)}
-.sh-email-wrap{
-  background:var(--s2);border:1px solid var(--brd);
-  border-radius:var(--r);padding:12px;margin-bottom:10px;
-}
+.sh-email-wrap{background:var(--s2);border:1px solid var(--brd);border-radius:var(--r);padding:12px;margin-bottom:10px;}
 .sh-email-lbl{font-size:11px;color:var(--txt2);margin-bottom:6px;font-weight:600}
 .sh-email-row{display:flex;gap:8px}
-.sh-email-inp{
-  flex:1;background:var(--s3);border:1.5px solid var(--brd);
-  border-radius:8px;padding:10px 12px;color:var(--txt);
-  font-size:13px;outline:none;transition:border-color .2s;
-}
+.sh-email-inp{flex:1;background:var(--s3);border:1.5px solid var(--brd);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:13px;outline:none;transition:border-color .2s;}
 .sh-email-inp:focus{border-color:var(--grn)}
-.sh-send-btn{
-  background:var(--grn);color:#000;border-radius:8px;
-  padding:10px 16px;font-size:13px;font-weight:800;flex-shrink:0;
-}
+.sh-send-btn{background:var(--grn);color:#000;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:800;flex-shrink:0;}
 .sh-send-btn:active{opacity:.8}
-.sh-close-btn{
-  width:100%;background:var(--s3);border:1.5px solid var(--brd);
-  color:var(--txt2);border-radius:var(--r);padding:12px;
-  font-size:14px;font-weight:700;margin-top:4px;
-}
+.sh-close-btn{width:100%;background:var(--s3);border:1.5px solid var(--brd);color:var(--txt2);border-radius:var(--r);padding:12px;font-size:14px;font-weight:700;margin-top:4px;}
 
-/* ══════════════════════════════════════
-   PAGE: PROFILE
-══════════════════════════════════════ */
+/* PAGE: PROFILE */
 #pg-profile{background:var(--bg);overflow-y:auto}
 .prof-wrap{padding:16px}
 .prof-card{background:var(--s2);border:1.5px solid var(--brd);border-radius:var(--r2);padding:20px;margin-bottom:12px}
@@ -469,24 +259,12 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 .lang-toggle{background:var(--s3);border:1.5px solid var(--brd);color:var(--txt);border-radius:8px;padding:5px 13px;font-weight:700;font-size:13px}
 .logout-btn{width:100%;background:var(--red-d);border:1.5px solid var(--red);color:var(--red);border-radius:var(--r);padding:13px;font-size:14px;font-weight:800;margin-top:4px}
 
-/* ══════════════════════════════════════
-   TOAST
-══════════════════════════════════════ */
-#toast{
-  position:fixed;bottom:70px;left:50%;
-  transform:translateX(-50%) translateY(14px);
-  background:var(--s2);border:1.5px solid var(--brd);
-  border-radius:24px;padding:9px 20px;
-  font-size:13px;font-weight:600;z-index:9998;
-  opacity:0;transition:all .25s;pointer-events:none;
-  white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);
-}
+/* TOAST */
+#toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--s2);border:1.5px solid var(--brd);border-radius:24px;padding:9px 20px;font-size:13px;font-weight:600;z-index:9998;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.ok{border-color:var(--grn);color:var(--grn)}
 #toast.err{border-color:var(--red);color:var(--red)}
 #toast.inf{border-color:var(--blu);color:var(--blu)}
-
-/* SPINNER */
 .spin{width:28px;height:28px;border:3px solid var(--brd);border-top-color:var(--acc);border-radius:50%;animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .ldr{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:12px;color:var(--txt2)}
@@ -494,12 +272,11 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 </head>
 <body>
 
-<!-- ══ AUTH ══ -->
 <div id="auth-ov">
   <div class="auth-wrap">
-    <div class="auth-ico">🍜</div>
-    <div class="auth-ttl">PhoBut POS</div>
-    <div class="auth-sub" id="auth-sub">Đăng nhập để bắt đầu ca làm việc</div>
+    <div class="auth-ico">🥗</div>
+    <div class="auth-ttl" id="auth-app-name">POS</div>
+    <div class="auth-sub">Đăng nhập để bắt đầu ca làm việc</div>
     <input id="ai-em" class="auth-inp" type="email" placeholder="Email" autocomplete="email"/>
     <input id="ai-pw" class="auth-inp" type="password" placeholder="Mật khẩu" autocomplete="current-password"/>
     <button class="auth-go" onclick="doLogin()">Đăng nhập</button>
@@ -507,18 +284,15 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
   </div>
 </div>
 
-<!-- ══ TOPBAR ══ -->
 <div id="topbar">
-  <div class="tb-logo">🍜 PhoBut</div>
+  <div class="tb-logo" id="tb-logo">🥗 POS</div>
   <div class="tb-br" id="tb-br">...</div>
   <div class="tb-sp"></div>
   <span class="tb-role role-cashier" id="tb-role">CASHIER</span>
   <button class="tb-langbtn" id="lb" onclick="toggleLang()">VI</button>
 </div>
 
-<!-- ══ PAGES ══ -->
 <div id="pages">
-
   <!-- MENU -->
   <div class="pg on" id="pg-menu">
     <div class="menu-topbar">
@@ -528,9 +302,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
     <div id="menu-grid">
       <div class="ldr" style="grid-column:1/-1"><div class="spin"></div><span>Đang tải thực đơn...</span></div>
     </div>
-    <button id="cart-fab" onclick="gPage('bill')">
-      🛒<span id="fab-badge">0</span>
-    </button>
+    <button id="cart-fab" onclick="gPage('bill')">🛒<span id="fab-badge">0</span></button>
   </div>
 
   <!-- BILL -->
@@ -563,7 +335,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
       </div>
       <div class="vmsg" id="v-msg"></div>
       <div class="brow"><span class="blbl" data-i18n="subtotal">Tạm tính</span><span class="bval" id="b-sub">0 ₫</span></div>
-      <div class="brow"><span class="blbl">VAT (10%)</span><span class="bval" id="b-vat">0 ₫</span></div>
+      <div class="brow"><span class="blbl">VAT (<span id="vat-pct">10</span>%)</span><span class="bval" id="b-vat">0 ₫</span></div>
       <div class="brow" id="b-disc-row" style="display:none">
         <span class="blbl" style="color:var(--grn)" data-i18n="discount">Giảm giá</span>
         <span class="bval" style="color:var(--grn)" id="b-disc">0 ₫</span>
@@ -577,9 +349,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
         <button class="pm-btn" data-pm="card" onclick="setPM('card')">💳 Thẻ</button>
         <button class="pm-btn" data-pm="transfer" onclick="setPM('transfer')">🏦 CK</button>
       </div>
-      <button id="co-btn" onclick="checkout()">
-        ✅ <span data-i18n="checkout">Thanh Toán</span>
-      </button>
+      <button id="co-btn" onclick="checkout()">✅ <span data-i18n="checkout">Thanh Toán</span></button>
     </div>
   </div>
 
@@ -592,11 +362,11 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
     <div id="orders-list"><div class="ldr"><div class="spin"></div></div></div>
   </div>
 
-  <!-- ACTIVITY — lịch sử đơn, tap để xem hoá đơn + gửi PDF -->
+  <!-- ACTIVITY -->
   <div class="pg" id="pg-activity">
     <div class="act-hdr">
       <span class="act-hdr-t" data-i18n="activity">Lịch Sử</span>
-      <span style="font-size:11px;color:var(--txt2)" data-i18n="act-sub">Tap đơn để xem & gửi hoá đơn PDF</span>
+      <span style="font-size:11px;color:var(--txt2)" data-i18n="act-sub">Tap đơn để xem & gửi PDF</span>
     </div>
     <div class="act-filter" id="act-filter">
       <button class="af-btn on" data-f="today" onclick="setActFilter('today')">Hôm nay</button>
@@ -618,47 +388,27 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
       </div>
       <div class="prof-card">
         <div class="pref-row">
-          <div>
-            <div class="pref-lbl" data-i18n="language">Ngôn ngữ</div>
-            <div class="pref-sub" id="lang-sub">Tiếng Việt</div>
-          </div>
+          <div><div class="pref-lbl" data-i18n="language">Ngôn ngữ</div><div class="pref-sub" id="lang-sub">Tiếng Việt</div></div>
           <button class="lang-toggle" id="plb" onclick="toggleLang()">EN</button>
         </div>
         <div class="pref-row">
-          <div>
-            <div class="pref-lbl">Chi nhánh</div>
-            <div class="pref-sub" id="p-br">...</div>
-          </div>
+          <div><div class="pref-lbl">Chi nhánh</div><div class="pref-sub" id="p-br">...</div></div>
         </div>
       </div>
       <button class="logout-btn" onclick="doLogout()">🚪 Đăng xuất</button>
     </div>
   </div>
-
-</div><!-- /pages -->
-
-<!-- ══ BOTTOM NAV ══ -->
-<div id="bnav">
-  <button class="bni on" id="bn-menu" onclick="gPage('menu')">
-    <span class="bni-ico">🍽️</span><span data-i18n="nav_menu">Menu</span>
-  </button>
-  <button class="bni" id="bn-bill" onclick="gPage('bill')">
-    <span class="bni-ico">🧾</span><span data-i18n="nav_bill">Hoá đơn</span>
-    <span class="bni-badge" id="bn-bill-badge">0</span>
-  </button>
-  <button class="bni" id="bn-orders" onclick="gPage('orders')">
-    <span class="bni-ico">📋</span><span data-i18n="nav_orders">Đơn</span>
-    <span class="bni-badge" id="bn-orders-badge">0</span>
-  </button>
-  <button class="bni" id="bn-activity" onclick="gPage('activity')">
-    <span class="bni-ico">📂</span><span data-i18n="nav_activity">Lịch sử</span>
-  </button>
-  <button class="bni" id="bn-profile" onclick="gPage('profile')">
-    <span class="bni-ico">👤</span><span data-i18n="nav_profile">Tôi</span>
-  </button>
 </div>
 
-<!-- ══ INVOICE SHEET (chỉ mở từ Activity) ══ -->
+<div id="bnav">
+  <button class="bni on" id="bn-menu" onclick="gPage('menu')"><span class="bni-ico">🍽️</span><span data-i18n="nav_menu">Menu</span></button>
+  <button class="bni" id="bn-bill" onclick="gPage('bill')"><span class="bni-ico">🧾</span><span data-i18n="nav_bill">Hoá đơn</span><span class="bni-badge" id="bn-bill-badge">0</span></button>
+  <button class="bni" id="bn-orders" onclick="gPage('orders')"><span class="bni-ico">📋</span><span data-i18n="nav_orders">Đơn</span><span class="bni-badge" id="bn-orders-badge">0</span></button>
+  <button class="bni" id="bn-activity" onclick="gPage('activity')"><span class="bni-ico">📂</span><span data-i18n="nav_activity">Lịch sử</span></button>
+  <button class="bni" id="bn-profile" onclick="gPage('profile')"><span class="bni-ico">👤</span><span data-i18n="nav_profile">Tôi</span></button>
+</div>
+
+<!-- INVOICE SHEET -->
 <div id="sheet-ov" onclick="closeSheetBg(event)">
   <div class="sheet">
     <div class="sh-drag"></div>
@@ -667,16 +417,9 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
       <button class="sh-close" onclick="closeSheet()">✕</button>
     </div>
     <div class="sh-body">
-      <!-- White invoice card - PDF source -->
       <div id="inv-card"></div>
-
-      <!-- Download PDF -->
       <div class="sh-section-lbl" data-i18n="lbl_pdf">Xuất PDF</div>
-      <button class="sh-act-btn sh-pdf-btn" onclick="downloadPDF()">
-        📥 <span data-i18n="btn_download_pdf">Tải Hoá Đơn PDF</span>
-      </button>
-
-      <!-- Send email -->
+      <button class="sh-act-btn sh-pdf-btn" onclick="downloadPDF()">📥 <span data-i18n="btn_download_pdf">Tải Hoá Đơn PDF</span></button>
       <div class="sh-email-wrap">
         <div class="sh-email-lbl" data-i18n="lbl_send_email">Gửi hoá đơn qua Email</div>
         <div class="sh-email-row">
@@ -684,161 +427,196 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
           <button class="sh-send-btn" onclick="sendPDFEmail()">📤 <span data-i18n="btn_send">Gửi</span></button>
         </div>
       </div>
-
       <button class="sh-close-btn" onclick="closeSheet()" data-i18n="btn_close">Đóng</button>
     </div>
   </div>
 </div>
 
-<!-- ══ TOAST ══ -->
 <div id="toast"></div>
 
-<!-- ══════════════════════════════════════
-     FIREBASE + APP LOGIC
-══════════════════════════════════════ -->
 <script type="module">
-import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
-  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, collection, doc, onSnapshot, query,
+// ══════════════════════════════════════════════════════
+//  IMPORT CONFIG — Không hardcode bất kỳ key nào ở đây
+// ══════════════════════════════════════════════════════
+import {
+  FIREBASE_CONFIG,
+  SUPER_ADMIN_EMAIL,
+  EMAILJS_CONFIG,
+  APP_NAME,
+  APP_LOGO_EMOJI,
+  DEFAULT_VAT
+} from './config.js';
+
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import {
+  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import {
+  getFirestore, collection, doc, onSnapshot, query,
   where, orderBy, limit, addDoc, updateDoc, getDoc,
-  getDocs, serverTimestamp, Timestamp }
-  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  getDocs, serverTimestamp, Timestamp
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-/* ─────────────────────────────
-   CONFIG
-───────────────────────────── */
-const firebaseConfig = {
-  apiKey:    "AIzaSyA0zujbTZbHe_7gAe_y9QkrcR4qXKC6Abo",
-  authDomain:"veggiesaigonchain.firebaseapp.com",
-  projectId: "veggiesaigonchain"
-};
-const ADMIN_EMAIL  = "chaysaigon@gmail.com";
-const cloudName    = "dym7dwnji";
-const uploadPreset = "qjrpdbhs";
-/* EmailJS — setup tại emailjs.com, thay 3 giá trị bên dưới */
-const EJS_SVC  = "service_phobut";       // ← Service ID của bạn
-const EJS_TPL  = "template_invoice";     // ← Template ID
-const EJS_KEY  = "YOUR_EMAILJS_PUBLIC_KEY"; // ← Public Key
-
-const fbApp = initializeApp(firebaseConfig);
+// ── Init Firebase ──────────────────────────────────────
+const fbApp = initializeApp(FIREBASE_CONFIG);
 const auth  = getAuth(fbApp);
 const db    = getFirestore(fbApp);
 
-/* ─────────────────────────────
-   i18n
-───────────────────────────── */
+// ── Cập nhật branding từ config ───────────────────────
+document.getElementById('auth-app-name').textContent = APP_NAME + ' POS';
+document.getElementById('tb-logo').textContent = APP_LOGO_EMOJI + ' ' + APP_NAME;
+document.title = APP_NAME + ' — Thu Ngân';
+
+// ══════════════════════════════════════════════════════
+//  i18n
+// ══════════════════════════════════════════════════════
 const LANG = {
   vi:{
-    nav_menu:"Menu",nav_bill:"Hoá đơn",nav_orders:"Đơn",nav_activity:"Lịch sử",nav_profile:"Tôi",
-    live_orders:"Đơn Realtime",activity:"Lịch Sử",
-    "act-sub":"Tap đơn để xem & gửi hoá đơn PDF",
-    bill:"Hoá Đơn",bill_empty:"Chưa có món — chọn từ thực đơn",
-    subtotal:"Tạm tính",discount:"Giảm giá",total:"TỔNG",
-    clear:"Xoá tất cả",apply:"Áp dụng",checkout:"Thanh Toán",
-    language:"Ngôn ngữ",lang_name:"Tiếng Việt",
-    all_cat:"Tất cả",sold_out:"Hết hàng",no_items:"Vui lòng chọn món",
+    nav_menu:"Menu", nav_bill:"Hoá đơn", nav_orders:"Đơn",
+    nav_activity:"Lịch sử", nav_profile:"Tôi",
+    live_orders:"Đơn Realtime", activity:"Lịch Sử",
+    "act-sub":"Tap đơn để xem & gửi PDF",
+    bill:"Hoá Đơn", bill_empty:"Chưa có món — chọn từ thực đơn",
+    subtotal:"Tạm tính", discount:"Giảm giá", total:"TỔNG",
+    clear:"Xoá tất cả", apply:"Áp dụng", checkout:"Thanh Toán",
+    language:"Ngôn ngữ", lang_name:"Tiếng Việt",
+    all_cat:"Tất cả", sold_out:"Hết hàng", no_items:"Vui lòng chọn món",
     order_ok:"✅ Đặt đơn thành công!",
-    lbl_pdf:"Xuất PDF",btn_download_pdf:"Tải Hoá Đơn PDF",
-    lbl_send_email:"Gửi hoá đơn qua Email",btn_send:"Gửi",btn_close:"Đóng",
-    pdf_gen:"Đang tạo PDF...",email_ok:"📧 Đã gửi email!",email_err:"Lỗi gửi email",
-    s_pe:"Chờ xác nhận",s_pa:"Đã thanh toán",s_pr:"Đang chuẩn bị",
-    s_de:"Đang giao",s_dd:"Đã giao",s_co:"Hoàn thành",s_ca:"Đã hủy",
+    lbl_pdf:"Xuất PDF", btn_download_pdf:"Tải Hoá Đơn PDF",
+    lbl_send_email:"Gửi hoá đơn qua Email", btn_send:"Gửi", btn_close:"Đóng",
+    pdf_gen:"Đang tạo PDF...", email_ok:"📧 Đã gửi email!", email_err:"Lỗi gửi email",
+    s_pe:"Chờ XN", s_pa:"Đã TT", s_pr:"Chuẩn bị",
+    s_de:"Đang giao", s_dd:"Đã giao", s_co:"Hoàn thành", s_ca:"Đã hủy",
   },
   en:{
-    nav_menu:"Menu",nav_bill:"Bill",nav_orders:"Orders",nav_activity:"History",nav_profile:"Me",
-    live_orders:"Live Orders",activity:"History",
-    "act-sub":"Tap an order to view & send PDF invoice",
-    bill:"Bill",bill_empty:"No items — tap menu to add",
-    subtotal:"Subtotal",discount:"Discount",total:"TOTAL",
-    clear:"Clear all",apply:"Apply",checkout:"Checkout",
-    language:"Language",lang_name:"English",
-    all_cat:"All",sold_out:"Sold out",no_items:"Please select items",
+    nav_menu:"Menu", nav_bill:"Bill", nav_orders:"Orders",
+    nav_activity:"History", nav_profile:"Me",
+    live_orders:"Live Orders", activity:"History",
+    "act-sub":"Tap order to view & send PDF",
+    bill:"Bill", bill_empty:"No items — tap menu to add",
+    subtotal:"Subtotal", discount:"Discount", total:"TOTAL",
+    clear:"Clear all", apply:"Apply", checkout:"Checkout",
+    language:"Language", lang_name:"English",
+    all_cat:"All", sold_out:"Sold out", no_items:"Please select items",
     order_ok:"✅ Order placed!",
-    lbl_pdf:"Export PDF",btn_download_pdf:"Download Invoice PDF",
-    lbl_send_email:"Send invoice via Email",btn_send:"Send",btn_close:"Close",
-    pdf_gen:"Generating PDF...",email_ok:"📧 Email sent!",email_err:"Email error",
-    s_pe:"Pending",s_pa:"Paid",s_pr:"Preparing",
-    s_de:"Delivering",s_dd:"Delivered",s_co:"Completed",s_ca:"Cancelled",
+    lbl_pdf:"Export PDF", btn_download_pdf:"Download Invoice PDF",
+    lbl_send_email:"Send invoice via Email", btn_send:"Send", btn_close:"Close",
+    pdf_gen:"Generating PDF...", email_ok:"📧 Email sent!", email_err:"Email error",
+    s_pe:"Pending", s_pa:"Paid", s_pr:"Preparing",
+    s_de:"Delivering", s_dd:"Delivered", s_co:"Completed", s_ca:"Cancelled",
   }
 };
 let lang = localStorage.getItem("pos_lang") || "vi";
 const t  = k => LANG[lang][k] || k;
 
-function applyLang(){
+function applyLang() {
   document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = t(el.dataset.i18n));
-  document.getElementById("search-inp").placeholder = lang==="vi" ? "Tìm món..." : "Search menu...";
-  document.getElementById("lb").textContent  = lang==="vi" ? "EN" : "VI";
-  document.getElementById("plb").textContent = lang==="vi" ? "EN" : "VI";
+  document.getElementById("search-inp").placeholder = lang === "vi" ? "Tìm món..." : "Search menu...";
+  document.getElementById("lb").textContent  = lang === "vi" ? "EN" : "VI";
+  document.getElementById("plb").textContent = lang === "vi" ? "EN" : "VI";
   document.getElementById("lang-sub").textContent = t("lang_name");
   renderMenu();
-  if(currentActOrders.length) renderActList(currentActOrders);
+  if (currentActOrders.length) renderActList(currentActOrders);
 }
 window.toggleLang = () => {
-  lang = lang==="vi" ? "en" : "vi";
+  lang = lang === "vi" ? "en" : "vi";
   localStorage.setItem("pos_lang", lang);
   applyLang();
 };
 
-/* ─────────────────────────────
-   STATE
-───────────────────────────── */
-let me=null, myRole=null, brId=null, brName="";
-let menuItems=[], allCats=[];
-let cart=[], discPct=0, vCode="", pm="cash", ot="dinein";
-let liveUnsub=null, actUnsub=null;
-let currentActOrders=[];
-let sheetOrder=null; // order currently shown in sheet
+// ══════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════
+let me = null, myRole = null, brId = null, brName = "";
+let branchVAT = DEFAULT_VAT; // % — lấy từ config, sẽ overwrite bởi branch settings
+let menuItems = [], allCats = [];
+let cart = [], discPct = 0, vCode = "", pm = "cash", ot = "dinein";
+let liveUnsub = null, actUnsub = null;
+let currentActOrders = [];
+let sheetOrder = null;
 
-/* ─────────────────────────────
-   AUTH
-───────────────────────────── */
+// ══════════════════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════════════════
 window.doLogin = async () => {
   const em = document.getElementById("ai-em").value.trim();
   const pw = document.getElementById("ai-pw").value;
   document.getElementById("auth-err").textContent = "";
-  try { await signInWithEmailAndPassword(auth, em, pw); }
-  catch { document.getElementById("auth-err").textContent = "Email hoặc mật khẩu không đúng."; }
+  try {
+    await signInWithEmailAndPassword(auth, em, pw);
+  } catch (e) {
+    document.getElementById("auth-err").textContent = "Email hoặc mật khẩu không đúng.";
+    console.error("Auth error:", e.code);
+  }
 };
 window.doLogout = () => signOut(auth);
 
 onAuthStateChanged(auth, async user => {
-  if (!user) { document.getElementById("auth-ov").style.display = "flex"; return; }
+  if (!user) {
+    document.getElementById("auth-ov").style.display = "flex";
+    return;
+  }
   me = user;
   await resolveRole(user);
 });
 
 async function resolveRole(user) {
-  const bSnap = await getDocs(collection(db, "Branches"));
-  if (user.email === ADMIN_EMAIL) {
-    brId = bSnap.docs[0]?.id;
-    brName = bSnap.docs[0]?.data().info?.name || brId;
-    myRole = "admin";
-  } else {
-    let found = false;
-    for (const b of bSnap.docs) {
-      const sd = await getDoc(doc(db, "Branches", b.id, "Staff", user.email));
-      if (sd.exists()) {
-        brId=b.id; brName=b.data().info?.name||b.id;
-        myRole=sd.data().role||"cashier"; found=true; break;
+  try {
+    const bSnap = await getDocs(collection(db, "Branches"));
+    if (user.email === SUPER_ADMIN_EMAIL) {
+      // Super admin: dùng chi nhánh đầu tiên
+      if (bSnap.empty) {
+        toast("Chưa có chi nhánh. Vào Admin để tạo.", "err");
+        return;
+      }
+      brId    = bSnap.docs[0].id;
+      const bData = bSnap.docs[0].data();
+      brName  = bData.info?.name || brId;
+      branchVAT = bData.info?.vat ?? DEFAULT_VAT;
+      myRole  = "admin";
+    } else {
+      let found = false;
+      for (const b of bSnap.docs) {
+        const sd = await getDoc(doc(db, "Branches", b.id, "Staff", user.email));
+        if (sd.exists()) {
+          brId    = b.id;
+          const bData = b.data();
+          brName  = bData.info?.name || b.id;
+          branchVAT = bData.info?.vat ?? DEFAULT_VAT;
+          myRole  = sd.data().role || "cashier";
+          found   = true;
+          break;
+        }
+      }
+      if (!found) {
+        toast("Tài khoản chưa được phân công chi nhánh.", "err");
+        signOut(auth);
+        return;
       }
     }
-    if (!found) { toast("Chưa được phân công chi nhánh", "err"); signOut(auth); return; }
+    bootApp();
+  } catch (e) {
+    toast("Lỗi kết nối: " + e.message, "err");
+    console.error("resolveRole error:", e);
   }
-  bootApp();
 }
 
 function bootApp() {
   document.getElementById("auth-ov").style.display = "none";
-  document.getElementById("tb-br").textContent   = brName;
-  document.getElementById("tb-role").textContent = myRole==="admin" ? "ADMIN" : "THU NGÂN";
-  document.getElementById("tb-role").className   = "tb-role " + (myRole==="admin" ? "role-admin" : "role-cashier");
-  document.getElementById("p-av").textContent    = me.email[0].toUpperCase();
-  document.getElementById("p-name").textContent  = me.displayName || me.email.split("@")[0];
-  document.getElementById("p-email").textContent = me.email;
-  document.getElementById("p-role").textContent  = myRole==="admin" ? "ADMIN" : "THU NGÂN";
-  document.getElementById("p-br").textContent    = brName;
-  if (typeof emailjs !== "undefined") emailjs.init(EJS_KEY);
+  document.getElementById("tb-br").textContent    = brName;
+  document.getElementById("tb-role").textContent  = myRole === "admin" ? "ADMIN" : "THU NGÂN";
+  document.getElementById("tb-role").className    = "tb-role " + (myRole === "admin" ? "role-admin" : "role-cashier");
+  document.getElementById("p-av").textContent     = me.email[0].toUpperCase();
+  document.getElementById("p-name").textContent   = me.displayName || me.email.split("@")[0];
+  document.getElementById("p-email").textContent  = me.email;
+  document.getElementById("p-role").textContent   = myRole === "admin" ? "ADMIN" : "THU NGÂN";
+  document.getElementById("p-br").textContent     = brName;
+  document.getElementById("vat-pct").textContent  = branchVAT;
+  // Init EmailJS nếu có config
+  if (typeof emailjs !== "undefined" && EMAILJS_CONFIG.publicKey !== "YOUR_EMAILJS_PUBLIC_KEY") {
+    emailjs.init(EMAILJS_CONFIG.publicKey);
+  }
   applyLang();
   loadMenu();
   subscribeOrders();
@@ -846,90 +624,106 @@ function bootApp() {
   updateBill();
 }
 
-/* ─────────────────────────────
-   NAVIGATION
-───────────────────────────── */
+// ══════════════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════════════
 window.gPage = page => {
   document.querySelectorAll(".pg").forEach(p  => p.classList.remove("on"));
   document.querySelectorAll(".bni").forEach(b => b.classList.remove("on"));
-  document.getElementById("pg-"+page)?.classList.add("on");
-  document.getElementById("bn-"+page)?.classList.add("on");
+  document.getElementById("pg-" + page)?.classList.add("on");
+  document.getElementById("bn-" + page)?.classList.add("on");
   if (page === "bill")     renderCart();
   if (page === "activity") loadActivity(currentActFilter);
 };
 
-/* ─────────────────────────────
-   MENU
-───────────────────────────── */
-async function loadMenu() {
-  onSnapshot(collection(db, "Branches", brId, "Menus"), snap => {
-    menuItems = snap.docs.map(d => ({id:d.id, ...d.data()}));
+// ══════════════════════════════════════════════════════
+//  MENU — load từ Branches/{brId}/Menus (realtime)
+// ══════════════════════════════════════════════════════
+let menuUnsub = null;
+function loadMenu() {
+  if (menuUnsub) menuUnsub();
+  menuUnsub = onSnapshot(collection(db, "Branches", brId, "Menus"), snap => {
+    menuItems = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     allCats   = [...new Set(menuItems.map(m => m.category).filter(Boolean))];
-    renderCats(); renderMenu();
+    renderCats();
+    renderMenu();
+  }, err => {
+    console.error("loadMenu error:", err);
+    toast("Lỗi tải thực đơn: " + err.message, "err");
   });
 }
+
 let activeCat = "all", menuSearch = "";
 
 function renderCats() {
   document.getElementById("cat-bar").innerHTML =
-    `<button class="cat-p ${activeCat==="all"?"on":""}" onclick="setCat('all')">${t("all_cat")}</button>` +
+    `<button class="cat-p ${activeCat === "all" ? "on" : ""}" onclick="setCat('all')">${t("all_cat")}</button>` +
     allCats.map(c =>
-      `<button class="cat-p ${activeCat===c?"on":""}" onclick="setCat('${c}')">${c}</button>`
+      `<button class="cat-p ${activeCat === c ? "on" : ""}" onclick="setCat('${c}')">${c}</button>`
     ).join("");
 }
-window.setCat = c => { activeCat=c; renderCats(); renderMenu(); };
-window.filterMenu = v => { menuSearch=v.toLowerCase(); renderMenu(); };
+window.setCat = c => { activeCat = c; renderCats(); renderMenu(); };
+window.filterMenu = v => { menuSearch = v.toLowerCase(); renderMenu(); };
 
 function renderMenu() {
   const g = document.getElementById("menu-grid");
   let items = menuItems;
-  if (activeCat !== "all") items = items.filter(m => m.category===activeCat);
+  if (activeCat !== "all") items = items.filter(m => m.category === activeCat);
   if (menuSearch) items = items.filter(m => m.name?.toLowerCase().includes(menuSearch));
   if (!items.length) {
     g.innerHTML = `<div class="ldr" style="grid-column:1/-1;color:var(--txt3)"><span>Không có món</span></div>`;
     return;
   }
   g.innerHTML = items.map(m => `
-  <div class="mc ${m.stock===0?"oos":""}" onclick="addToCart('${m.id}')">
-    ${m.stock===0?`<span class="mc-oos-lbl">${t("sold_out")}</span>`:""}
+  <div class="mc ${m.stock === 0 ? "oos" : ""}" onclick="addToCart('${m.id}')">
+    ${m.stock === 0 ? `<span class="mc-oos-lbl">${t("sold_out")}</span>` : ""}
     <img class="mc-img"
-      src="${m.image||"https://placehold.co/300x225/1c2233/3d4f70?text=🍜"}"
+      src="${m.image || "https://placehold.co/300x225/1c2233/3d4f70?text=🥗"}"
       alt="${m.name}" loading="lazy"
-      onerror="this.src='https://placehold.co/300x225/1c2233/3d4f70?text=🍜'"/>
+      onerror="this.src='https://placehold.co/300x225/1c2233/3d4f70?text=🥗'"/>
     <div class="mc-body">
       <div class="mc-name">${m.name}</div>
       <div class="mc-price">${fmt(m.price)}</div>
-      <div class="mc-stk">${m.stock>=0?"Còn: "+m.stock:"∞"}</div>
+      <div class="mc-stk">${m.stock >= 0 ? "Còn: " + m.stock : "∞"}</div>
     </div>
   </div>`).join("");
 }
 
-/* ─────────────────────────────
-   CART
-───────────────────────────── */
+// ══════════════════════════════════════════════════════
+//  CART
+// ══════════════════════════════════════════════════════
 window.addToCart = id => {
-  const item = menuItems.find(m => m.id===id); if (!item) return;
-  const ex = cart.find(c => c.id===id);
-  if (ex) ex.qty++; else cart.push({id, name:item.name, price:item.price, qty:1});
-  updateBadge(); toast("+ " + item.name, "ok");
+  const item = menuItems.find(m => m.id === id);
+  if (!item || item.stock === 0) return;
+  const ex = cart.find(c => c.id === id);
+  if (ex) ex.qty++;
+  else cart.push({ id, name: item.name, price: item.price, qty: 1 });
+  updateBadge();
+  toast("+ " + item.name, "ok");
 };
+
 window.chQty = (id, d) => {
-  const i = cart.findIndex(c => c.id===id); if (i<0) return;
+  const i = cart.findIndex(c => c.id === id);
+  if (i < 0) return;
   cart[i].qty += d;
-  if (cart[i].qty <= 0) cart.splice(i,1);
-  renderCart(); updateBadge();
+  if (cart[i].qty <= 0) cart.splice(i, 1);
+  renderCart();
+  updateBadge();
 };
+
 window.clearCart = () => {
-  cart=[]; discPct=0; vCode="";
-  document.getElementById("v-code").value="";
-  document.getElementById("v-msg").textContent="";
-  renderCart(); updateBadge();
+  cart = []; discPct = 0; vCode = "";
+  document.getElementById("v-code").value = "";
+  document.getElementById("v-msg").textContent = "";
+  renderCart();
+  updateBadge();
 };
 
 function updateBadge() {
-  const n = cart.reduce((s,c) => s+c.qty, 0);
+  const n = cart.reduce((s, c) => s + c.qty, 0);
   [document.getElementById("fab-badge"), document.getElementById("bn-bill-badge")].forEach(b => {
-    b.style.display = n ? "flex" : "none"; b.textContent = n;
+    b.style.display = n ? "flex" : "none";
+    b.textContent   = n;
   });
 }
 
@@ -937,10 +731,15 @@ function renderCart() {
   const list  = document.getElementById("bill-list");
   const empty = document.getElementById("bill-empty");
   list.querySelectorAll(".ci").forEach(e => e.remove());
-  if (!cart.length) { empty.style.display="flex"; updateBill(); return; }
+  if (!cart.length) {
+    empty.style.display = "flex";
+    updateBill();
+    return;
+  }
   empty.style.display = "none";
   cart.forEach(c => {
-    const d = document.createElement("div"); d.className="ci";
+    const d = document.createElement("div");
+    d.className = "ci";
     d.innerHTML = `
     <div class="ci-info">
       <div class="ci-name">${c.name}</div>
@@ -951,15 +750,15 @@ function renderCart() {
       <span class="ci-qty">${c.qty}</span>
       <button class="qbtn" onclick="chQty('${c.id}',1)">+</button>
     </div>
-    <div class="ci-tot">${fmt(c.price*c.qty)}</div>`;
+    <div class="ci-tot">${fmt(c.price * c.qty)}</div>`;
     list.appendChild(d);
   });
   updateBill();
 }
 
 function updateBill() {
-  const sub  = cart.reduce((s,c) => s+c.price*c.qty, 0);
-  const vat  = Math.round(sub * 0.1);
+  const sub  = cart.reduce((s, c) => s + c.price * c.qty, 0);
+  const vat  = Math.round(sub * branchVAT / 100);
   const disc = Math.round(sub * discPct / 100);
   const tot  = sub + vat - disc;
   document.getElementById("b-sub").textContent   = fmt(sub);
@@ -967,119 +766,140 @@ function updateBill() {
   document.getElementById("b-disc").textContent  = `-${fmt(disc)}`;
   document.getElementById("b-total").textContent = fmt(tot);
   document.getElementById("b-disc-row").style.display = discPct ? "flex" : "none";
-  window._bill = {sub, vat, disc, tot};
+  window._bill = { sub, vat, disc, tot };
 }
 
 window.setOT = type => {
   ot = type;
-  document.querySelectorAll(".ot-tab").forEach(b => b.classList.toggle("on", b.dataset.ot===type));
+  document.querySelectorAll(".ot-tab").forEach(b => b.classList.toggle("on", b.dataset.ot === type));
 };
 window.setPM = method => {
   pm = method;
-  document.querySelectorAll(".pm-btn").forEach(b => b.classList.toggle("on", b.dataset.pm===method));
+  document.querySelectorAll(".pm-btn").forEach(b => b.classList.toggle("on", b.dataset.pm === method));
 };
 
-/* ─────────────────────────────
-   VOUCHER
-───────────────────────────── */
+// ══════════════════════════════════════════════════════
+//  VOUCHER
+// ══════════════════════════════════════════════════════
 window.applyVoucher = async () => {
   const code = document.getElementById("v-code").value.trim().toUpperCase();
   const msg  = document.getElementById("v-msg");
-  if (!code) { discPct=0; vCode=""; updateBill(); msg.textContent=""; return; }
+  if (!code) { discPct = 0; vCode = ""; updateBill(); msg.textContent = ""; return; }
   try {
-    const vs = await getDoc(doc(db,"Branches",brId,"Vouchers",code));
-    if (!vs.exists() || vs.data().active===false) {
-      msg.style.color="var(--red)"; msg.textContent="Mã không hợp lệ hoặc hết hạn";
-      discPct=0; updateBill(); return;
+    const vs = await getDoc(doc(db, "Branches", brId, "Vouchers", code));
+    if (!vs.exists() || vs.data().active === false) {
+      msg.style.color = "var(--red)";
+      msg.textContent = "Mã không hợp lệ hoặc hết hạn";
+      discPct = 0; updateBill();
+      return;
     }
-    discPct=vs.data().percent||0; vCode=code;
-    msg.style.color="var(--grn)"; msg.textContent=`✓ Giảm ${discPct}%`;
+    discPct = vs.data().percent || 0;
+    vCode   = code;
+    msg.style.color = "var(--grn)";
+    msg.textContent = `✓ Giảm ${discPct}%`;
     updateBill();
-  } catch(e) { msg.style.color="var(--red)"; msg.textContent="Lỗi kiểm tra mã"; }
+  } catch (e) {
+    msg.style.color = "var(--red)";
+    msg.textContent = "Lỗi kiểm tra mã";
+    console.error("applyVoucher error:", e);
+  }
 };
 
-/* ─────────────────────────────
-   CHECKOUT — lưu đơn, reset cart, KHÔNG mở sheet
-   Người dùng vào tab Lịch sử để tự chọn đơn xem hoá đơn
-───────────────────────────── */
+// ══════════════════════════════════════════════════════
+//  CHECKOUT — lưu đơn, reset giỏ hàng
+// ══════════════════════════════════════════════════════
 window.checkout = async () => {
   if (!cart.length) { toast(t("no_items"), "err"); return; }
-  const btn = document.getElementById("co-btn"); btn.disabled=true;
+  const btn = document.getElementById("co-btn");
+  btn.disabled = true;
   const orderData = {
-    items: cart.map(c=>({id:c.id, name:c.name, price:c.price, qty:c.qty})),
-    subtotal: window._bill.sub,
-    vat:      window._bill.vat,
-    discount: window._bill.disc,
-    total:    window._bill.tot,
+    items:         cart.map(c => ({ id: c.id, name: c.name, price: c.price, qty: c.qty })),
+    subtotal:      window._bill.sub,
+    vat:           window._bill.vat,
+    discount:      window._bill.disc,
+    total:         window._bill.tot,
     paymentMethod: pm,
-    orderType: ot,
-    voucherCode: vCode||null,
-    status: "pending",
-    cashierEmail: me.email,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp()
+    orderType:     ot,
+    voucherCode:   vCode || null,
+    status:        "pending",
+    cashierEmail:  me.email,
+    createdAt:     serverTimestamp(),
+    updatedAt:     serverTimestamp()
   };
   try {
-    await addDoc(collection(db,"Branches",brId,"Orders"), orderData);
-    // Reset
-    cart=[]; discPct=0; vCode="";
-    document.getElementById("v-code").value="";
-    document.getElementById("v-msg").textContent="";
-    renderCart(); updateBadge();
+    await addDoc(collection(db, "Branches", brId, "Orders"), orderData);
+    cart = []; discPct = 0; vCode = "";
+    document.getElementById("v-code").value = "";
+    document.getElementById("v-msg").textContent = "";
+    renderCart();
+    updateBadge();
     toast(t("order_ok"), "ok");
-    // Chuyển về tab menu để chọn đơn tiếp theo
     gPage("menu");
-  } catch(e) { toast("Lỗi: "+e.message, "err"); }
-  finally { btn.disabled=false; }
+  } catch (e) {
+    toast("Lỗi đặt đơn: " + e.message, "err");
+    console.error("checkout error:", e);
+  } finally {
+    btn.disabled = false;
+  }
 };
 
-/* ─────────────────────────────
-   LIVE ORDERS (Realtime)
-───────────────────────────── */
-const SLIST   = ["pending","paid","preparing","delivering","delivered","completed","cancelled"];
-const S_KEY   = {pending:"s_pe",paid:"s_pa",preparing:"s_pr",delivering:"s_de",delivered:"s_dd",completed:"s_co",cancelled:"s_ca"};
-const S_CLS   = {pending:"s-pe",paid:"s-pa",preparing:"s-pr",delivering:"s-de",delivered:"s-dd",completed:"s-co",cancelled:"s-ca"};
-const CH_CLS  = {dinein:"ch-di",takeaway:"ch-ta",weborder:"ch-wo",apporder:"ch-ao"};
-const CH_LBL  = {dinein:"🪑 Tại chỗ",takeaway:"🥡 Mang về",weborder:"🌐 Web",apporder:"📱 App"};
-const PM_LBL  = {cash:"Tiền mặt",card:"Thẻ",transfer:"Chuyển khoản"};
+// ══════════════════════════════════════════════════════
+//  LIVE ORDERS
+// ══════════════════════════════════════════════════════
+const SLIST  = ["pending","paid","preparing","delivering","delivered","completed","cancelled"];
+const S_KEY  = { pending:"s_pe",paid:"s_pa",preparing:"s_pr",delivering:"s_de",delivered:"s_dd",completed:"s_co",cancelled:"s_ca" };
+const S_CLS  = { pending:"s-pe",paid:"s-pa",preparing:"s-pr",delivering:"s-de",delivered:"s-dd",completed:"s-co",cancelled:"s-ca" };
+const CH_CLS = { dinein:"ch-di",takeaway:"ch-ta",weborder:"ch-wo",apporder:"ch-ao" };
+const CH_LBL = { dinein:"🪑 Tại chỗ",takeaway:"🥡 Mang về",weborder:"🌐 Web",apporder:"📱 App" };
+const PM_LBL = { cash:"Tiền mặt",card:"Thẻ",transfer:"Chuyển khoản" };
 
 function subscribeOrders() {
   if (liveUnsub) liveUnsub();
   const q = query(
-    collection(db,"Branches",brId,"Orders"),
-    where("status","in",["pending","paid","preparing","delivering"]),
-    orderBy("createdAt","desc"), limit(60)
+    collection(db, "Branches", brId, "Orders"),
+    where("status", "in", ["pending","paid","preparing","delivering"]),
+    orderBy("createdAt", "desc"),
+    limit(60)
   );
   liveUnsub = onSnapshot(q, snap => {
-    const orders = snap.docs.map(d=>({id:d.id,...d.data()}));
+    const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderLiveOrders(orders);
     const n = orders.length;
     const b = document.getElementById("bn-orders-badge");
-    b.style.display = n?"flex":"none"; b.textContent=n;
+    b.style.display = n ? "flex" : "none";
+    b.textContent   = n;
     document.getElementById("orders-cnt").textContent = n ? `${n} đang hoạt động` : "";
+  }, err => {
+    console.error("subscribeOrders error:", err);
   });
 }
 
 function renderLiveOrders(orders) {
   const list = document.getElementById("orders-list");
   if (!orders.length) {
-    list.innerHTML=`<div class="orders-empty"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Không có đơn đang hoạt động</div>`;
+    list.innerHTML = `<div class="orders-empty">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+      </svg>Không có đơn đang hoạt động</div>`;
     return;
   }
   list.innerHTML = orders.map(o => {
-    const ts   = o.createdAt?.toDate?.()||new Date();
-    const tstr = ts.toLocaleTimeString("vi-VN",{hour:"2-digit",minute:"2-digit"});
+    const ts    = o.createdAt?.toDate?.() || new Date();
+    const tstr  = ts.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
     const chips = SLIST.map(s =>
-      `<button class="sch ${S_CLS[s]} ${o.status===s?"cur":""}" onclick="setSt('${o.id}','${s}')">${t(S_KEY[s])}</button>`
+      `<button class="sch ${S_CLS[s]} ${o.status === s ? "cur" : ""}" onclick="setSt('${o.id}','${s}')">${t(S_KEY[s])}</button>`
     ).join("");
     return `
     <div class="oc">
       <div class="oc-top">
-        <div><div class="oc-id">#${o.id.slice(-6).toUpperCase()}</div>
-          <span class="oc-ch ${CH_CLS[o.orderType]||"ch-di"}">${CH_LBL[o.orderType]||o.orderType}</span></div>
+        <div>
+          <div class="oc-id">#${o.id.slice(-6).toUpperCase()}</div>
+          <span class="oc-ch ${CH_CLS[o.orderType] || "ch-di"}">${CH_LBL[o.orderType] || o.orderType}</span>
+        </div>
         <div class="oc-time">${tstr}</div>
       </div>
-      <div class="oc-items">${(o.items||[]).map(i=>`${i.name} ×${i.qty}`).join(" · ")}</div>
+      <div class="oc-items">${(o.items || []).map(i => `${i.name} ×${i.qty}`).join(" · ")}</div>
       <div class="oc-total">${fmt(o.total)}</div>
       <div class="status-wrap">${chips}</div>
     </div>`;
@@ -1088,73 +908,86 @@ function renderLiveOrders(orders) {
 
 window.setSt = async (id, s) => {
   try {
-    await updateDoc(doc(db,"Branches",brId,"Orders",id), {status:s, updatedAt:serverTimestamp()});
+    await updateDoc(doc(db, "Branches", brId, "Orders", id), {
+      status: s, updatedAt: serverTimestamp()
+    });
     toast(t(S_KEY[s]), "inf");
-  } catch(e) { toast("Lỗi: "+e.message, "err"); }
+  } catch (e) {
+    toast("Lỗi cập nhật: " + e.message, "err");
+    console.error("setSt error:", e);
+  }
 };
 
-/* ─────────────────────────────
-   ACTIVITY — lịch sử đơn hàng
-   Tap đơn → mở sheet hoá đơn
-───────────────────────────── */
+// ══════════════════════════════════════════════════════
+//  ACTIVITY
+// ══════════════════════════════════════════════════════
 let currentActFilter = "today";
 
 window.setActFilter = filter => {
   currentActFilter = filter;
-  document.querySelectorAll(".af-btn").forEach(b => b.classList.toggle("on", b.dataset.f===filter));
+  document.querySelectorAll(".af-btn").forEach(b => b.classList.toggle("on", b.dataset.f === filter));
   loadActivity(filter);
 };
 
 async function loadActivity(filter) {
   document.getElementById("act-list").innerHTML = `<div class="ldr"><div class="spin"></div></div>`;
-  if (actUnsub) { actUnsub(); actUnsub=null; }
-
+  if (actUnsub) { actUnsub(); actUnsub = null; }
   const now = new Date();
   let fromDate = new Date();
-  if      (filter==="today") { fromDate.setHours(0,0,0,0); }
-  else if (filter==="week")  { fromDate.setDate(now.getDate()-7); }
-  else if (filter==="month") { fromDate.setDate(now.getDate()-30); }
-  else                       { fromDate = new Date(2020,0,1); }
+  if      (filter === "today") { fromDate.setHours(0, 0, 0, 0); }
+  else if (filter === "week")  { fromDate.setDate(now.getDate() - 7); }
+  else if (filter === "month") { fromDate.setDate(now.getDate() - 30); }
+  else                         { fromDate = new Date(2020, 0, 1); }
 
-  const q = filter==="all"
-    ? query(collection(db,"Branches",brId,"Orders"), orderBy("createdAt","desc"), limit(120))
-    : query(collection(db,"Branches",brId,"Orders"),
-        where("createdAt",">=", Timestamp.fromDate(fromDate)),
-        orderBy("createdAt","desc"), limit(120));
+  const q = filter === "all"
+    ? query(collection(db, "Branches", brId, "Orders"), orderBy("createdAt", "desc"), limit(120))
+    : query(
+        collection(db, "Branches", brId, "Orders"),
+        where("createdAt", ">=", Timestamp.fromDate(fromDate)),
+        orderBy("createdAt", "desc"),
+        limit(120)
+      );
 
   actUnsub = onSnapshot(q, snap => {
-    currentActOrders = snap.docs.map(d=>({id:d.id,...d.data()}));
+    currentActOrders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderActList(currentActOrders);
+  }, err => {
+    console.error("loadActivity error:", err);
+    toast("Lỗi tải lịch sử: " + err.message, "err");
   });
 }
 
 const ST_COLOR = {
-  pending:"var(--ylw)",paid:"var(--grn)",preparing:"var(--blu)",
-  delivering:"var(--pur)",delivered:"#c8a7ff",completed:"#4dffa6",cancelled:"var(--red)"
+  pending:"var(--ylw)", paid:"var(--grn)", preparing:"var(--blu)",
+  delivering:"var(--pur)", delivered:"#c8a7ff", completed:"#4dffa6", cancelled:"var(--red)"
 };
 
 function renderActList(orders) {
   const list = document.getElementById("act-list");
   if (!orders.length) {
-    list.innerHTML = `<div class="act-empty"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Không có đơn nào</div>`;
+    list.innerHTML = `<div class="act-empty">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+      </svg>Không có đơn nào</div>`;
     return;
   }
   list.innerHTML = orders.map(o => {
-    const ts   = o.createdAt?.toDate?.()||new Date();
-    const tstr = ts.toLocaleString("vi-VN",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
-    const st   = o.status||"pending";
-    const stColor = ST_COLOR[st]||"var(--txt3)";
-    const itemStr = (o.items||[]).map(i=>`${i.name} ×${i.qty}`).join(", ");
+    const ts      = o.createdAt?.toDate?.() || new Date();
+    const tstr    = ts.toLocaleString("vi-VN", { day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit" });
+    const st      = o.status || "pending";
+    const stColor = ST_COLOR[st] || "var(--txt3)";
+    const itemStr = (o.items || []).map(i => `${i.name} ×${i.qty}`).join(", ");
     return `
     <div class="ai" onclick="openInvoiceSheet('${o.id}')">
       <div class="ai-left">
         <div class="ai-row1">
           <span class="ai-id">#${o.id.slice(-6).toUpperCase()}</span>
-          <span class="ai-ch ${CH_CLS[o.orderType]||"ch-di"}" style="background:${CH_CLS[o.orderType]?"":"var(--blu-d);"}">${CH_LBL[o.orderType]||o.orderType}</span>
+          <span class="ai-ch ${CH_CLS[o.orderType] || "ch-di"}">${CH_LBL[o.orderType] || o.orderType}</span>
           <span class="ai-st" style="background:${stColor}22;color:${stColor}">${t(S_KEY[st])}</span>
         </div>
         <div class="ai-items">${itemStr}</div>
-        <div class="ai-time">${tstr} · ${PM_LBL[o.paymentMethod]||o.paymentMethod||"—"}</div>
+        <div class="ai-time">${tstr} · ${PM_LBL[o.paymentMethod] || o.paymentMethod || "—"}</div>
       </div>
       <div class="ai-right">
         <div class="ai-total">${fmt(o.total)}</div>
@@ -1164,46 +997,51 @@ function renderActList(orders) {
   }).join("");
 }
 
-/* ─────────────────────────────
-   INVOICE SHEET
-   Chỉ mở khi người dùng chủ động tap từ Activity
-───────────────────────────── */
+// ══════════════════════════════════════════════════════
+//  INVOICE SHEET
+// ══════════════════════════════════════════════════════
 window.openInvoiceSheet = async orderId => {
-  // Fetch order data (có thể đã có trong currentActOrders)
-  let order = currentActOrders.find(o => o.id===orderId);
+  let order = currentActOrders.find(o => o.id === orderId);
   if (!order) {
-    const snap = await getDoc(doc(db,"Branches",brId,"Orders",orderId));
-    if (!snap.exists()) { toast("Không tìm thấy đơn", "err"); return; }
-    order = {id:snap.id, ...snap.data()};
+    try {
+      const snap = await getDoc(doc(db, "Branches", brId, "Orders", orderId));
+      if (!snap.exists()) { toast("Không tìm thấy đơn", "err"); return; }
+      order = { id: snap.id, ...snap.data() };
+    } catch (e) {
+      toast("Lỗi: " + e.message, "err");
+      return;
+    }
   }
   sheetOrder = order;
   buildInvoice(order);
-  // Pre-fill email if customer email exists on order
-  document.getElementById("sh-email").value = order.customerEmail||"";
+  document.getElementById("sh-email").value = order.customerEmail || "";
   document.getElementById("sheet-ov").classList.add("open");
 };
 
-window.closeSheetBg = e => { if (e.target===document.getElementById("sheet-ov")) closeSheet(); };
-window.closeSheet   = () => { document.getElementById("sheet-ov").classList.remove("open"); sheetOrder=null; };
+window.closeSheetBg = e => { if (e.target === document.getElementById("sheet-ov")) closeSheet(); };
+window.closeSheet   = () => { document.getElementById("sheet-ov").classList.remove("open"); sheetOrder = null; };
 
 function buildInvoice(o) {
-  const ts = o.createdAt?.toDate?.()||new Date();
-  const rows = (o.items||[]).map(i =>
-    `<tr><td>${i.name}</td><td style="text-align:center">${i.qty}</td>
+  const ts = o.createdAt?.toDate?.() || new Date();
+  const rows = (o.items || []).map(i =>
+    `<tr>
+      <td>${i.name}</td>
+      <td style="text-align:center">${i.qty}</td>
       <td style="text-align:right">${fmt(i.price)}</td>
-      <td style="text-align:right">${fmt(i.price*i.qty)}</td></tr>`
+      <td style="text-align:right">${fmt(i.price * i.qty)}</td>
+    </tr>`
   ).join("");
   document.getElementById("inv-card").innerHTML = `
   <div class="inv-top">
-    <div class="inv-logo">🍜 PhoBut</div>
+    <div class="inv-logo">${APP_LOGO_EMOJI} ${APP_NAME}</div>
     <div class="inv-br">${brName}</div>
     <div class="inv-dt">${ts.toLocaleString("vi-VN")}</div>
   </div>
   <hr class="inv-div"/>
   <div class="inv-meta">
     <b>Mã đơn:</b> #${o.id.slice(-8).toUpperCase()}<br/>
-    <b>Kênh:</b> ${CH_LBL[o.orderType]||o.orderType}<br/>
-    <b>Thu ngân:</b> ${o.cashierEmail||me.email}
+    <b>Kênh:</b> ${CH_LBL[o.orderType] || o.orderType}<br/>
+    <b>Thu ngân:</b> ${o.cashierEmail || me.email}
   </div>
   <hr class="inv-div"/>
   <table class="inv-tbl">
@@ -1212,49 +1050,50 @@ function buildInvoice(o) {
   </table>
   <hr class="inv-div"/>
   <div class="inv-sum"><span>Tạm tính:</span><span>${fmt(o.subtotal)}</span></div>
-  <div class="inv-sum"><span>VAT (10%):</span><span>${fmt(o.vat)}</span></div>
-  ${o.discount?`<div class="inv-sum" style="color:green"><span>Giảm giá${o.voucherCode?" ("+o.voucherCode+")":""}:</span><span>-${fmt(o.discount)}</span></div>`:""}
+  <div class="inv-sum"><span>VAT (${branchVAT}%):</span><span>${fmt(o.vat)}</span></div>
+  ${o.discount ? `<div class="inv-sum" style="color:green"><span>Giảm giá${o.voucherCode ? " (" + o.voucherCode + ")" : ""}:</span><span>-${fmt(o.discount)}</span></div>` : ""}
   <div class="inv-grand"><span>TỔNG CỘNG</span><span>${fmt(o.total)}</span></div>
-  <div class="inv-sum"><span>Thanh toán:</span><span>${PM_LBL[o.paymentMethod]||o.paymentMethod}</span></div>
+  <div class="inv-sum"><span>Thanh toán:</span><span>${PM_LBL[o.paymentMethod] || o.paymentMethod}</span></div>
   <hr class="inv-div"/>
-  <div class="inv-foot">Cảm ơn quý khách! Hẹn gặp lại 🙏<br/>phobut.com</div>`;
+  <div class="inv-foot">Cảm ơn quý khách! Hẹn gặp lại 🙏</div>`;
 }
 
-/* ─────────────────────────────
-   PDF — tải về máy
-───────────────────────────── */
+// ══════════════════════════════════════════════════════
+//  PDF
+// ══════════════════════════════════════════════════════
 window.downloadPDF = () => {
   if (!sheetOrder) return;
   toast(t("pdf_gen"), "inf");
-  const el  = document.getElementById("inv-card");
-  const opt = {
-    margin:      [8,8,8,8],
+  html2pdf().set({
+    margin:      [8, 8, 8, 8],
     filename:    `HoaDon-${sheetOrder.id.slice(-8).toUpperCase()}.pdf`,
-    image:       {type:"jpeg", quality:.95},
-    html2canvas: {scale:2, useCORS:true, backgroundColor:"#ffffff"},
-    jsPDF:       {unit:"mm", format:"a5", orientation:"portrait"}
-  };
-  html2pdf().set(opt).from(el).save();
+    image:       { type: "jpeg", quality: .95 },
+    html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+    jsPDF:       { unit: "mm", format: "a5", orientation: "portrait" }
+  }).from(document.getElementById("inv-card")).save();
 };
 
-/* ─────────────────────────────
-   GỬI EMAIL kèm PDF
-───────────────────────────── */
+// ══════════════════════════════════════════════════════
+//  GỬI EMAIL
+// ══════════════════════════════════════════════════════
 window.sendPDFEmail = async () => {
   const email = document.getElementById("sh-email").value.trim();
   if (!email) { toast("Nhập email khách hàng", "err"); return; }
   if (!sheetOrder) return;
+  if (typeof emailjs === "undefined" || EMAILJS_CONFIG.publicKey === "YOUR_EMAILJS_PUBLIC_KEY") {
+    toast("Chưa cấu hình EmailJS trong config.js", "err");
+    return;
+  }
   toast("Đang tạo PDF & gửi email...", "inf");
   try {
-    const el  = document.getElementById("inv-card");
-    const opt = {
-      margin:      [8,8,8,8],
-      image:       {type:"jpeg", quality:.9},
-      html2canvas: {scale:2, backgroundColor:"#ffffff"},
-      jsPDF:       {unit:"mm", format:"a5", orientation:"portrait"}
-    };
-    const pdfBase64 = await html2pdf().set(opt).from(el).outputPdf("datauristring");
-    await emailjs.send(EJS_SVC, EJS_TPL, {
+    const pdfBase64 = await html2pdf().set({
+      margin: [8, 8, 8, 8],
+      image:  { type: "jpeg", quality: .9 },
+      html2canvas: { scale: 2, backgroundColor: "#ffffff" },
+      jsPDF:  { unit: "mm", format: "a5", orientation: "portrait" }
+    }).from(document.getElementById("inv-card")).outputPdf("datauristring");
+
+    await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.invoiceTemplate, {
       to_email:    email,
       branch_name: brName,
       order_id:    sheetOrder.id.slice(-8).toUpperCase(),
@@ -1263,28 +1102,34 @@ window.sendPDFEmail = async () => {
       pdf_content: pdfBase64
     });
     toast(t("email_ok"), "ok");
-    // Cập nhật customerEmail lên Firestore
-    await updateDoc(doc(db,"Branches",brId,"Orders",sheetOrder.id), {customerEmail:email, updatedAt:serverTimestamp()});
-  } catch(e) {
-    console.error(e);
-    toast(t("email_err"), "err");
+    // Lưu customerEmail lên Firestore
+    await updateDoc(doc(db, "Branches", brId, "Orders", sheetOrder.id), {
+      customerEmail: email,
+      updatedAt:     serverTimestamp()
+    });
+  } catch (e) {
+    console.error("sendPDFEmail error:", e);
+    toast(t("email_err") + ": " + e.message, "err");
   }
 };
 
-/* ─────────────────────────────
-   UTILS
-───────────────────────────── */
+// ══════════════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════════════
 function fmt(n) {
-  return new Intl.NumberFormat("vi-VN",{style:"currency",currency:"VND"}).format(n||0);
+  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(n || 0);
 }
+
 let _toastTimer;
-window.toast = (msg, type="inf") => {
+window.toast = (msg, type = "inf") => {
   const el = document.getElementById("toast");
-  el.textContent = msg; el.className = "show "+type;
+  el.textContent = msg;
+  el.className   = "show " + type;
   clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(() => el.className="", 3000);
+  _toastTimer = setTimeout(() => el.className = "", 3000);
 };
 
+// ── Khởi tạo ──────────────────────────────────────────
 updateBill();
 applyLang();
 </script>

@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="theme-color" content="#ff5c00"/>
-<title>PhoBut — Đặt món trực tuyến</title>
+<title>Veggie Saigon — Đặt món trực tuyến</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
 <style>
@@ -453,7 +453,7 @@ img{display:block;max-width:100%}
 
 <!-- LOADING SPLASH -->
 <div id="splash">
-  <div class="splash-logo">🍜 PhoBut</div>
+  <div class="splash-logo" id="splash-logo">🥗 Veggie Saigon</div>
   <div class="splash-sub">Đặt món trực tuyến</div>
   <div class="splash-dots">
     <div class="splash-dot"></div>
@@ -471,8 +471,8 @@ img{display:block;max-width:100%}
 <div class="screen" id="screen-picker">
   <div class="picker-hero">
     <div class="picker-brand">
-      <span>🍜 Chào mừng đến với</span>
-      PhoBut
+      <span>🥗 Chào mừng đến với</span>
+      <span id="picker-brand-name">Veggie Saigon</span>
     </div>
     <div class="picker-tagline" data-i18n="picker_tagline">Chọn cửa hàng gần bạn nhất để bắt đầu đặt món</div>
   </div>
@@ -622,7 +622,7 @@ img{display:block;max-width:100%}
 ══════════════════════════════════════ -->
 <div class="screen" id="screen-tracking">
   <div class="tracking-header">
-    <div class="tracking-icon" id="track-icon">🍜</div>
+    <div class="tracking-icon" id="track-icon">🥗</div>
     <div class="tracking-status-title" id="track-title" data-i18n="track_waiting">Chờ xác nhận</div>
     <div class="tracking-order-id" id="track-order-id"></div>
   </div>
@@ -639,7 +639,13 @@ img{display:block;max-width:100%}
      FIREBASE + APP LOGIC
 ══════════════════════════════════════ -->
 <script type="module">
-import { FIREBASE_CONFIG, DEFAULT_BRANCH_ID } from './config.js';
+import {
+  FIREBASE_CONFIG,
+  DEFAULT_BRANCH_ID,
+  APP_NAME,
+  APP_LOGO_EMOJI,
+  DEFAULT_VAT
+} from './config.js';
 import { initializeApp }
   from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, doc,
@@ -652,6 +658,11 @@ import { getFirestore, collection, doc,
 ══════════════════════════════════════ */
 const fbApp = initializeApp(FIREBASE_CONFIG);
 const db    = getFirestore(fbApp);
+
+// ── Branding từ config (chạy ngay khi load) ───────────
+document.getElementById("splash-logo").textContent       = APP_LOGO_EMOJI + " " + APP_NAME;
+document.getElementById("picker-brand-name").textContent = APP_NAME;
+document.title = APP_NAME + " — Đặt món trực tuyến";
 
 /* ══════════════════════════════════════
    i18n — Inline JSON
@@ -753,7 +764,7 @@ window.toggleLang = () => {
 let branchId   = null;
 let branchInfo = {};
 let hiddenItems= [];
-let branchVAT  = 10;
+let branchVAT  = DEFAULT_VAT;
 let globalMenu = [];
 let categories = [];
 let activeCat  = "all";
@@ -809,7 +820,7 @@ async function loadBranchPicker(){
     list.innerHTML = snap.docs.map(d=>{
       const info = d.data().info||{};
       return `<div class="branch-card" onclick="loadBranch('${d.id}')">
-        <div class="branch-card-ico">🍜</div>
+        <div class="branch-card-ico" style="font-size:26px">🥗</div>
         <div class="branch-card-info">
           <div class="branch-card-name">${info.name||d.id}</div>
           <div class="branch-card-addr">📍 ${info.address||"—"}</div>
@@ -839,19 +850,19 @@ async function loadBranch(id){
     const bData = bSnap.data();
     branchInfo  = bData.info || {};
     hiddenItems = bData.hidden_items || [];
-    branchVAT   = branchInfo.vat ?? 10;
+    branchVAT   = branchInfo.vat ?? DEFAULT_VAT;
 
     // 2. Render header / footer
-    document.getElementById("mh-name").textContent    = branchInfo.name || "PhoBut";
+    document.getElementById("mh-name").textContent    = branchInfo.name || APP_NAME;
     document.getElementById("mh-addr").textContent    = branchInfo.address || "";
-    document.getElementById("banner-name").textContent= branchInfo.name || "PhoBut";
+    document.getElementById("banner-name").textContent= branchInfo.name || APP_NAME;
     updateFooter();
     // Update URL silently
     const url = new URL(location.href);
     url.searchParams.set("store", id);
     history.replaceState(null,"",url);
     // Update page title
-    document.title = `${branchInfo.name||"PhoBut"} — Đặt món`;
+    document.title = `${branchInfo.name || APP_NAME} — Đặt món`;
 
     // 3. Load GlobalMenu
     await loadGlobalMenu();
@@ -873,7 +884,7 @@ async function loadBranch(id){
 function updateFooter(){
   const footer = document.getElementById("store-footer");
   footer.style.display="block";
-  document.getElementById("footer-brand").textContent = "🍜 " + (branchInfo.name||"PhoBut");
+  document.getElementById("footer-brand").textContent = APP_LOGO_EMOJI + " " + (branchInfo.name || APP_NAME);
   document.getElementById("footer-addr").textContent  = branchInfo.address ? "📍 "+branchInfo.address : "";
   document.getElementById("footer-phone").textContent = branchInfo.phone ? "📞 "+branchInfo.phone : "";
   // Links
@@ -949,12 +960,12 @@ function foodCard(m){
   const cartItem = cart.find(c=>c.id===m.id);
   const qty      = cartItem?.qty||0;
   const oos      = m.stock===0;
-  const imgSrc   = m.image||`https://placehold.co/300x225/ffe8d6/b08060?text=${encodeURIComponent("🍜")}`;
+  const imgSrc   = m.image || `https://placehold.co/300x225/ffe8d6/b08060?text=${encodeURIComponent("🥗")}`;
   return `
   <div class="food-card ${oos?"oos":""}" id="card-${m.id}">
     <div class="food-img-wrap">
       <img class="food-img" src="${imgSrc}" alt="${m.name}"
-        loading="lazy" onerror="this.src='https://placehold.co/300x225/ffe8d6/b08060?text=🍜'"/>
+        loading="lazy" onerror="this.src='https://placehold.co/300x225/ffe8d6/b08060?text=🥗'"/>
       ${oos?`<div class="food-oos-badge">${t("oos")}</div>`:""}
     </div>
     <div class="food-body">
@@ -1084,8 +1095,8 @@ function renderCartSheet(){
   ${cart.map(c=>`
   <div class="cart-item">
     <img class="ci-img"
-      src="${c.image||"https://placehold.co/54x54/ffe8d6/b08060?text=🍜"}"
-      onerror="this.src='https://placehold.co/54x54/ffe8d6/b08060?text=🍜'"/>
+      src="${c.image || "https://placehold.co/54x54/ffe8d6/b08060?text=🥗"}"
+      onerror="this.src='https://placehold.co/54x54/ffe8d6/b08060?text=🥗'"/>
     <div class="ci-info">
       <div class="ci-name">${c.name}</div>
       <div class="ci-price">${fmt(c.price)}</div>
@@ -1227,7 +1238,7 @@ const STEPS_CONFIG = [
   {key:"paid",      icon:"✅", title:()=>t("s_pa"), desc:{vi:"Đơn hàng đã được xác nhận",en:"Your order is confirmed"}},
   {key:"preparing", icon:"👨‍🍳",title:()=>t("s_pr"), desc:{vi:"Bếp đang chế biến món ăn của bạn",en:"Kitchen is preparing your order"}},
   {key:"delivering",icon:"🛵", title:()=>t("s_de"), desc:{vi:"Đang trên đường giao đến bạn!",en:"On the way to you!"}},
-  {key:"completed", icon:"🎉", title:()=>t("s_co"), desc:{vi:"Giao hàng thành công! Chúc ngon miệng 🍜",en:"Delivered! Enjoy your meal 🍜"}},
+  {key:"completed", icon:"🎉", title:()=>t("s_co"), desc:{vi:"Giao hàng thành công! Chúc ngon miệng 🥗",en:"Delivered! Enjoy your meal 🥗"}},
 ];
 const STATUS_ORDER = ["pending","paid","preparing","delivering","completed","cancelled"];
 const TRACK_ICONS  = {pending:"📩",paid:"✅",preparing:"👨‍🍳",delivering:"🛵",completed:"🎉",cancelled:"❌"};
@@ -1250,7 +1261,7 @@ async function startOrderTracking(orderId, orderSnap){
     const data = snap.data();
     lastTrackStatus = data.status;
     renderTrackingSteps(data.status);
-    document.getElementById("track-icon").textContent  = TRACK_ICONS[data.status]||"🍜";
+    document.getElementById("track-icon").textContent  = TRACK_ICONS[data.status] || APP_LOGO_EMOJI;
     document.getElementById("track-title").textContent = TRACK_TITLES[data.status]?.() || data.status;
     // Bounce animation on status change
     const ico = document.getElementById("track-icon");
@@ -1319,7 +1330,7 @@ window.backToPicker = () => {
   const url = new URL(location.href);
   url.searchParams.delete("store");
   history.replaceState(null,"",url);
-  document.title="PhoBut — Đặt món trực tuyến";
+  document.title = APP_NAME + " — Đặt món trực tuyến";
   showScreen("picker");
   loadBranchPicker();
 };

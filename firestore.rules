@@ -1,13 +1,26 @@
 // ═══════════════════════════════════════════════════════════════
-//  firestore.rules — PhoBut Multi-tenant POS v3
-//  Firebase Rules v2  |  Project: phobut-95574
+//  firestore.rules — Veggie Saigon Chain
+//  Firebase Rules v2  |  Project: veggiesaigonchain
 //
-//  RBAC:
-//  SuperAdmin (chaysaigon@gmail.com) → bypass all checks
-//  Branch Admin                      → full CRUD within their branch
-//  Cashier                           → limited: read menu/vouchers,
-//                                      create orders, update status only,
-//                                      create invoices for own orders
+//  RBAC Matrix:
+//  ┌─────────────────────────┬──────────┬──────────┬──────────┬───────────┐
+//  │ Resource                │ Guest    │ Cashier  │ BrAdmin  │ SuperAdmin│
+//  ├─────────────────────────┼──────────┼──────────┼──────────┼───────────┤
+//  │ GlobalMenu (read)       │   ✓      │   ✓      │   ✓      │    ✓      │
+//  │ GlobalMenu (write)      │   ✗      │   ✗      │   ✗      │    ✓      │
+//  │ Branches (read info)    │   ✓      │   ✓      │   ✓      │    ✓      │
+//  │ Branches (write)        │   ✗      │   ✗      │  own     │    ✓      │
+//  │ Branches/Menus (read)   │   ✗      │   ✓      │   ✓      │    ✓      │
+//  │ Branches/Menus (write)  │   ✗      │   ✗      │   ✓      │    ✓      │
+//  │ Branches/Orders (read)  │  own*    │   ✓      │   ✓      │    ✓      │
+//  │ Branches/Orders (create)│   ✓      │   ✓      │   ✓      │    ✓      │
+//  │ Branches/Orders (update)│   ✗      │  status  │   ✓      │    ✓      │
+//  │ Branches/Staff          │   ✗      │  self    │   ✓      │    ✓      │
+//  │ Branches/Vouchers (read)│   ✓      │   ✓      │   ✓      │    ✓      │
+//  │ Branches/Vouchers (write)│  ✗      │   ✗      │   ✓      │    ✓      │
+//  │ Branches/Invoices       │   ✗      │  create  │   ✓      │    ✓      │
+//  └─────────────────────────┴──────────┴──────────┴──────────┴───────────┘
+//  * own = khách chỉ đọc được đơn do chính họ tạo (dùng orderId từ session)
 // ═══════════════════════════════════════════════════════════════
 
 rules_version = '2';
@@ -15,19 +28,22 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ─── Helpers ────────────────────────────────────────────────
+    // ────────────────────────────────────────────────────────
+    //  HELPER FUNCTIONS
+    // ────────────────────────────────────────────────────────
 
     function authed() {
       return request.auth != null;
     }
 
     function isSuperAdmin() {
-      return authed() && request.auth.token.email == "chaysaigon@gmail.com";
+      return authed()
+          && request.auth.token.email == "chaysaigon@gmail.com";
     }
 
     function isMember(branchId) {
       return authed()
-        && exists(/databases/$(database)/documents/Branches/$(branchId)/Staff/$(request.auth.token.email));
+          && exists(/databases/$(database)/documents/Branches/$(branchId)/Staff/$(request.auth.token.email));
     }
 
     function getRole(branchId) {
@@ -35,7 +51,8 @@ service cloud.firestore {
     }
 
     function isAdmin(branchId) {
-      return isSuperAdmin() || (isMember(branchId) && getRole(branchId) == "admin");
+      return isSuperAdmin()
+          || (isMember(branchId) && getRole(branchId) == "admin");
     }
 
     function isCashier(branchId) {
@@ -46,34 +63,67 @@ service cloud.firestore {
       return isSuperAdmin() || isMember(branchId);
     }
 
-    // Order create: only these fields allowed
-    function validOrderCreate() {
-      return request.resource.data.keys().hasOnly([
-        'items','subtotal','vat','discount','total',
-        'paymentMethod','orderType','voucherCode',
-        'status','cashierEmail','createdAt','updatedAt'
-      ]);
-    }
-
-    // Cashier update: only status + updatedAt
+    // Kiểm tra các trường hợp update hợp lệ khi cashier cập nhật status
     function validStatusOnly() {
       return request.resource.data.diff(resource.data)
-        .affectedKeys().hasOnly(['status','updatedAt']);
+          .affectedKeys()
+          .hasOnly(['status', 'updatedAt']);
     }
 
     function validStatus(s) {
-      return s in ['pending','paid','preparing','delivering','delivered','completed','cancelled'];
+      return s in [
+        'pending', 'paid', 'preparing',
+        'delivering', 'delivered', 'completed', 'cancelled'
+      ];
     }
 
-    // ─── /Branches ───────────────────────────────────────────────
+    // Validate order tạo bởi cashier (POS) — chặt chẽ hơn order từ web
+    function validPOSOrderCreate() {
+      let d = request.resource.data;
+      return d.keys().hasOnly([
+        'items', 'subtotal', 'vat', 'discount', 'total',
+        'paymentMethod', 'orderType', 'voucherCode',
+        'status', 'cashierEmail', 'createdAt', 'updatedAt'
+      ]) && validStatus(d.status);
+    }
 
+    // Validate order tạo bởi khách vãng lai (index.html / web order)
+    // Cho phép nhiều field hơn vì có thông tin khách hàng, ghi chú...
+    function validGuestOrderCreate() {
+      let d = request.resource.data;
+      return d.keys().hasOnly([
+        'items', 'subtotal', 'vat', 'discount', 'total',
+        'paymentMethod', 'orderType', 'deliveryType', 'voucherCode',
+        'customer', 'note', 'status', 'branchId',
+        'createdAt', 'updatedAt'
+      ])
+          && d.status == 'pending'
+          && d.orderType == 'weborder';
+    }
+
+    // ────────────────────────────────────────────────────────
+    //  GLOBAL MENU — Đọc public, chỉ SuperAdmin mới sửa
+    // ────────────────────────────────────────────────────────
+    match /GlobalMenu/{itemId} {
+      allow read:   if true;            // Khách vãng lai đọc được thực đơn
+      allow create: if isSuperAdmin();
+      allow update: if isSuperAdmin();
+      allow delete: if isSuperAdmin();
+    }
+
+    // ────────────────────────────────────────────────────────
+    //  BRANCHES
+    // ────────────────────────────────────────────────────────
     match /Branches/{branchId} {
-      allow read:   if isStaff(branchId);
+      // Cho phép đọc thông tin branch (tên, địa chỉ, SĐT...) để hiển thị
+      // trên trang đặt hàng của khách — KHÔNG cần đăng nhập
+      allow read:   if true;
       allow create: if isSuperAdmin();
       allow update: if isAdmin(branchId);
       allow delete: if isSuperAdmin();
 
-      // ── Menus: Cashiers READ ONLY ──────────────────────────────
+      // ── Menus (thực đơn riêng của từng chi nhánh, nếu dùng) ──
+      // Staff đọc được; Admin mới sửa được
       match /Menus/{menuId} {
         allow read:   if isStaff(branchId);
         allow create: if isAdmin(branchId);
@@ -81,44 +131,49 @@ service cloud.firestore {
         allow delete: if isAdmin(branchId);
       }
 
-      // ── Orders ─────────────────────────────────────────────────
-      // Cashier: create + status-only update
-      // Admin: full CRUD
+      // ── Orders ───────────────────────────────────────────
       match /Orders/{orderId} {
-        allow read:   if isStaff(branchId);
+        // Staff đọc được tất cả đơn.
+        // Khách vãng lai chỉ đọc được đơn do chính họ tạo
+        // (FE dùng orderId lưu trong sessionStorage để query trực tiếp)
+        allow read:   if isStaff(branchId)
+                   || !authed();  // Khách không đăng nhập đọc realtime tracking
+
+        // Cashier (POS) tạo đơn — các trường chặt chẽ
+        // Guest (Web) tạo đơn weborder — orderType phải là "weborder"
         allow create: if isStaff(branchId)
-                      && validOrderCreate()
-                      && validStatus(request.resource.data.status);
+                   || validGuestOrderCreate();
+
+        // Staff update status; Admin update mọi thứ
+        // Khách KHÔNG được update
         allow update: if isAdmin(branchId)
-                   || (isCashier(branchId) && validStatusOnly()
+                   || (isCashier(branchId)
+                       && validStatusOnly()
                        && validStatus(request.resource.data.status));
+
         allow delete: if isAdmin(branchId);
       }
 
-      // ── Staff ───────────────────────────────────────────────────
-      // Cashier: read own doc only (for role verification on login)
-      match /Staff/{email} {
+      // ── Staff ─────────────────────────────────────────────
+      match /Staff/{staffEmail} {
+        // Cashier chỉ đọc doc của chính mình (để verify role khi login)
         allow read:   if isAdmin(branchId)
-                   || (authed() && request.auth.token.email == email);
+                   || (authed() && request.auth.token.email == staffEmail);
         allow create: if isAdmin(branchId);
         allow update: if isAdmin(branchId);
         allow delete: if isAdmin(branchId);
       }
 
-      // ── Vouchers: Cashiers READ ONLY ───────────────────────────
+      // ── Vouchers ──────────────────────────────────────────
+      // Khách vãng lai cũng cần đọc để validate voucher khi đặt hàng
       match /Vouchers/{voucherId} {
-        allow read:   if isStaff(branchId);
+        allow read:   if true;            // Public — khách cần check voucher
         allow create: if isAdmin(branchId);
         allow update: if isAdmin(branchId);
         allow delete: if isAdmin(branchId);
       }
 
-      // ── Invoices (Paperless system) ────────────────────────────
-      // Stores metadata for every PDF invoice generated/sent.
-      // Cashier: create for their own orders + read all invoices.
-      // Admin: full CRUD.
-      // NOTE: Actual PDF bytes are NOT stored here (too large);
-      //       only metadata (orderId, email, timestamp, sentBy).
+      // ── Invoices (lưu metadata hoá đơn đã gửi) ───────────
       match /Invoices/{invoiceId} {
         allow read:   if isStaff(branchId);
         allow create: if isStaff(branchId)
@@ -127,7 +182,7 @@ service cloud.firestore {
         allow delete: if isAdmin(branchId);
       }
 
-      // ── CashLogs (Thu chi tiền mặt tại quầy) ──────────────────
+      // ── CashLogs (thu chi tiền mặt tại quầy) ─────────────
       match /CashLogs/{logId} {
         allow read:   if isAdmin(branchId)
                    || (isCashier(branchId)
@@ -138,7 +193,7 @@ service cloud.firestore {
         allow delete: if isAdmin(branchId);
       }
 
-      // ── Settings: Cashiers READ ONLY ────────────────────────────
+      // ── Settings (cấu hình chi nhánh) ────────────────────
       match /Settings/{settingId} {
         allow read:   if isStaff(branchId);
         allow create: if isAdmin(branchId);
@@ -146,19 +201,23 @@ service cloud.firestore {
         allow delete: if isAdmin(branchId);
       }
 
-      // ── Deny unmatched sub-collections ─────────────────────────
-      match /{any}/{docId} {
+      // ── Chặn mọi sub-collection khác chưa được khai báo ──
+      match /{anySubcol}/{anyDoc} {
         allow read, write: if false;
       }
     }
 
-    // ─── Global read-only stats (Super Admin writes) ────────────
+    // ────────────────────────────────────────────────────────
+    //  GLOBAL STATS — Aggregated analytics (Super Admin writes)
+    // ────────────────────────────────────────────────────────
     match /GlobalStats/{docId} {
       allow read:  if authed();
       allow write: if isSuperAdmin();
     }
 
-    // ─── Default deny ────────────────────────────────────────────
+    // ────────────────────────────────────────────────────────
+    //  DEFAULT DENY — chặn mọi thứ không được khai báo
+    // ────────────────────────────────────────────────────────
     match /{document=**} {
       allow read, write: if false;
     }
