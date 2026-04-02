@@ -1040,6 +1040,18 @@ function buildInvoice(o) {
       <td style="text-align:right">${fmt(i.price)}</td>
       <td style="text-align:right">${fmt(i.price * i.qty)}</td>
     </tr>`).join("");
+
+  const c = o.customer || {};
+  
+  const infoHtml = `
+    <b>Khách hàng:</b> ${c.name || '................................'} <br/>
+    <b>Số ĐT:</b> ${c.phone || '................................'} <br/>
+    <b>Mã số thuế:</b> ${c.taxId || '................................'} <br/>
+    <b>Địa chỉ:</b> ${c.address || '................................'} <br/>
+  `;
+  
+  const noteHtml = o.note ? `<b>Ghi chú:</b> ${o.note}<br/>` : '';
+
   document.getElementById("inv-card").innerHTML = `
   <div class="inv-top">
     <div class="inv-logo">${APP_LOGO_EMOJI} ${APP_NAME}</div>
@@ -1050,6 +1062,8 @@ function buildInvoice(o) {
   <div class="inv-meta">
     <b>Mã đơn:</b> #${o.id.slice(-8).toUpperCase()}<br/>
     <b>Kênh:</b> ${CH_LBL[o.orderType] || o.orderType}<br/>
+    ${infoHtml}
+    ${noteHtml}
     <b>Thu ngân:</b> ${o.cashierEmail || me.email}
   </div>
   <hr class="inv-div"/>
