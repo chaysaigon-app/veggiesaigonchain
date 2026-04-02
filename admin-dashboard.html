@@ -20,15 +20,13 @@
   --pur:#b06fff;--pur-d:rgba(176,111,255,.12);
   --txt:#dde4f5;--txt2:#7a8eb0;--txt3:#3d4f70;
   --font:'Be Vietnam Pro',sans-serif;--mono:'JetBrains Mono',monospace;
-  --r:10px;--r2:16px;--sh:0 8px 32px rgba(0,0,0,.5);
-  --sw:224px;
+  --r:10px;--r2:16px;--sh:0 8px 32px rgba(0,0,0,.5);--sw:224px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--txt);font-family:var(--font);font-size:14px;height:100vh;display:flex;overflow:hidden}
 button{font-family:var(--font);cursor:pointer;border:none;background:none;color:inherit}
 input,select,textarea{font-family:var(--font);color:var(--txt)}
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-thumb{background:var(--brd);border-radius:4px}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--brd);border-radius:4px}
 
 /* AUTH */
 #auth{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;padding:24px}
@@ -48,31 +46,26 @@ input,select,textarea{font-family:var(--font);color:var(--txt)}
 /* SIDEBAR */
 #sb{width:var(--sw);background:var(--s1);border-right:1px solid var(--brd);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
 .sb-br{padding:15px;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:8px}
-.sb-ico{font-size:20px}
-.sb-txt{font-weight:900;font-size:15px;letter-spacing:-0.5px}
-.sb-txt span{color:var(--acc)}
+.sb-ico{font-size:20px}.sb-txt{font-weight:900;font-size:15px;letter-spacing:-0.5px}.sb-txt span{color:var(--acc)}
 #br-sel{padding:8px;border-bottom:1px solid var(--brd);flex-shrink:0}
 #br-sel select{width:100%;background:var(--s3);border:1px solid var(--brd);border-radius:8px;padding:7px 10px;color:var(--txt);font-size:12px;outline:none;cursor:pointer}
 .sbn{flex:1;overflow-y:auto;padding:6px}
 .ni{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;color:var(--txt2);font-weight:500;font-size:13px;transition:all .15s;margin-bottom:2px;width:100%;text-align:left}
-.ni:hover{background:var(--s3);color:var(--txt)}
-.ni.on{background:var(--acc-d);color:var(--acc)}
+.ni:hover{background:var(--s3);color:var(--txt)}.ni.on{background:var(--acc-d);color:var(--acc)}
 .ni .ico{font-size:15px;width:20px;text-align:center}
 .ns{font-size:10px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.8px;padding:12px 12px 4px;margin-top:4px}
 .sb-bot{padding:10px;border-top:1px solid var(--brd)}
 .su{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;background:var(--s3)}
 .sav{width:30px;height:30px;border-radius:50%;background:var(--acc-d);border:2px solid var(--acc);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:var(--acc);flex-shrink:0}
-.sui{flex:1;overflow:hidden}
-.sue{font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sur{font-size:10px;color:var(--txt3)}
+.sui{flex:1;overflow:hidden}.sue{font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sur{font-size:10px;color:var(--txt3)}
 .lout{margin-top:8px;width:100%;background:none;border:1px solid var(--brd);color:var(--txt2);border-radius:8px;padding:7px;font-size:12px;font-family:var(--font);transition:all .15s}
 .lout:hover{border-color:var(--red);color:var(--red)}
 
 /* MAIN */
 #main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-#pg-hdr{padding:14px 24px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-#pg-ttl{font-size:19px;font-weight:800;letter-spacing:-0.5px}
-#pg-acts{display:flex;gap:8px;align-items:center}
+#pg-hdr{padding:14px 24px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px}
+#pg-ttl{font-size:19px;font-weight:800;letter-spacing:-0.5px;flex-shrink:0}
+#pg-acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .hdr-export-btn{display:flex;align-items:center;gap:6px;background:var(--s3);border:1px solid var(--brd);color:var(--txt2);border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;transition:all .15s;}
 .hdr-export-btn:hover{border-color:var(--acc);color:var(--acc)}
 .hdr-export-btn.pdf{border-color:var(--red);color:var(--red);background:var(--red-d)}
@@ -85,14 +78,10 @@ input,select,textarea{font-family:var(--font);color:var(--txt)}
 .kg{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:12px;margin-bottom:20px}
 .kc{background:var(--s2);border:1px solid var(--brd);border-radius:var(--r2);padding:16px;position:relative;overflow:hidden}
 .kc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.kc.or::before{background:var(--acc)}
-.kc.gr::before{background:var(--grn)}
-.kc.bl::before{background:var(--blu)}
-.kc.pu::before{background:var(--pur)}
+.kc.or::before{background:var(--acc)}.kc.gr::before{background:var(--grn)}.kc.bl::before{background:var(--blu)}.kc.pu::before{background:var(--pur)}
 .kl{font-size:11px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
 .kv{font-family:var(--mono);font-size:20px;font-weight:700;margin-bottom:4px}
-.ks{font-size:11px;color:var(--txt3)}
-.ki{position:absolute;right:12px;top:12px;font-size:22px;opacity:.18}
+.ks{font-size:11px;color:var(--txt3)}.ki{position:absolute;right:12px;top:12px;font-size:22px;opacity:.18}
 .cr{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
 .cc{background:var(--s2);border:1px solid var(--brd);border-radius:var(--r2);padding:16px}
 .ct{font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
@@ -118,18 +107,14 @@ input,select,textarea{font-family:var(--font);color:var(--txt)}
 .dt{width:100%;border-collapse:collapse;font-size:13px}
 .dt th{text-align:left;padding:10px 12px;font-size:11px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--brd)}
 .dt td{padding:10px 12px;border-bottom:1px solid var(--brd2)}
-.dt tr:hover td{background:var(--s3)}
-.dt tr:last-child td{border-bottom:none}
+.dt tr:hover td{background:var(--s3)}.dt tr:last-child td{border-bottom:none}
 .bdg{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase}
-.badm{background:var(--acc-d);color:var(--acc)}
-.bcsh{background:var(--blu-d);color:var(--blu)}
-.bact{background:var(--grn-d);color:var(--grn)}
-.bins{background:var(--red-d);color:var(--red)}
+.badm{background:var(--acc-d);color:var(--acc)}.bcsh{background:var(--blu-d);color:var(--blu)}
+.bact{background:var(--grn-d);color:var(--grn)}.bins{background:var(--red-d);color:var(--red)}
 
 /* FORMS */
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.ff{display:flex;flex-direction:column;gap:5px}
-.ff.full{grid-column:1/-1}
+.ff{display:flex;flex-direction:column;gap:5px}.ff.full{grid-column:1/-1}
 .ff label{font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px}
 .ff input,.ff select,.ff textarea{background:var(--s3);border:1px solid var(--brd);border-radius:var(--r);padding:9px 12px;color:var(--txt);font-size:13px;outline:none;transition:border-color .2s}
 .ff input:focus,.ff select:focus,.ff textarea:focus{border-color:var(--acc)}
@@ -139,7 +124,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt)}
 .fsv{background:var(--acc);border:none;color:#fff;border-radius:var(--r);padding:8px 22px;cursor:pointer;font-family:var(--font);font-size:13px;font-weight:700}
 .fsv:hover{background:var(--acc2)}
 
-/* Image upload */
+/* IMAGE UPLOAD */
 .iua{border:2px dashed var(--brd);border-radius:var(--r);padding:18px;text-align:center;cursor:pointer;transition:border-color .2s;position:relative}
 .iua:hover{border-color:var(--acc)}
 .iua img{max-height:90px;max-width:100%;border-radius:6px;margin-bottom:8px}
@@ -149,7 +134,17 @@ input,select,textarea{font-family:var(--font);color:var(--txt)}
 .upbf{height:100%;background:var(--acc);width:0;transition:width .3s}
 .compress-info{font-size:10px;color:var(--grn);margin-top:4px;min-height:14px}
 
-/* Card */
+/* TOGGLE SWITCH */
+.tog-wrap{display:flex;align-items:center;gap:8px}
+.tog{position:relative;width:40px;height:22px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0;position:absolute}
+.tog-sl{position:absolute;inset:0;background:var(--s4);border-radius:11px;cursor:pointer;transition:.25s;border:1px solid var(--brd)}
+.tog-sl::before{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:var(--txt3);left:2px;top:2px;transition:.25s}
+.tog input:checked + .tog-sl{background:var(--grn);border-color:var(--grn)}
+.tog input:checked + .tog-sl::before{transform:translateX(18px);background:#fff}
+.tog-lbl{font-size:12px;color:var(--txt2);font-weight:600}
+
+/* CARD */
 .cvd{background:var(--s2);border:1px solid var(--brd);border-radius:var(--r2);padding:18px;margin-bottom:14px}
 
 /* MODAL */
@@ -173,9 +168,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt)}
 /* TOAST */
 #toast{position:fixed;bottom:20px;right:20px;background:var(--s1);border:1px solid var(--brd);border-radius:10px;padding:11px 18px;font-size:13px;font-weight:500;z-index:9999;transform:translateY(60px);opacity:0;transition:all .28s;box-shadow:var(--sh)}
 #toast.show{transform:translateY(0);opacity:1}
-#toast.ok{border-color:var(--grn);color:var(--grn)}
-#toast.err{border-color:var(--red);color:var(--red)}
-#toast.inf{border-color:var(--blu);color:var(--blu)}
+#toast.ok{border-color:var(--grn);color:var(--grn)}#toast.err{border-color:var(--red);color:var(--red)}#toast.inf{border-color:var(--blu);color:var(--blu)}
 .spin{width:22px;height:22px;border:3px solid var(--brd);border-top-color:var(--acc);border-radius:50%;animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .ldr{display:flex;align-items:center;justify-content:center;gap:12px;padding:36px;color:var(--txt2)}
@@ -183,13 +176,10 @@ input,select,textarea{font-family:var(--font);color:var(--txt)}
 </head>
 <body>
 
+<!-- AUTH -->
 <div id="auth">
   <div class="ac">
-    <div class="al">
-      <div class="al-ico" id="auth-ico">🥗</div>
-      <h1 id="auth-title">Admin</h1>
-      <p>Bảng điều khiển quản trị hệ thống</p>
-    </div>
+    <div class="al"><div class="al-ico" id="auth-ico">🥗</div><h1 id="auth-title">Admin</h1><p>Bảng điều khiển quản trị hệ thống</p></div>
     <div class="afl"><label>Email</label><input id="ai-em" type="email" placeholder="admin@email.com"/></div>
     <div class="afl"><label>Mật khẩu</label><input id="ai-pw" type="password" placeholder="••••••••"/></div>
     <button class="ap" onclick="doLogin()">Đăng nhập</button>
@@ -197,6 +187,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt)}
   </div>
 </div>
 
+<!-- SIDEBAR -->
 <div id="sb">
   <div class="sb-br"><div class="sb-ico" id="sb-ico">🥗</div><div class="sb-txt" id="sb-name">Admin</div></div>
   <div id="br-sel"><select id="brs" onchange="onBrCh()"><option>Chọn chi nhánh...</option></select></div>
@@ -208,37 +199,29 @@ input,select,textarea{font-family:var(--font);color:var(--txt)}
     <button class="ni" onclick="goP('menu')"><span class="ico">🍽️</span>Thực đơn & Kho</button>
     <button class="ni" onclick="goP('staff')"><span class="ico">👥</span>Nhân viên</button>
     <button class="ni" onclick="goP('vouchers')"><span class="ico">🎟️</span>Voucher</button>
-    <div class="ns" id="sa-s">Hệ thống</div>
+    <div class="ns" id="sa-s">Hệ thống (HQ)</div>
+    <button class="ni" id="n-gmenu" onclick="goP('global-menu')"><span class="ico">📦</span>Kho Thực Đơn HQ</button>
     <button class="ni" id="n-br" onclick="goP('branches')"><span class="ico">🏢</span>Chi nhánh</button>
     <button class="ni" onclick="goP('settings')"><span class="ico">⚙️</span>Cài đặt</button>
   </nav>
   <div class="sb-bot">
-    <div class="su">
-      <div class="sav" id="sav">?</div>
-      <div class="sui">
-        <div class="sue" id="sue"></div>
-        <div class="sur" id="sur"></div>
-      </div>
-    </div>
+    <div class="su"><div class="sav" id="sav">?</div><div class="sui"><div class="sue" id="sue"></div><div class="sur" id="sur"></div></div></div>
     <button class="lout" onclick="doLogout()">Đăng xuất</button>
   </div>
 </div>
 
+<!-- MAIN -->
 <div id="main">
-  <div id="pg-hdr">
-    <div id="pg-ttl">Dashboard</div>
-    <div id="pg-acts"></div>
-  </div>
+  <div id="pg-hdr"><div id="pg-ttl">Dashboard</div><div id="pg-acts"></div></div>
   <div id="pg-c"><div class="ldr"><div class="spin"></div><span>Đang tải...</span></div></div>
 </div>
 
+<!-- MODAL CRUD -->
 <div id="mo" onclick="closeMo(event)">
-  <div class="mod" id="mod-box">
-    <button class="mclose" onclick="closeMo2()">✕</button>
-    <div id="mod-c"></div>
-  </div>
+  <div class="mod" id="mod-box"><button class="mclose" onclick="closeMo2()">✕</button><div id="mod-c"></div></div>
 </div>
 
+<!-- EMAIL MODAL -->
 <div id="email-mo" onclick="closeEmailMo(event)">
   <div class="email-card">
     <h3>📧 Gửi Báo Cáo PDF</h3>
@@ -248,100 +231,62 @@ input,select,textarea{font-family:var(--font);color:var(--txt)}
     <button class="email-cancel" onclick="closeEmailMoDirect()">Huỷ</button>
   </div>
 </div>
-
 <div id="toast"></div>
 
 <script type="module">
 // ══════════════════════════════════════════════════════
-//  IMPORT CONFIG — Tất cả key từ config.js
+//  IMPORT CONFIG
 // ══════════════════════════════════════════════════════
 import {
-  FIREBASE_CONFIG,
-  SUPER_ADMIN_EMAIL,
-  CLOUDINARY_CLOUD_NAME,
-  CLOUDINARY_UPLOAD_PRESET,
-  EMAILJS_CONFIG,
-  APP_NAME,
-  APP_LOGO_EMOJI,
-  DEFAULT_VAT
+  FIREBASE_CONFIG, SUPER_ADMIN_EMAIL,
+  CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET,
+  EMAILJS_CONFIG, APP_NAME, APP_LOGO_EMOJI, DEFAULT_VAT
 } from './config.js';
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import {
-  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import {
-  getFirestore, collection, doc, getDocs, getDoc,
-  addDoc, setDoc, updateDoc, deleteDoc,
-  query, orderBy, serverTimestamp, limit
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, collection, doc, getDocs, getDoc,
+  addDoc, setDoc, updateDoc, deleteDoc, query, orderBy,
+  serverTimestamp, limit }
+  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// ── Init ───────────────────────────────────────────────
 const fbApp = initializeApp(FIREBASE_CONFIG);
 const auth  = getAuth(fbApp);
 const db    = getFirestore(fbApp);
 
-// ── Branding ───────────────────────────────────────────
-document.getElementById("auth-ico").textContent  = APP_LOGO_EMOJI;
-document.getElementById("auth-title").textContent = APP_NAME + " Admin";
-document.getElementById("sb-ico").textContent    = APP_LOGO_EMOJI;
-document.getElementById("sb-name").innerHTML     = APP_NAME.replace(/(\w+)$/, '<span>$1</span>');
+// Branding
+document.getElementById("auth-ico").textContent   = APP_LOGO_EMOJI;
+document.getElementById("auth-title").textContent  = APP_NAME + " Admin";
+document.getElementById("sb-ico").textContent     = APP_LOGO_EMOJI;
+document.getElementById("sb-name").innerHTML      = `${APP_LOGO_EMOJI} <span>${APP_NAME}</span>`;
 document.title = APP_NAME + " — Admin";
 
 // ══════════════════════════════════════════════════════
-//  IMAGE COMPRESSION — Canvas (Client-side)
-//  Nén ảnh xuống ≤ 800px, WebP/JPEG, < 200KB
-//  trước khi upload lên Cloudinary
+//  IMAGE COMPRESSION (Canvas client-side)
 // ══════════════════════════════════════════════════════
-
-/**
- * Nén & resize ảnh bằng HTML5 Canvas trước khi upload.
- * @param {File}   file        - File ảnh gốc từ input
- * @param {number} maxWidth    - Chiều ngang tối đa (px), mặc định 800
- * @param {number} quality     - Chất lượng nén 0-1, mặc định 0.82
- * @param {string} outputType  - 'image/webp' hoặc 'image/jpeg'
- * @returns {Promise<Blob>}    - Blob ảnh đã nén
- */
 function compressImage(file, maxWidth = 800, quality = 0.82, outputType = "image/webp") {
   return new Promise((resolve, reject) => {
-    // Tạo FileReader để đọc file
     const reader = new FileReader();
     reader.onerror = () => reject(new Error("Không đọc được file ảnh"));
-    reader.onload  = (e) => {
+    reader.onload  = e => {
       const img = new Image();
       img.onerror = () => reject(new Error("File không phải ảnh hợp lệ"));
       img.onload  = () => {
-        // Tính toán kích thước mới giữ tỉ lệ
         let { width, height } = img;
-        if (width > maxWidth) {
-          height = Math.round(height * maxWidth / width);
-          width  = maxWidth;
-        }
-        // Vẽ lên Canvas
+        if (width > maxWidth) { height = Math.round(height * maxWidth / width); width = maxWidth; }
         const canvas = document.createElement("canvas");
-        canvas.width  = width;
-        canvas.height = height;
+        canvas.width = width; canvas.height = height;
         const ctx = canvas.getContext("2d");
-        // Nền trắng (tránh transparent PNG bị đen khi convert sang JPEG)
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, width, height);
         ctx.drawImage(img, 0, 0, width, height);
-        // Nếu browser không hỗ trợ WebP, fallback sang JPEG
-        canvas.toBlob(
-          (blob) => {
-            if (!blob) {
-              // Fallback: thử lại với JPEG
-              canvas.toBlob(
-                (jpegBlob) => jpegBlob ? resolve(jpegBlob) : reject(new Error("Canvas toBlob thất bại")),
-                "image/jpeg", quality
-              );
-              return;
-            }
-            resolve(blob);
-          },
-          outputType,
-          quality
-        );
+        canvas.toBlob(blob => {
+          if (!blob) {
+            canvas.toBlob(jb => jb ? resolve(jb) : reject(new Error("toBlob thất bại")), "image/jpeg", quality);
+            return;
+          }
+          resolve(blob);
+        }, outputType, quality);
       };
       img.src = e.target.result;
     };
@@ -349,47 +294,27 @@ function compressImage(file, maxWidth = 800, quality = 0.82, outputType = "image
   });
 }
 
-/**
- * Upload ảnh lên Cloudinary với progress callback.
- * Ảnh sẽ được nén client-side trước, sau đó mới upload.
- * @param {File}     file         - File gốc từ input
- * @param {Function} onProgress   - Callback(percent: number)
- * @returns {Promise<string>}     - URL ảnh trên Cloudinary
- */
 async function uploadToCloudinary(file, onProgress) {
-  // Bước 1: Nén ảnh
   onProgress(10);
   let compressedBlob;
   try {
     compressedBlob = await compressImage(file);
-    const originalKB  = Math.round(file.size / 1024);
-    const compressedKB = Math.round(compressedBlob.size / 1024);
-    console.log(`📸 Nén ảnh: ${originalKB}KB → ${compressedKB}KB`);
-    // Hiển thị thông tin nén
-    const infoEl = document.getElementById("compress-info");
-    if (infoEl) infoEl.textContent = `✓ Nén: ${originalKB}KB → ${compressedKB}KB`;
-  } catch (err) {
-    console.warn("Compress failed, uploading original:", err);
-    compressedBlob = file; // fallback: dùng file gốc
-  }
+    const oKB = Math.round(file.size / 1024), cKB = Math.round(compressedBlob.size / 1024);
+    const inf = document.getElementById("compress-info");
+    if (inf) inf.textContent = `✓ Nén: ${oKB}KB → ${cKB}KB`;
+    console.log(`📸 Nén ảnh: ${oKB}KB → ${cKB}KB`);
+  } catch (err) { console.warn("Compress fallback:", err); compressedBlob = file; }
   onProgress(30);
-
-  // Bước 2: Upload lên Cloudinary
   const fd = new FormData();
   fd.append("file", compressedBlob, file.name.replace(/\.[^.]+$/, ".webp"));
   fd.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
   fd.append("folder", "menu_items");
   onProgress(60);
-
-  const res = await fetch(
-    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
-    { method: "POST", body: fd }
-  );
+  const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, { method:"POST", body:fd });
   onProgress(90);
-
   if (!res.ok) throw new Error(`Cloudinary HTTP ${res.status}`);
   const data = await res.json();
-  if (!data.secure_url) throw new Error(data.error?.message || "Cloudinary không trả về URL");
+  if (!data.secure_url) throw new Error(data.error?.message || "Không có URL trả về");
   onProgress(100);
   return data.secure_url;
 }
@@ -402,8 +327,7 @@ let curBrId = null, curBrName = "";
 let allBranches = [];
 let curPage = "dashboard";
 let allOrders = [];
-let pendingReportTitle = "";
-let _exportTarget = "pg-c";
+let pendingReportTitle = "", _exportTarget = "pg-c";
 
 // ══════════════════════════════════════════════════════
 //  AUTH
@@ -412,24 +336,21 @@ window.doLogin = async () => {
   const e = document.getElementById("ai-em").value.trim();
   const p = document.getElementById("ai-pw").value;
   document.getElementById("ae").textContent = "";
-  try {
-    await signInWithEmailAndPassword(auth, e, p);
-  } catch (err) {
-    document.getElementById("ae").textContent = "Email hoặc mật khẩu không đúng.";
-    console.error("Auth error:", err.code);
-  }
+  try { await signInWithEmailAndPassword(auth, e, p); }
+  catch (err) { document.getElementById("ae").textContent = "Email hoặc mật khẩu không đúng."; console.error(err.code); }
 };
 window.doLogout = () => signOut(auth);
 
 onAuthStateChanged(auth, async u => {
   if (!u) { document.getElementById("auth").style.display = "flex"; return; }
-  me  = u;
-  isSA = u.email === SUPER_ADMIN_EMAIL;
-  document.getElementById("auth").style.display    = "none";
-  document.getElementById("sav").textContent       = u.email[0].toUpperCase();
-  document.getElementById("sue").textContent       = u.email;
-  document.getElementById("sa-s").style.display    = isSA ? "" : "none";
-  document.getElementById("n-br").style.display    = isSA ? "" : "none";
+  me = u; isSA = u.email === SUPER_ADMIN_EMAIL;
+  document.getElementById("auth").style.display  = "none";
+  document.getElementById("sav").textContent     = u.email[0].toUpperCase();
+  document.getElementById("sue").textContent     = u.email;
+  // Super Admin sections
+  document.getElementById("sa-s").style.display   = isSA ? "" : "none";
+  document.getElementById("n-gmenu").style.display = isSA ? "" : "none";
+  document.getElementById("n-br").style.display   = isSA ? "" : "none";
   if (typeof emailjs !== "undefined" && EMAILJS_CONFIG.publicKey !== "YOUR_EMAILJS_PUBLIC_KEY") {
     emailjs.init(EMAILJS_CONFIG.publicKey);
   }
@@ -442,74 +363,72 @@ async function loadBranches(u) {
     allBranches = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     const sel = document.getElementById("brs");
     sel.innerHTML = "";
+
     if (isSA) {
       myRole = "admin";
       document.getElementById("sur").textContent = "Super Admin";
-      sel.innerHTML = allBranches.map(b =>
-        `<option value="${b.id}">${b.info?.name || b.id}</option>`
-      ).join("");
+      // Super Admin thấy tùy chọn "Tất cả chi nhánh" ở đầu
+      sel.innerHTML = `<option value="__ALL__">🌐 Tất cả chi nhánh</option>` +
+        allBranches.map(b => `<option value="${b.id}">${b.info?.name || b.id}</option>`).join("");
     } else {
       const myB = [];
       for (const b of allBranches) {
         const sd = await getDoc(doc(db, "Branches", b.id, "Staff", u.email));
         if (sd.exists()) myB.push({ ...b, role: sd.data().role });
       }
-      if (!myB.length) {
-        showT("Tài khoản chưa được phân công chi nhánh", "err");
-        signOut(auth);
-        return;
-      }
+      if (!myB.length) { showT("Chưa được phân công chi nhánh", "err"); signOut(auth); return; }
       sel.innerHTML = myB.map(b =>
         `<option value="${b.id}" data-role="${b.role}">${b.info?.name || b.id}</option>`
       ).join("");
       myRole = myB[0].role;
     }
-    document.getElementById("sur").textContent = myRole === "admin" ? "Branch Admin" : "Thu Ngân";
+    document.getElementById("sur").textContent = isSA ? "Super Admin" : (myRole === "admin" ? "Branch Admin" : "Thu Ngân");
     if (sel.options.length) { sel.selectedIndex = 0; onBrCh(); }
   } catch (e) {
-    showT("Lỗi tải chi nhánh: " + e.message, "err");
-    console.error("loadBranches error:", e);
+    showT("Lỗi tải chi nhánh: " + e.message, "err"); console.error("loadBranches:", e);
   }
 }
 
 window.onBrCh = () => {
   const sel = document.getElementById("brs");
   const opt = sel.options[sel.selectedIndex];
-  curBrId   = opt.value;
-  curBrName = opt.text;
+  curBrId   = opt.value; // "__ALL__" nếu Super Admin chọn tổng quan
+  curBrName = curBrId === "__ALL__" ? "Tất cả chi nhánh" : opt.text;
   if (!isSA && opt.dataset.role) myRole = opt.dataset.role;
-  document.getElementById("sur").textContent = myRole === "admin" ? "Branch Admin" : "Thu Ngân";
+  document.getElementById("sur").textContent =
+    isSA ? "Super Admin" : (myRole === "admin" ? "Branch Admin" : "Thu Ngân");
   if (curBrId) goP(curPage);
 };
 
 // ══════════════════════════════════════════════════════
-//  NAV
+//  NAVIGATION
 // ══════════════════════════════════════════════════════
 const PTITLES = {
   dashboard:"📊 Dashboard", orders:"📋 Đơn hàng",
-  menu:"🍽️ Thực đơn & Kho", staff:"👥 Nhân viên",
-  vouchers:"🎟️ Voucher", branches:"🏢 Chi nhánh", settings:"⚙️ Cài đặt"
+  menu:"🍽️ Thực đơn & Kho", "global-menu":"📦 Kho Thực Đơn HQ",
+  staff:"👥 Nhân viên", vouchers:"🎟️ Voucher",
+  branches:"🏢 Chi nhánh", settings:"⚙️ Cài đặt"
 };
 window.goP = async p => {
   curPage = p;
   document.querySelectorAll(".ni").forEach(n => n.classList.remove("on"));
-  document.getElementById("pg-ttl").textContent  = PTITLES[p] || p;
-  document.getElementById("pg-acts").innerHTML   = "";
+  document.getElementById("pg-ttl").textContent = PTITLES[p] || p;
+  document.getElementById("pg-acts").innerHTML  = "";
   const pc = document.getElementById("pg-c");
   pc.innerHTML = '<div class="ldr"><div class="spin"></div><span>Đang tải...</span></div>';
-  if (!curBrId && p !== "branches") {
-    pc.innerHTML = '<div class="ldr" style="color:var(--txt3)">Vui lòng chọn chi nhánh</div>';
-    return;
+  if (!curBrId && p !== "branches" && p !== "global-menu") {
+    pc.innerHTML = '<div class="ldr" style="color:var(--txt3)">Vui lòng chọn chi nhánh</div>'; return;
   }
   try {
     switch (p) {
-      case "dashboard": await rDash();     break;
-      case "orders":    await rOrders();   break;
-      case "menu":      await rMenu();     break;
-      case "staff":     await rStaff();    break;
-      case "vouchers":  await rVouchers(); break;
-      case "branches":  await rBranches(); break;
-      case "settings":  await rSettings(); break;
+      case "dashboard":   await rDash();      break;
+      case "orders":      await rOrders();    break;
+      case "menu":        await rMenu();      break;
+      case "global-menu": await rGlobalMenu(); break;
+      case "staff":       await rStaff();     break;
+      case "vouchers":    await rVouchers();  break;
+      case "branches":    await rBranches();  break;
+      case "settings":    await rSettings();  break;
     }
   } catch (e) {
     pc.innerHTML = `<div class="ldr" style="color:var(--red)">Lỗi: ${e.message}</div>`;
@@ -518,142 +437,142 @@ window.goP = async p => {
 };
 
 // ══════════════════════════════════════════════════════
-//  REPORT EXPORT HELPERS
+//  EXPORT PDF / EMAIL HELPERS
 // ══════════════════════════════════════════════════════
-function addExportButtons(reportTitle, targetId = "pg-c") {
-  pendingReportTitle = reportTitle;
-  _exportTarget     = targetId;
+function addExportButtons(title, targetId = "pg-c") {
+  pendingReportTitle = title; _exportTarget = targetId;
   document.getElementById("pg-acts").innerHTML = `
-    <button class="hdr-export-btn pdf" onclick="exportReportPDF('${targetId}','${reportTitle}')">
-      📥 Tải PDF
-    </button>
-    <button class="hdr-export-btn email" onclick="openEmailMo('${targetId}','${reportTitle}')">
-      📧 Gửi Email
-    </button>`;
+    <button class="hdr-export-btn pdf" onclick="exportReportPDF('${targetId}','${title}')">📥 Tải PDF</button>
+    <button class="hdr-export-btn email" onclick="openEmailMo('${targetId}','${title}')">📧 Gửi Email</button>`;
 }
 
 window.exportReportPDF = async (targetId, title) => {
-  showT("Đang tạo PDF báo cáo...", "inf");
+  showT("Đang tạo PDF...", "inf");
   const el = document.getElementById(targetId);
-  if (!el) { showT("Không tìm thấy nội dung để xuất", "err"); return; }
+  if (!el) { showT("Không tìm thấy nội dung", "err"); return; }
   try {
     await html2pdf().set({
-      margin:   [10, 10, 10, 10],
-      filename: `${title.replace(/[^a-zA-Z0-9]/g, "-")}-${fD(new Date())}.pdf`,
-      image:    { type: "jpeg", quality: .93 },
-      html2canvas: {
-        scale: 2, useCORS: true, backgroundColor: "#ffffff",
-        onclone: (cloneDoc) => {
-          cloneDoc.documentElement.style.setProperty("--bg",  "#ffffff");
-          cloneDoc.documentElement.style.setProperty("--s1",  "#f5f7fa");
-          cloneDoc.documentElement.style.setProperty("--s2",  "#ffffff");
-          cloneDoc.documentElement.style.setProperty("--s3",  "#eef1f6");
-          cloneDoc.documentElement.style.setProperty("--s4",  "#e2e8f0");
-          cloneDoc.documentElement.style.setProperty("--brd", "#d0d8e8");
-          cloneDoc.documentElement.style.setProperty("--txt", "#1a2240");
-          cloneDoc.documentElement.style.setProperty("--txt2","#4a5680");
-          cloneDoc.documentElement.style.setProperty("--txt3","#8898c0");
-        }
-      },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+      margin:[10,10,10,10],
+      filename:`${title.replace(/[^a-zA-Z0-9]/g,"-")}-${fD(new Date())}.pdf`,
+      image:{type:"jpeg",quality:.93},
+      html2canvas:{scale:2,useCORS:true,backgroundColor:"#ffffff",
+        onclone:d=>{
+          d.documentElement.style.setProperty("--bg","#ffffff");
+          d.documentElement.style.setProperty("--s1","#f5f7fa");
+          d.documentElement.style.setProperty("--s2","#ffffff");
+          d.documentElement.style.setProperty("--s3","#eef1f6");
+          d.documentElement.style.setProperty("--s4","#e2e8f0");
+          d.documentElement.style.setProperty("--brd","#d0d8e8");
+          d.documentElement.style.setProperty("--txt","#1a2240");
+          d.documentElement.style.setProperty("--txt2","#4a5680");
+          d.documentElement.style.setProperty("--txt3","#8898c0");
+        }},
+      jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
     }).from(el).save();
     showT("✅ Đã tải PDF!", "ok");
-  } catch (e) {
-    showT("Lỗi tạo PDF: " + e.message, "err");
-    console.error("exportReportPDF error:", e);
-  }
+  } catch (e) { showT("Lỗi PDF: " + e.message, "err"); console.error(e); }
 };
 
+let _expTarget = "pg-c";
 window.openEmailMo = (targetId, title) => {
-  _exportTarget     = targetId;
-  pendingReportTitle = title;
-  document.getElementById("email-mo-desc").textContent = `Xuất báo cáo "${title}" thành PDF và gửi đến email:`;
+  _expTarget = targetId; pendingReportTitle = title;
+  document.getElementById("email-mo-desc").textContent = `Xuất báo cáo "${title}" thành PDF và gửi đến:`;
   document.getElementById("report-email").value = "";
   document.getElementById("email-mo").classList.add("open");
 };
-window.closeEmailMo      = e => { if (e.target === document.getElementById("email-mo")) closeEmailMoDirect(); };
+window.closeEmailMo = e => { if (e.target === document.getElementById("email-mo")) closeEmailMoDirect(); };
 window.closeEmailMoDirect = () => document.getElementById("email-mo").classList.remove("open");
 
 window.confirmSendReport = async () => {
   const email = document.getElementById("report-email").value.trim();
   if (!email) { showT("Nhập email nhận báo cáo", "err"); return; }
-  if (EMAILJS_CONFIG.publicKey === "YOUR_EMAILJS_PUBLIC_KEY") {
-    showT("Chưa cấu hình EmailJS trong config.js", "err");
-    return;
-  }
+  if (EMAILJS_CONFIG.publicKey === "YOUR_EMAILJS_PUBLIC_KEY") { showT("Chưa cấu hình EmailJS", "err"); return; }
   closeEmailMoDirect();
   showT("Đang tạo PDF & gửi...", "inf");
   try {
-    const el = document.getElementById(_exportTarget);
     const pdfUri = await html2pdf().set({
-      margin:   [10, 10, 10, 10],
-      image:    { type: "jpeg", quality: .9 },
-      html2canvas: {
-        scale: 2, backgroundColor: "#ffffff",
-        onclone: (cloneDoc) => {
-          cloneDoc.documentElement.style.setProperty("--bg",  "#ffffff");
-          cloneDoc.documentElement.style.setProperty("--s2",  "#ffffff");
-          cloneDoc.documentElement.style.setProperty("--txt", "#1a2240");
-        }
-      },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-    }).from(el).outputPdf("datauristring");
-
+      margin:[10,10,10,10],image:{type:"jpeg",quality:.9},
+      html2canvas:{scale:2,backgroundColor:"#ffffff",
+        onclone:d=>{d.documentElement.style.setProperty("--bg","#ffffff");d.documentElement.style.setProperty("--s2","#ffffff");d.documentElement.style.setProperty("--txt","#1a2240");}},
+      jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
+    }).from(document.getElementById(_expTarget)).outputPdf("datauristring");
     await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.reportTemplate, {
-      to_email:     email,
-      branch_name:  curBrName,
-      report_title: pendingReportTitle,
-      report_date:  fD(new Date()),
-      sent_by:      me.email,
-      pdf_content:  pdfUri
+      to_email:email, branch_name:curBrName, report_title:pendingReportTitle,
+      report_date:fD(new Date()), sent_by:me.email, pdf_content:pdfUri
     });
     showT("📧 Đã gửi báo cáo!", "ok");
-  } catch (e) {
-    console.error("confirmSendReport error:", e);
-    showT("Lỗi gửi email: " + e.message, "err");
-  }
+  } catch (e) { console.error(e); showT("Lỗi gửi: " + e.message, "err"); }
 };
 
 // ══════════════════════════════════════════════════════
 //  DASHBOARD
+//  Super Admin + "__ALL__": Cộng dồn TẤT CẢ chi nhánh
+//  Branch Admin / cụ thể 1 branch: chỉ branch đó
 // ══════════════════════════════════════════════════════
 async function rDash() {
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  const from  = new Date(today); from.setDate(today.getDate() - 30);
-  const oSnap = await getDocs(query(
-    collection(db, "Branches", curBrId, "Orders"),
-    orderBy("createdAt", "desc"), limit(500)
-  ));
-  allOrders = oSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-  const done   = allOrders.filter(o => ["completed","paid","delivered"].includes(o.status));
-  const todayO = done.filter(o => { const d = o.createdAt?.toDate?.(); return d && d >= today; });
-  const totR   = done.reduce((s, o) => s + (o.total  || 0), 0);
-  const totV   = done.reduce((s, o) => s + (o.vat    || 0), 0);
-  const netR   = totR - totV;
-  const totD   = done.reduce((s, o) => s + (o.discount || 0), 0);
-  const gP     = netR - totD;
-  const todayR = todayO.reduce((s, o) => s + (o.total || 0), 0);
-  const iC = {};
-  done.forEach(o => (o.items || []).forEach(i => { iC[i.name] = (iC[i.name] || 0) + i.qty; }));
-  const bs = Object.entries(iC).sort((a, b) => b[1] - a[1]).slice(0, 5);
-  const mx = bs[0]?.[1] || 1;
-  const pmd = { cash: 0, card: 0, transfer: 0 };
-  done.forEach(o => { if (o.paymentMethod in pmd) pmd[o.paymentMethod] += (o.total || 0); });
-  const pmt = Object.values(pmd).reduce((s, v) => s + v, 0) || 1;
-  const chd = { dinein: 0, takeaway: 0, weborder: 0, apporder: 0 };
+  const today = new Date(); today.setHours(0,0,0,0);
+  const from  = new Date(today); from.setDate(today.getDate()-30);
+
+  // Xác định danh sách branch cần query
+  let branchesToQuery = [];
+  if (isSA && curBrId === "__ALL__") {
+    // Tổng quan toàn hệ thống
+    branchesToQuery = allBranches.map(b => b.id);
+  } else {
+    branchesToQuery = [curBrId];
+  }
+
+  // Fetch orders từ tất cả branch cần query (client-side aggregation)
+  allOrders = [];
+  for (const bId of branchesToQuery) {
+    const oSnap = await getDocs(query(
+      collection(db, "Branches", bId, "Orders"),
+      orderBy("createdAt","desc"), limit(500)
+    ));
+    oSnap.docs.forEach(d => allOrders.push({ id:d.id, branchId:bId, ...d.data() }));
+  }
+
+  // Tính toán KPI
+  const done    = allOrders.filter(o => ["completed","paid","delivered"].includes(o.status));
+  const todayO  = done.filter(o => { const d = o.createdAt?.toDate?.(); return d && d >= today; });
+  const totR    = done.reduce((s,o) => s+(o.total||0), 0);
+  const totV    = done.reduce((s,o) => s+(o.vat||0), 0);
+  const netR    = totR - totV;
+  const totD    = done.reduce((s,o) => s+(o.discount||0), 0);
+  const gP      = netR - totD;
+  const todayR  = todayO.reduce((s,o) => s+(o.total||0), 0);
+
+  // Best sellers
+  const iC = {}; done.forEach(o => (o.items||[]).forEach(i => { iC[i.name]=(iC[i.name]||0)+i.qty; }));
+  const bs  = Object.entries(iC).sort((a,b) => b[1]-a[1]).slice(0,5);
+  const mx  = bs[0]?.[1] || 1;
+
+  // Payment methods
+  const pmd = {cash:0,card:0,transfer:0};
+  done.forEach(o => { if (o.paymentMethod in pmd) pmd[o.paymentMethod]+=(o.total||0); });
+  const pmt = Object.values(pmd).reduce((s,v) => s+v,0) || 1;
+
+  // Channels
+  const chd = {dinein:0,takeaway:0,weborder:0,apporder:0};
   done.forEach(o => { if (o.orderType in chd) chd[o.orderType]++; });
-  const cht = Object.values(chd).reduce((s, v) => s + v, 0) || 1;
+  const cht = Object.values(chd).reduce((s,v) => s+v,0) || 1;
+
+  const isAllMode = isSA && curBrId === "__ALL__";
+  const scopeLabel = isAllMode ? "Toàn hệ thống" : curBrName;
 
   document.getElementById("pg-c").innerHTML = `
   <div id="dash-content">
+    ${isAllMode ? `<div style="background:var(--acc-d);border:1px solid var(--acc);border-radius:var(--r);padding:8px 14px;margin-bottom:16px;font-size:12px;color:var(--acc);font-weight:700;">
+      🌐 Đang xem tổng quan toàn hệ thống (${allBranches.length} chi nhánh · ${allOrders.length} đơn)
+    </div>` : ""}
     <div class="df">
       <label>Từ:</label><input type="date" id="df-from" value="${fD(from)}"/>
       <label>Đến:</label><input type="date" id="df-to" value="${fD(today)}"/>
       <button class="df-btn" onclick="applyDateFilter()">Lọc</button>
-      <span style="font-size:11px;color:var(--txt3)">${done.length} đơn hoàn thành trong 30 ngày</span>
+      <span style="font-size:11px;color:var(--txt3)">${done.length} đơn hoàn thành (30 ngày) · ${scopeLabel}</span>
     </div>
     <div class="kg">
-      <div class="kc or"><div class="ki">💰</div><div class="kl">Doanh thu tổng (30 ngày)</div><div class="kv" style="color:var(--acc)">${fmt(totR)}</div><div class="ks">Hôm nay: ${fmt(todayR)}</div></div>
+      <div class="kc or"><div class="ki">💰</div><div class="kl">Doanh thu tổng</div><div class="kv" style="color:var(--acc)">${fmt(totR)}</div><div class="ks">Hôm nay: ${fmt(todayR)}</div></div>
       <div class="kc gr"><div class="ki">✅</div><div class="kl">Doanh thu thuần</div><div class="kv" style="color:var(--grn)">${fmt(netR)}</div><div class="ks">Sau VAT: ${fmt(totV)}</div></div>
       <div class="kc bl"><div class="ki">📈</div><div class="kl">Lợi nhuận gộp</div><div class="kv" style="color:var(--blu)">${fmt(gP)}</div><div class="ks">Giảm giá: ${fmt(totD)}</div></div>
       <div class="kc pu"><div class="ki">🧾</div><div class="kl">Tổng đơn hàng</div><div class="kv" style="color:var(--pur)">${allOrders.length}</div><div class="ks">Hôm nay: ${todayO.length} đơn</div></div>
@@ -662,44 +581,33 @@ async function rDash() {
       <div class="cc">
         <div class="ct">🔥 Món bán chạy nhất (Top 5)</div>
         <div class="bc">${bs.length
-          ? bs.map(([n, q]) => `<div class="bi"><div class="blab">${n}</div><div class="btr"><div class="bf" style="width:${(q/mx*100).toFixed(1)}%;background:var(--acc)"></div></div><div class="bval">${q} suất</div></div>`).join("")
-          : '<div style="color:var(--txt3);font-size:12px;padding:8px 0">Chưa có dữ liệu</div>'
-        }</div>
+          ? bs.map(([n,q]) => `<div class="bi"><div class="blab">${n}</div><div class="btr"><div class="bf" style="width:${(q/mx*100).toFixed(1)}%;background:var(--acc)"></div></div><div class="bval">${q} suất</div></div>`).join("")
+          : '<div style="color:var(--txt3);font-size:12px;padding:8px 0">Chưa có dữ liệu</div>'}</div>
       </div>
       <div class="cc">
         <div class="ct">💳 Hình thức thanh toán</div>
         <div class="dw">
-          ${donut([
-            { l:"Tiền mặt",  v: pmd.cash/pmt,     c:"#00d97e" },
-            { l:"Thẻ",       v: pmd.card/pmt,     c:"#4f9cff" },
-            { l:"CK",        v: pmd.transfer/pmt, c:"#b06fff" }
-          ])}
+          ${donut([{l:"Tiền mặt",v:pmd.cash/pmt,c:"#00d97e"},{l:"Thẻ",v:pmd.card/pmt,c:"#4f9cff"},{l:"CK",v:pmd.transfer/pmt,c:"#b06fff"}])}
           <div class="dl">
             ${[["cash","💵 Tiền mặt","#00d97e"],["card","💳 Thẻ","#4f9cff"],["transfer","🏦 CK","#b06fff"]]
-              .map(([k,l,c]) => `<div class="dli"><div class="dld" style="background:${c}"></div><span style="color:var(--txt2)">${l}:</span><strong>${fmt(pmd[k])}</strong></div>`)
-              .join("")}
+              .map(([k,l,c]) => `<div class="dli"><div class="dld" style="background:${c}"></div><span style="color:var(--txt2)">${l}:</span><strong>${fmt(pmd[k])}</strong></div>`).join("")}
           </div>
         </div>
       </div>
     </div>
     <div class="stl">Kênh bán hàng</div>
     <div class="cvd">
-      <div class="bc">${Object.entries({ dinein:"🪑 Tại chỗ", takeaway:"🥡 Mang về", weborder:"🌐 Web", apporder:"📱 App" })
-        .map(([k, l]) => `<div class="bi"><div class="blab">${l}</div><div class="btr"><div class="bf" style="width:${(chd[k]/cht*100).toFixed(1)}%;background:var(--blu)"></div></div><div class="bval">${chd[k]} đơn</div></div>`)
-        .join("")}</div>
+      <div class="bc">${Object.entries({dinein:"🪑 Tại chỗ",takeaway:"🥡 Mang về",weborder:"🌐 Web",apporder:"📱 App"})
+        .map(([k,l]) => `<div class="bi"><div class="blab">${l}</div><div class="btr"><div class="bf" style="width:${(chd[k]/cht*100).toFixed(1)}%;background:var(--blu)"></div></div><div class="bval">${chd[k]} đơn</div></div>`).join("")}</div>
     </div>
   </div>`;
-  addExportButtons(`BaoCao-Dashboard-${curBrName}`, "dash-content");
+  addExportButtons(`Dashboard-${scopeLabel}`, "dash-content");
 }
 
 window.applyDateFilter = () => {
   const from     = new Date(document.getElementById("df-from").value);
-  const to       = new Date(document.getElementById("df-to").value);
-  to.setHours(23, 59, 59);
-  const filtered = allOrders.filter(o => {
-    const d = o.createdAt?.toDate?.();
-    return d && d >= from && d <= to;
-  });
+  const to       = new Date(document.getElementById("df-to").value); to.setHours(23,59,59);
+  const filtered = allOrders.filter(o => { const d = o.createdAt?.toDate?.(); return d && d >= from && d <= to; });
   showT(`Lọc: ${filtered.length} đơn trong khoảng đã chọn`, "inf");
 };
 
@@ -707,29 +615,22 @@ window.applyDateFilter = () => {
 //  ORDERS
 // ══════════════════════════════════════════════════════
 async function rOrders() {
-  const SL = { pending:"Chờ XN", paid:"Đã TT", preparing:"Chuẩn bị", delivering:"Giao hàng", delivered:"Đã giao", completed:"Hoàn thành", cancelled:"Đã hủy" };
-  const SC = { pending:"var(--ylw)", paid:"var(--grn)", preparing:"var(--blu)", delivering:"var(--pur)", delivered:"#c8a7ff", completed:"#4dffa6", cancelled:"var(--red)" };
+  const SL = {pending:"Chờ XN",paid:"Đã TT",preparing:"Chuẩn bị",delivering:"Giao hàng",delivered:"Đã giao",completed:"Hoàn thành",cancelled:"Đã hủy"};
+  const SC = {pending:"var(--ylw)",paid:"var(--grn)",preparing:"var(--blu)",delivering:"var(--pur)",delivered:"#c8a7ff",completed:"#4dffa6",cancelled:"var(--red)"};
   const SF = ["pending","paid","preparing","delivering","delivered","completed","cancelled"];
-  const snap = await getDocs(query(
-    collection(db, "Branches", curBrId, "Orders"),
-    orderBy("createdAt", "desc"), limit(100)
-  ));
-  const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  const snap = await getDocs(query(collection(db,"Branches",curBrId,"Orders"),orderBy("createdAt","desc"),limit(100)));
+  const orders = snap.docs.map(d => ({id:d.id,...d.data()}));
   const rows = orders.map(o => {
-    const ts = o.createdAt?.toDate?.();
-    const s  = o.status || "pending";
+    const ts = o.createdAt?.toDate?.(); const s = o.status||"pending";
     return `<tr>
       <td><span style="font-family:var(--mono);font-size:11px">#${o.id.slice(-6).toUpperCase()}</span></td>
-      <td style="font-size:12px">${ts ? ts.toLocaleString("vi-VN") : "—"}</td>
-      <td>${{dinein:"🪑",takeaway:"🥡",weborder:"🌐",apporder:"📱"}[o.orderType] || ""} ${o.orderType || "—"}</td>
+      <td style="font-size:12px">${ts?ts.toLocaleString("vi-VN"):"—"}</td>
+      <td>${{dinein:"🪑",takeaway:"🥡",weborder:"🌐",apporder:"📱"}[o.orderType]||""} ${o.orderType||"—"}</td>
       <td style="font-family:var(--mono);font-weight:700;color:var(--acc)">${fmt(o.total)}</td>
-      <td><span class="bdg" style="background:${SC[s]}18;color:${SC[s]}">${SL[s] || s}</span></td>
-      <td>
-        <select style="background:var(--s3);border:1px solid var(--brd);border-radius:6px;padding:4px;color:var(--txt);font-size:11px;font-family:var(--font)"
-          onchange="updSt('${o.id}',this.value)">
-          ${SF.map(st => `<option value="${st}" ${st === s ? "selected" : ""}>${SL[st]}</option>`).join("")}
-        </select>
-      </td>
+      <td><span class="bdg" style="background:${SC[s]}18;color:${SC[s]}">${SL[s]||s}</span></td>
+      <td><select style="background:var(--s3);border:1px solid var(--brd);border-radius:6px;padding:4px;color:var(--txt);font-size:11px;font-family:var(--font)" onchange="updSt('${o.id}',this.value)">
+        ${SF.map(st=>`<option value="${st}" ${st===s?"selected":""}>${SL[st]}</option>`).join("")}
+      </select></td>
     </tr>`;
   }).join("");
   document.getElementById("pg-c").innerHTML = `
@@ -737,174 +638,273 @@ async function rOrders() {
     <div class="cvd" style="overflow-x:auto">
       <table class="dt">
         <thead><tr><th>Mã</th><th>Thời gian</th><th>Kênh</th><th>Tổng</th><th>Trạng thái</th><th>Cập nhật</th></tr></thead>
-        <tbody>${rows || '<tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:24px">Chưa có đơn</td></tr>'}</tbody>
+        <tbody>${rows||'<tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:24px">Chưa có đơn</td></tr>'}</tbody>
       </table>
     </div>
   </div>`;
   addExportButtons(`DonHang-${curBrName}`, "orders-content");
 }
-
 window.updSt = async (id, s) => {
   try {
-    await updateDoc(doc(db, "Branches", curBrId, "Orders", id), { status: s, updatedAt: serverTimestamp() });
-    showT("Đã cập nhật", "ok");
+    await updateDoc(doc(db,"Branches",curBrId,"Orders",id),{status:s,updatedAt:serverTimestamp()});
+    showT("Đã cập nhật","ok");
+  } catch (e) { showT("Lỗi: "+e.message,"err"); console.error(e); }
+};
+
+// ══════════════════════════════════════════════════════
+//  MENU (Branch view) — Hiển thị GlobalMenu + MenuStatus của branch
+//  Branch Admin: Bật/Tắt available và sửa stock
+//  KHÔNG có nút thêm/xóa/sửa thông tin gốc (chỉ SuperAdmin làm ở GlobalMenu)
+// ══════════════════════════════════════════════════════
+async function rMenu() {
+  // Fetch GlobalMenu và MenuStatus đồng thời
+  const [globalSnap, statusSnap] = await Promise.all([
+    getDocs(collection(db, "GlobalMenu")),
+    getDocs(collection(db, "Branches", curBrId, "MenuStatus"))
+  ]);
+
+  const globalItems  = globalSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+  const statusMap    = {};
+  statusSnap.docs.forEach(d => { statusMap[d.id] = d.data(); });
+
+  // Merge: kết hợp thông tin gốc với trạng thái cục bộ
+  const merged = globalItems.map(g => {
+    const st = statusMap[g.id] || { available: true, stock: -1 };
+    return { ...g, available: st.available !== false, stock: st.stock ?? -1 };
+  });
+
+  // Tính tổng tồn kho toàn hệ thống (nếu là Super Admin)
+  // Hiển thị nút cập nhật cho Branch Admin
+  const canEdit = myRole === "admin"; // Branch Admin hoặc Super Admin
+  const rows = merged.map(m => {
+    const isOOS = !m.available || m.stock === 0;
+    return `<tr>
+      <td><img src="${m.image||"https://placehold.co/36x36/1a2232/3d4f70?text=🥗"}" style="width:36px;height:36px;border-radius:6px;object-fit:cover"/></td>
+      <td><strong>${m.name}</strong><div style="font-size:11px;color:var(--txt3)">${m.category||"—"}</div></td>
+      <td style="font-family:var(--mono);color:var(--acc);font-weight:700">${fmt(m.price)}</td>
+      <td>
+        ${canEdit
+          ? `<label class="tog-wrap">
+              <label class="tog">
+                <input type="checkbox" ${m.available?"checked":""} onchange="toggleAvailable('${m.id}',this.checked)"/>
+                <span class="tog-sl"></span>
+              </label>
+              <span class="tog-lbl">${m.available?"Đang bán":"Đã tắt"}</span>
+            </label>`
+          : `<span class="bdg ${m.available?"bact":"bins"}">${m.available?"Đang bán":"Đã tắt"}</span>`
+        }
+      </td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-family:var(--mono);font-weight:700;color:${isOOS?"var(--red)":"var(--txt)"}">${m.stock>=0?m.stock:"∞"}</span>
+          ${canEdit
+            ? `<button style="background:var(--s3);border:1px solid var(--brd);color:var(--txt2);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer"
+                onclick="updStk('${m.id}','${m.name}',${m.stock})">Sửa</button>`
+            : ""}
+        </div>
+      </td>
+      <td><span class="bdg ${isOOS?"bins":"bact"}">${isOOS?"Hết / Tắt":"Có thể bán"}</span></td>
+    </tr>`;
+  }).join("");
+
+  document.getElementById("pg-c").innerHTML = `
+  <div id="menu-content">
+    <div style="background:var(--blu-d);border:1px solid var(--blu);border-radius:var(--r);padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--blu);">
+      ℹ️ <strong>Chi nhánh: ${curBrName}</strong> — Bật/Tắt món và sửa tồn kho cho chi nhánh này.
+      Để thêm/sửa/xóa thông tin gốc, vào <strong>Kho Thực Đơn HQ</strong> (chỉ Super Admin).
+    </div>
+    <div class="cvd" style="overflow-x:auto">
+      <table class="dt">
+        <thead><tr><th>Ảnh</th><th>Tên món</th><th>Giá</th><th>Bật/Tắt</th><th>Tồn kho chi nhánh</th><th>Trạng thái</th></tr></thead>
+        <tbody>${rows||'<tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:24px">Chưa có món trong GlobalMenu. Super Admin hãy thêm vào Kho HQ.</td></tr>'}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+// Bật/Tắt available trong MenuStatus
+window.toggleAvailable = async (itemId, isAvailable) => {
+  try {
+    await setDoc(
+      doc(db, "Branches", curBrId, "MenuStatus", itemId),
+      { available: isAvailable },
+      { merge: true }  // merge để không xóa field stock
+    );
+    showT(isAvailable ? "✅ Đã mở bán món" : "⛔ Đã tắt món", "ok");
   } catch (e) {
-    showT("Lỗi: " + e.message, "err");
-    console.error("updSt error:", e);
+    showT("Lỗi: " + e.message, "err"); console.error("toggleAvailable:", e);
+  }
+};
+
+// Sửa stock trong MenuStatus
+window.updStk = async (itemId, name, cur) => {
+  const n = prompt(`Tồn kho mới cho "${name}" tại ${curBrName} (hiện: ${cur}, nhập -1 = vô hạn):`);
+  if (n === null) return;
+  const nv = parseInt(n);
+  if (isNaN(nv)) { showT("Số không hợp lệ", "err"); return; }
+  try {
+    await setDoc(
+      doc(db, "Branches", curBrId, "MenuStatus", itemId),
+      { stock: nv },
+      { merge: true }
+    );
+    showT(`Tồn kho "${name}" → ${nv >= 0 ? nv : "∞"}`, "ok");
+    rMenu(); // reload
+  } catch (e) {
+    showT("Lỗi: " + e.message, "err"); console.error("updStk:", e);
   }
 };
 
 // ══════════════════════════════════════════════════════
-//  MENU (với image compression)
+//  GLOBAL MENU (HQ Catalog) — CHỈ Super Admin
+//  Thêm/Sửa/Xóa thông tin gốc: tên, giá, ảnh, category
+//  Cột "Tồn kho tổng" = cộng dồn stock từ tất cả MenuStatus
 // ══════════════════════════════════════════════════════
-async function rMenu() {
+async function rGlobalMenu() {
+  if (!isSA) {
+    document.getElementById("pg-c").innerHTML =
+      '<div class="ldr" style="color:var(--red)">Chỉ Super Admin mới truy cập Kho HQ</div>';
+    return;
+  }
   document.getElementById("pg-acts").innerHTML =
-    `<button class="bs-acc" onclick="openAddMenu()">+ Thêm món</button>`;
-  const snap  = await getDocs(collection(db, "Branches", curBrId, "Menus"));
-  const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  const rows  = items.map(m => `<tr>
-    <td><img src="${m.image || "https://placehold.co/36x36/1a2232/3d4f70?text=🥗"}"
-      style="width:36px;height:36px;border-radius:6px;object-fit:cover"/></td>
-    <td><strong>${m.name}</strong></td>
-    <td style="color:var(--txt2)">${m.category || "—"}</td>
-    <td style="font-family:var(--mono);color:var(--acc);font-weight:700">${fmt(m.price)}</td>
-    <td>
-      <div style="display:flex;align-items:center;gap:5px">
-        <span style="font-family:var(--mono)">${m.stock >= 0 ? m.stock : "∞"}</span>
-        <button style="background:var(--s3);border:1px solid var(--brd);color:var(--txt2);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer"
-          onclick="updStk('${m.id}','${m.name}',${m.stock})">Sửa</button>
-      </div>
+    `<button class="bs-acc" onclick="openAddGItem()">+ Thêm món vào HQ</button>`;
+
+  // Fetch GlobalMenu
+  const globalSnap = await getDocs(collection(db, "GlobalMenu"));
+  const globalItems = globalSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+  // Cộng dồn tồn kho từ tất cả chi nhánh
+  // Fetch MenuStatus của từng branch song song để tăng hiệu suất
+  const stockMap = {}; // itemId -> totalStock
+  globalItems.forEach(g => { stockMap[g.id] = 0; });
+
+  const branchStatusPromises = allBranches.map(b =>
+    getDocs(collection(db, "Branches", b.id, "MenuStatus"))
+  );
+  const allStatusSnaps = await Promise.all(branchStatusPromises);
+  allStatusSnaps.forEach(snap => {
+    snap.docs.forEach(d => {
+      if (stockMap[d.id] !== undefined) {
+        const s = d.data().stock ?? -1;
+        if (s < 0) {
+          // Nếu bất kỳ chi nhánh nào có stock vô hạn → hiển thị ∞
+          stockMap[d.id] = -1;
+        } else if (stockMap[d.id] >= 0) {
+          stockMap[d.id] += s;
+        }
+      }
+    });
+  });
+
+  const rows = globalItems.map(g => `<tr>
+    <td><img src="${g.image||"https://placehold.co/36x36/1a2232/3d4f70?text=🥗"}" style="width:36px;height:36px;border-radius:6px;object-fit:cover"/></td>
+    <td><strong>${g.name}</strong></td>
+    <td style="color:var(--txt2)">${g.category||"—"}</td>
+    <td style="font-family:var(--mono);color:var(--acc);font-weight:700">${fmt(g.price)}</td>
+    <td style="font-family:var(--mono);font-weight:700">
+      ${stockMap[g.id] < 0 ? "∞" : stockMap[g.id]}
+      <span style="font-size:10px;color:var(--txt3);margin-left:4px">(tổng ${allBranches.length} CN)</span>
     </td>
-    <td><span class="bdg ${m.available !== false ? "bact" : "bins"}">${m.available !== false ? "Đang bán" : "Tạm ngừng"}</span></td>
     <td>
       <button style="background:var(--s3);border:1px solid var(--brd);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:12px"
-        onclick="openEditMenu('${m.id}')">✏️</button>
+        onclick="openEditGItem('${g.id}')">✏️ Sửa</button>
       <button style="background:var(--red-d);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:12px;margin-left:4px"
-        onclick="delMenu('${m.id}','${m.name}')">🗑️</button>
+        onclick="delGItem('${g.id}','${g.name}')">🗑️ Xóa</button>
     </td>
   </tr>`).join("");
+
   document.getElementById("pg-c").innerHTML = `
-  <div class="cvd" style="overflow-x:auto">
-    <table class="dt">
-      <thead><tr><th>Ảnh</th><th>Tên món</th><th>Danh mục</th><th>Giá</th><th>Tồn kho</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
-      <tbody>${rows || '<tr><td colspan="7" style="text-align:center;color:var(--txt3);padding:24px">Chưa có món</td></tr>'}</tbody>
-    </table>
+  <div id="global-menu-content">
+    <div style="background:var(--acc-d);border:1px solid var(--acc);border-radius:var(--r);padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--acc);">
+      🏢 <strong>Kho Thực Đơn HQ</strong> — Đây là danh mục gốc. Thay đổi ở đây áp dụng ngay cho tất cả chi nhánh.
+      Cột "Tồn kho tổng" được cộng dồn từ ${allBranches.length} chi nhánh.
+    </div>
+    <div class="cvd" style="overflow-x:auto">
+      <table class="dt">
+        <thead><tr><th>Ảnh</th><th>Tên món</th><th>Danh mục</th><th>Giá</th><th>Tồn kho tổng</th><th>Thao tác</th></tr></thead>
+        <tbody>${rows||'<tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:24px">Chưa có món nào trong GlobalMenu</td></tr>'}</tbody>
+      </table>
+    </div>
   </div>`;
-  window._menuItems = items;
+  addExportButtons("KhoThucDon-HQ", "global-menu-content");
 }
 
-function mForm(m = {}) {
+// Form thêm/sửa món GlobalMenu (chỉ Super Admin)
+function gItemForm(g = {}) {
   return `
-<form onsubmit="saveMenu(event,'${m.id || ''}')">
+<form onsubmit="saveGItem(event,'${g.id||''}')">
 <div class="fg">
-  <div class="ff full"><label>Tên món *</label><input name="name" value="${m.name || ""}" required placeholder="VD: Cơm tấm sườn"/></div>
-  <div class="ff"><label>Giá (VNĐ) *</label><input name="price" type="number" min="0" value="${m.price || ""}" required/></div>
-  <div class="ff"><label>Danh mục</label><input name="category" value="${m.category || ""}" placeholder="Cơm, Bún, Nước..."/></div>
-  <div class="ff"><label>Tồn kho (-1 = vô hạn)</label><input name="stock" type="number" value="${m.stock ?? -1}"/></div>
-  <div class="ff"><label>Trạng thái</label>
-    <select name="available">
-      <option value="true" ${m.available !== false ? "selected" : ""}>Đang bán</option>
-      <option value="false" ${m.available === false ? "selected" : ""}>Tạm ngừng</option>
-    </select>
-  </div>
-  <div class="ff full"><label>Mô tả</label><textarea name="description">${m.description || ""}</textarea></div>
+  <div class="ff full"><label>Tên món *</label><input name="name" value="${g.name||""}" required placeholder="VD: Cơm tấm sườn"/></div>
+  <div class="ff"><label>Giá (VNĐ) *</label><input name="price" type="number" min="0" value="${g.price||""}" required/></div>
+  <div class="ff"><label>Danh mục</label><input name="category" value="${g.category||""}" placeholder="Cơm, Bún, Nước..."/></div>
+  <div class="ff full"><label>Mô tả</label><textarea name="description">${g.description||""}</textarea></div>
   <div class="ff full">
-    <label>Ảnh món (tự động nén về 800px, WebP)</label>
+    <label>Ảnh (tự động nén 800px WebP)</label>
     <div class="iua">
-      <img id="mi-pv" src="${m.image || ""}" style="display:${m.image ? "block" : "none"}"/>
-      <p id="mi-tx">${m.image ? "Nhấn để đổi ảnh" : "📷 Click hoặc kéo thả ảnh vào đây"}</p>
+      <img id="mi-pv" src="${g.image||""}" style="display:${g.image?"block":"none"}"/>
+      <p id="mi-tx">${g.image?"Nhấn để đổi":"📷 Click hoặc kéo thả ảnh"}</p>
       <div class="upb"><div class="upbf" id="mi-pb"></div></div>
       <div class="compress-info" id="compress-info"></div>
-      <input type="hidden" name="image" id="mi-url" value="${m.image || ""}"/>
+      <input type="hidden" name="image" id="mi-url" value="${g.image||""}"/>
       <input type="file" accept="image/*" onchange="upImg(this)"/>
     </div>
   </div>
 </div>
 <div class="fa">
   <button type="button" class="fcn" onclick="closeMo2()">Huỷ</button>
-  <button type="submit" class="fsv">${m.id ? "Lưu thay đổi" : "Thêm món"}</button>
+  <button type="submit" class="fsv">${g.id?"Lưu thay đổi":"Thêm vào HQ"}</button>
 </div>
 </form>`;
 }
-
-window.openAddMenu  = ()  => openMo("➕ Thêm món mới", mForm());
-window.openEditMenu = async id => {
-  const s = await getDoc(doc(db, "Branches", curBrId, "Menus", id));
-  if (s.exists()) openMo("✏️ Sửa món", mForm({ id: s.id, ...s.data() }));
+window.openAddGItem  = ()  => openMo("➕ Thêm món vào Kho HQ", gItemForm());
+window.openEditGItem = async id => {
+  const s = await getDoc(doc(db, "GlobalMenu", id));
+  if (s.exists()) openMo("✏️ Sửa món HQ", gItemForm({ id: s.id, ...s.data() }));
 };
-
-// Hàm upload ảnh với nén client-side
-window.upImg = async input => {
-  const file = input.files[0];
-  if (!file) return;
-  const pb         = document.getElementById("mi-pb");
-  const infoEl     = document.getElementById("compress-info");
-  const prevEl     = document.getElementById("mi-pv");
-  const urlInput   = document.getElementById("mi-url");
-  const txtEl      = document.getElementById("mi-tx");
-
-  pb.style.width = "0%";
-  if (infoEl) infoEl.textContent = "Đang nén ảnh...";
-  try {
-    const url = await uploadToCloudinary(file, pct => { pb.style.width = pct + "%"; });
-    urlInput.value    = url;
-    prevEl.src        = url;
-    prevEl.style.display = "block";
-    if (txtEl) txtEl.textContent = "Nhấn để đổi ảnh";
-    showT("✅ Upload thành công!", "ok");
-  } catch (e) {
-    showT("Lỗi upload: " + e.message, "err");
-    if (infoEl) infoEl.textContent = "Lỗi: " + e.message;
-    console.error("upImg error:", e);
-  }
-  setTimeout(() => pb.style.width = "0", 1200);
-};
-
-window.saveMenu = async (e, id) => {
+window.saveGItem = async (e, id) => {
   e.preventDefault();
   const f = e.target;
   const d = {
     name:        f.name.value.trim(),
     price:       Number(f.price.value),
     category:    f.category.value.trim(),
-    stock:       Number(f.stock.value),
-    available:   f.available.value === "true",
     description: f.description.value.trim(),
     image:       f.image.value || null,
     updatedAt:   serverTimestamp()
   };
   try {
     if (id) {
-      await updateDoc(doc(db, "Branches", curBrId, "Menus", id), d);
-      showT("Đã cập nhật món!", "ok");
+      await updateDoc(doc(db, "GlobalMenu", id), d);
+      showT("✅ Đã cập nhật món HQ!", "ok");
     } else {
       d.createdAt = serverTimestamp();
-      await addDoc(collection(db, "Branches", curBrId, "Menus"), d);
-      showT("Đã thêm món mới!", "ok");
+      await addDoc(collection(db, "GlobalMenu"), d);
+      showT("✅ Đã thêm món vào HQ!", "ok");
     }
-    closeMo2();
-    rMenu();
-  } catch (e) {
-    showT("Lỗi lưu: " + e.message, "err");
-    console.error("saveMenu error:", e);
-  }
+    closeMo2(); rGlobalMenu();
+  } catch (e) { showT("Lỗi: " + e.message, "err"); console.error("saveGItem:", e); }
+};
+window.delGItem = async (id, name) => {
+  if (!confirm(`Xóa món "${name}" khỏi HQ?\nMọi chi nhánh sẽ không thấy món này nữa.`)) return;
+  try {
+    await deleteDoc(doc(db, "GlobalMenu", id));
+    showT("Đã xóa khỏi HQ", "inf"); rGlobalMenu();
+  } catch (e) { showT("Lỗi: " + e.message, "err"); console.error("delGItem:", e); }
 };
 
-window.updStk = async (id, name, cur) => {
-  const n  = prompt(`Tồn kho mới cho "${name}" (hiện: ${cur}):`);
-  if (n === null) return;
-  const nv = parseInt(n);
-  if (isNaN(nv)) { showT("Số không hợp lệ", "err"); return; }
-  await updateDoc(doc(db, "Branches", curBrId, "Menus", id), { stock: nv });
-  showT(`Tồn kho "${name}" → ${nv}`, "ok");
-  rMenu();
-};
-
-window.delMenu = async (id, name) => {
-  if (!confirm(`Xóa món "${name}"?`)) return;
-  await deleteDoc(doc(db, "Branches", curBrId, "Menus", id));
-  showT("Đã xóa", "inf");
-  rMenu();
+// Upload ảnh với nén canvas
+window.upImg = async input => {
+  const file = input.files[0]; if (!file) return;
+  const pb = document.getElementById("mi-pb");
+  const pv = document.getElementById("mi-pv");
+  const tx = document.getElementById("mi-tx");
+  const ui = document.getElementById("mi-url");
+  try {
+    const url = await uploadToCloudinary(file, pct => { pb.style.width = pct + "%"; });
+    ui.value = url; pv.src = url; pv.style.display = "block";
+    if (tx) tx.textContent = "Nhấn để đổi"; showT("✅ Upload thành công!", "ok");
+  } catch (e) { showT("Lỗi upload: " + e.message, "err"); console.error("upImg:", e); }
+  setTimeout(() => pb.style.width = "0", 1200);
 };
 
 // ══════════════════════════════════════════════════════
@@ -916,30 +916,26 @@ async function rStaff() {
   const snap  = await getDocs(collection(db, "Branches", curBrId, "Staff"));
   const staff = snap.docs.map(d => ({ id: d.id, ...d.data() }));
   const rows  = staff.map(s => `<tr>
-    <td>${s.id}</td>
-    <td>${s.name || "—"}</td>
-    <td><span class="bdg ${s.role === "admin" ? "badm" : "bcsh"}">${s.role === "admin" ? "Admin" : "Thu ngân"}</span></td>
+    <td>${s.id}</td><td>${s.name||"—"}</td>
+    <td><span class="bdg ${s.role==="admin"?"badm":"bcsh"}">${s.role==="admin"?"Admin":"Thu ngân"}</span></td>
     <td>
       <select style="background:var(--s3);border:1px solid var(--brd);border-radius:6px;padding:4px;color:var(--txt);font-size:11px;font-family:var(--font)"
         onchange="chRole('${s.id}',this.value)">
-        <option value="admin"   ${s.role === "admin"   ? "selected" : ""}>Admin</option>
-        <option value="cashier" ${s.role === "cashier" ? "selected" : ""}>Thu ngân</option>
+        <option value="admin" ${s.role==="admin"?"selected":""}>Admin</option>
+        <option value="cashier" ${s.role==="cashier"?"selected":""}>Thu ngân</option>
       </select>
     </td>
-    <td>
-      <button style="background:var(--red-d);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer"
-        onclick="rmStaff('${s.id}')">Xóa</button>
-    </td>
+    <td><button style="background:var(--red-d);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer"
+      onclick="rmStaff('${s.id}')">Xóa</button></td>
   </tr>`).join("");
   document.getElementById("pg-c").innerHTML = `
   <div class="cvd" style="overflow-x:auto">
     <table class="dt">
       <thead><tr><th>Email</th><th>Tên</th><th>Vai trò</th><th>Đổi vai trò</th><th>Xóa</th></tr></thead>
-      <tbody>${rows || '<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:24px">Chưa có nhân viên</td></tr>'}</tbody>
+      <tbody>${rows||'<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:24px">Chưa có nhân viên</td></tr>'}</tbody>
     </table>
   </div>`;
 }
-
 window.openAddStaff = () => openMo("➕ Thêm nhân viên", `
 <form onsubmit="addStaff(event)">
   <div class="ff" style="margin-bottom:10px"><label>Email *</label><input name="email" type="email" required placeholder="nhanvien@email.com"/></div>
@@ -949,31 +945,17 @@ window.openAddStaff = () => openMo("➕ Thêm nhân viên", `
   </div>
   <div class="fa"><button type="button" class="fcn" onclick="closeMo2()">Huỷ</button><button type="submit" class="fsv">Thêm</button></div>
 </form>`);
-
 window.addStaff = async e => {
-  e.preventDefault();
-  const f  = e.target;
-  const em = f.email.value.trim();
-  await setDoc(doc(db, "Branches", curBrId, "Staff", em), {
-    name: f.name.value.trim() || em,
-    role: f.role.value,
-    addedAt: serverTimestamp()
-  });
-  showT("Đã thêm nhân viên", "ok");
-  closeMo2();
-  rStaff();
+  e.preventDefault(); const f = e.target; const em = f.email.value.trim();
+  await setDoc(doc(db,"Branches",curBrId,"Staff",em), {name:f.name.value.trim()||em,role:f.role.value,addedAt:serverTimestamp()});
+  showT("Đã thêm","ok"); closeMo2(); rStaff();
 };
-
 window.chRole = async (em, role) => {
-  await updateDoc(doc(db, "Branches", curBrId, "Staff", em), { role });
-  showT(`Đổi vai trò → ${role}`, "inf");
+  await updateDoc(doc(db,"Branches",curBrId,"Staff",em),{role}); showT(`Đổi vai trò → ${role}`,"inf");
 };
-
 window.rmStaff = async em => {
-  if (!confirm(`Xóa nhân viên "${em}"?`)) return;
-  await deleteDoc(doc(db, "Branches", curBrId, "Staff", em));
-  showT("Đã xóa", "inf");
-  rStaff();
+  if(!confirm(`Xóa "${em}"?`))return;
+  await deleteDoc(doc(db,"Branches",curBrId,"Staff",em)); showT("Đã xóa","inf"); rStaff();
 };
 
 // ══════════════════════════════════════════════════════
@@ -982,16 +964,16 @@ window.rmStaff = async em => {
 async function rVouchers() {
   document.getElementById("pg-acts").innerHTML =
     `<button class="bs-acc" onclick="openAddV()">+ Thêm voucher</button>`;
-  const snap = await getDocs(collection(db, "Branches", curBrId, "Vouchers"));
-  const vs   = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  const snap = await getDocs(collection(db,"Branches",curBrId,"Vouchers"));
+  const vs   = snap.docs.map(d => ({id:d.id,...d.data()}));
   const rows = vs.map(v => `<tr>
     <td style="font-family:var(--mono);font-weight:700">${v.id}</td>
     <td style="color:var(--grn);font-weight:700">-${v.percent}%</td>
-    <td><span class="bdg ${v.active !== false ? "bact" : "bins"}">${v.active !== false ? "Kích hoạt" : "Vô hiệu"}</span></td>
-    <td style="color:var(--txt2)">${v.note || "—"}</td>
+    <td><span class="bdg ${v.active!==false?"bact":"bins"}">${v.active!==false?"Kích hoạt":"Vô hiệu"}</span></td>
+    <td style="color:var(--txt2)">${v.note||"—"}</td>
     <td>
       <button style="background:var(--s3);border:1px solid var(--brd);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer"
-        onclick="togV('${v.id}',${v.active !== false})">${v.active !== false ? "Tắt" : "Bật"}</button>
+        onclick="togV('${v.id}',${v.active!==false})">${v.active!==false?"Tắt":"Bật"}</button>
       <button style="background:var(--red-d);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;margin-left:4px"
         onclick="delV('${v.id}')">Xóa</button>
     </td>
@@ -1000,14 +982,13 @@ async function rVouchers() {
   <div id="vouchers-content">
     <div class="cvd" style="overflow-x:auto">
       <table class="dt">
-        <thead><tr><th>Mã code</th><th>Giảm</th><th>Trạng thái</th><th>Ghi chú</th><th>Thao tác</th></tr></thead>
-        <tbody>${rows || '<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:24px">Chưa có voucher</td></tr>'}</tbody>
+        <thead><tr><th>Mã</th><th>Giảm</th><th>Trạng thái</th><th>Ghi chú</th><th>Thao tác</th></tr></thead>
+        <tbody>${rows||'<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:24px">Chưa có voucher</td></tr>'}</tbody>
       </table>
     </div>
   </div>`;
   addExportButtons(`Vouchers-${curBrName}`, "vouchers-content");
 }
-
 window.openAddV = () => openMo("➕ Tạo Voucher", `
 <form onsubmit="addV(event)">
   <div class="fg">
@@ -1017,51 +998,29 @@ window.openAddV = () => openMo("➕ Tạo Voucher", `
   </div>
   <div class="fa"><button type="button" class="fcn" onclick="closeMo2()">Huỷ</button><button type="submit" class="fsv">Tạo</button></div>
 </form>`);
-
 window.addV = async e => {
-  e.preventDefault();
-  const f    = e.target;
-  const code = f.code.value.trim().toUpperCase();
-  await setDoc(doc(db, "Branches", curBrId, "Vouchers", code), {
-    percent:   Number(f.percent.value),
-    note:      f.note.value,
-    active:    true,
-    createdAt: serverTimestamp()
-  });
-  showT("Đã tạo voucher!", "ok");
-  closeMo2();
-  rVouchers();
+  e.preventDefault(); const f = e.target; const code = f.code.value.trim().toUpperCase();
+  await setDoc(doc(db,"Branches",curBrId,"Vouchers",code),{percent:Number(f.percent.value),note:f.note.value,active:true,createdAt:serverTimestamp()});
+  showT("Đã tạo voucher!","ok"); closeMo2(); rVouchers();
 };
-window.togV = async (id, cur) => {
-  await updateDoc(doc(db, "Branches", curBrId, "Vouchers", id), { active: !cur });
-  showT(`${id}: ${!cur ? "Kích hoạt" : "Vô hiệu hóa"}`, "inf");
-  rVouchers();
-};
-window.delV = async id => {
-  if (!confirm(`Xóa voucher "${id}"?`)) return;
-  await deleteDoc(doc(db, "Branches", curBrId, "Vouchers", id));
-  showT("Đã xóa", "inf");
-  rVouchers();
-};
+window.togV = async (id,cur) => { await updateDoc(doc(db,"Branches",curBrId,"Vouchers",id),{active:!cur}); showT(`${id}: ${!cur?"Kích hoạt":"Vô hiệu"}`,"inf"); rVouchers(); };
+window.delV = async id => { if(!confirm(`Xóa voucher "${id}"?`))return; await deleteDoc(doc(db,"Branches",curBrId,"Vouchers",id)); showT("Đã xóa","inf"); rVouchers(); };
 
 // ══════════════════════════════════════════════════════
-//  BRANCHES (Super Admin only)
+//  BRANCHES (Super Admin)
 // ══════════════════════════════════════════════════════
 async function rBranches() {
   if (!isSA) {
-    document.getElementById("pg-c").innerHTML =
-      '<div class="ldr" style="color:var(--red)">Chỉ Super Admin mới truy cập được</div>';
-    return;
+    document.getElementById("pg-c").innerHTML = '<div class="ldr" style="color:var(--red)">Chỉ Super Admin</div>'; return;
   }
   document.getElementById("pg-acts").innerHTML =
     `<button class="bs-acc" onclick="openAddBr()">+ Thêm chi nhánh</button>`;
-  const snap     = await getDocs(collection(db, "Branches"));
-  const branches = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  const rows     = branches.map(b => `<tr>
+  const snap = await getDocs(collection(db,"Branches"));
+  const branches = snap.docs.map(d => ({id:d.id,...d.data()}));
+  const rows = branches.map(b => `<tr>
     <td style="font-family:var(--mono);font-size:11px">${b.id}</td>
-    <td><strong>${b.info?.name || "—"}</strong></td>
-    <td>${b.info?.address || "—"}</td>
-    <td>${b.info?.phone   || "—"}</td>
+    <td><strong>${b.info?.name||"—"}</strong></td>
+    <td>${b.info?.address||"—"}</td><td>${b.info?.phone||"—"}</td>
     <td>
       <button style="background:var(--s3);border:1px solid var(--brd);border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer"
         onclick="openEditBr('${b.id}')">✏️</button>
@@ -1073,113 +1032,73 @@ async function rBranches() {
   <div class="cvd" style="overflow-x:auto">
     <table class="dt">
       <thead><tr><th>ID</th><th>Tên</th><th>Địa chỉ</th><th>SĐT</th><th>Thao tác</th></tr></thead>
-      <tbody>${rows || '<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:24px">Chưa có chi nhánh</td></tr>'}</tbody>
+      <tbody>${rows||'<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:24px">Chưa có chi nhánh</td></tr>'}</tbody>
     </table>
   </div>`;
 }
-
 function bForm(b = {}) {
-  return `<form onsubmit="saveBr(event,'${b.id || ''}')">
+  return `<form onsubmit="saveBr(event,'${b.id||''}')">
   <div class="fg">
-    <div class="ff full"><label>Tên *</label><input name="name" value="${b.info?.name || ""}" required placeholder="Veggie Saigon - Quận 1"/></div>
-    <div class="ff full"><label>Địa chỉ</label><input name="address" value="${b.info?.address || ""}" placeholder="123 Nguyễn Huệ, Q.1"/></div>
-    <div class="ff"><label>SĐT</label><input name="phone" value="${b.info?.phone || ""}"/></div>
-    <div class="ff"><label>Email</label><input name="email" type="email" value="${b.info?.email || ""}"/></div>
-    <div class="ff"><label>VAT (%)</label><input name="vat" type="number" value="${b.info?.vat ?? DEFAULT_VAT}" min="0" max="100"/></div>
-    <div class="ff"><label>Link Map</label><input name="map" value="${b.info?.map || ""}" placeholder="https://maps.google.com/..."/></div>
-    <div class="ff"><label>Facebook</label><input name="facebook" value="${b.info?.facebook || ""}"/></div>
-    <div class="ff"><label>TikTok</label><input name="tiktok" value="${b.info?.tiktok || ""}"/></div>
+    <div class="ff full"><label>Tên *</label><input name="name" value="${b.info?.name||""}" required placeholder="Veggie Saigon - Quận 1"/></div>
+    <div class="ff full"><label>Địa chỉ</label><input name="address" value="${b.info?.address||""}" placeholder="123 Nguyễn Huệ, Q.1"/></div>
+    <div class="ff"><label>SĐT</label><input name="phone" value="${b.info?.phone||""}"/></div>
+    <div class="ff"><label>Email</label><input name="email" type="email" value="${b.info?.email||""}"/></div>
+    <div class="ff"><label>VAT (%)</label><input name="vat" type="number" value="${b.info?.vat??DEFAULT_VAT}" min="0" max="100"/></div>
+    <div class="ff"><label>Link Map</label><input name="map" value="${b.info?.map||""}"/></div>
+    <div class="ff"><label>Facebook</label><input name="facebook" value="${b.info?.facebook||""}"/></div>
+    <div class="ff"><label>TikTok</label><input name="tiktok" value="${b.info?.tiktok||""}"/></div>
   </div>
-  <div class="fa">
-    <button type="button" class="fcn" onclick="closeMo2()">Huỷ</button>
-    <button type="submit" class="fsv">${b.id ? "Lưu thay đổi" : "Tạo chi nhánh"}</button>
-  </div>
+  <div class="fa"><button type="button" class="fcn" onclick="closeMo2()">Huỷ</button><button type="submit" class="fsv">${b.id?"Lưu":"Tạo"}</button></div>
 </form>`;
 }
-
 window.openAddBr  = ()  => openMo("🏢 Thêm chi nhánh", bForm());
 window.openEditBr = async id => {
-  const s = await getDoc(doc(db, "Branches", id));
-  if (s.exists()) openMo("✏️ Sửa chi nhánh", bForm({ id, ...s.data() }));
+  const s = await getDoc(doc(db,"Branches",id)); if(s.exists()) openMo("✏️ Sửa chi nhánh", bForm({id,...s.data()}));
 };
 window.saveBr = async (e, id) => {
-  e.preventDefault();
-  const f    = e.target;
-  const info = {
-    name:     f.name.value.trim(),
-    address:  f.address.value.trim(),
-    phone:    f.phone.value.trim(),
-    email:    f.email.value.trim(),
-    vat:      Number(f.vat.value),
-    map:      f.map.value.trim(),
-    facebook: f.facebook.value.trim(),
-    tiktok:   f.tiktok.value.trim()
-  };
-  if (id) {
-    await updateDoc(doc(db, "Branches", id), { info, updatedAt: serverTimestamp() });
-    showT("Đã cập nhật chi nhánh", "ok");
-  } else {
-    await addDoc(collection(db, "Branches"), { info, createdAt: serverTimestamp() });
-    showT("Đã tạo chi nhánh", "ok");
-  }
-  closeMo2();
-  rBranches();
-  loadBranches(me);
+  e.preventDefault(); const f = e.target;
+  const info = {name:f.name.value.trim(),address:f.address.value.trim(),phone:f.phone.value.trim(),email:f.email.value.trim(),vat:Number(f.vat.value),map:f.map.value.trim(),facebook:f.facebook.value.trim(),tiktok:f.tiktok.value.trim()};
+  if (id) { await updateDoc(doc(db,"Branches",id),{info,updatedAt:serverTimestamp()}); showT("Đã cập nhật","ok"); }
+  else { await addDoc(collection(db,"Branches"),{info,createdAt:serverTimestamp()}); showT("Đã tạo chi nhánh","ok"); }
+  closeMo2(); rBranches(); loadBranches(me);
 };
 window.delBr = async (id, name) => {
-  if (!confirm(`Xóa chi nhánh "${name}"? Toàn bộ dữ liệu sẽ mất!`)) return;
-  await deleteDoc(doc(db, "Branches", id));
-  showT("Đã xóa", "inf");
-  rBranches();
+  if(!confirm(`Xóa "${name}"? Toàn bộ dữ liệu chi nhánh sẽ mất!`))return;
+  await deleteDoc(doc(db,"Branches",id)); showT("Đã xóa","inf"); rBranches();
 };
 
 // ══════════════════════════════════════════════════════
 //  SETTINGS
 // ══════════════════════════════════════════════════════
 async function rSettings() {
-  const snap = await getDoc(doc(db, "Branches", curBrId));
-  const info = snap.data()?.info || {};
+  const snap = await getDoc(doc(db,"Branches",curBrId));
+  const info = snap.data()?.info||{};
   document.getElementById("pg-c").innerHTML = `
   <div class="cvd" style="max-width:580px">
-    <h3 style="margin-bottom:16px;font-weight:800">Thông tin chi nhánh</h3>
+    <h3 style="margin-bottom:16px;font-weight:800">Thông tin chi nhánh: ${curBrName}</h3>
     <form onsubmit="saveSet(event)">
       <div class="fg">
-        <div class="ff full"><label>Tên chi nhánh</label><input name="name" value="${info.name || ""}" required/></div>
-        <div class="ff full"><label>Địa chỉ</label><input name="address" value="${info.address || ""}"/></div>
-        <div class="ff"><label>Số điện thoại</label><input name="phone" value="${info.phone || ""}"/></div>
-        <div class="ff"><label>Email</label><input name="email" type="email" value="${info.email || ""}"/></div>
-        <div class="ff"><label>VAT (%)</label><input name="vat" type="number" value="${info.vat ?? DEFAULT_VAT}" min="0" max="100"/></div>
+        <div class="ff full"><label>Tên chi nhánh</label><input name="name" value="${info.name||""}" required/></div>
+        <div class="ff full"><label>Địa chỉ</label><input name="address" value="${info.address||""}"/></div>
+        <div class="ff"><label>Số điện thoại</label><input name="phone" value="${info.phone||""}"/></div>
+        <div class="ff"><label>Email</label><input name="email" type="email" value="${info.email||""}"/></div>
+        <div class="ff"><label>VAT (%)</label><input name="vat" type="number" value="${info.vat??DEFAULT_VAT}" min="0" max="100"/></div>
         <div class="ff"><label>Tiền tệ</label>
-          <select name="currency">
-            <option value="VND" ${info.currency === "VND" ? "selected" : ""}>VNĐ (₫)</option>
-            <option value="USD" ${info.currency === "USD" ? "selected" : ""}>USD ($)</option>
-          </select>
+          <select name="currency"><option value="VND" ${info.currency==="VND"?"selected":""}>VNĐ (₫)</option><option value="USD" ${info.currency==="USD"?"selected":""}>USD ($)</option></select>
         </div>
-        <div class="ff"><label>Link Google Map</label><input name="map" value="${info.map || ""}"/></div>
-        <div class="ff"><label>Facebook</label><input name="facebook" value="${info.facebook || ""}"/></div>
-        <div class="ff"><label>TikTok</label><input name="tiktok" value="${info.tiktok || ""}"/></div>
+        <div class="ff"><label>Link Google Map</label><input name="map" value="${info.map||""}"/></div>
+        <div class="ff"><label>Facebook</label><input name="facebook" value="${info.facebook||""}"/></div>
+        <div class="ff"><label>TikTok</label><input name="tiktok" value="${info.tiktok||""}"/></div>
       </div>
       <div class="fa"><button type="submit" class="fsv">💾 Lưu cài đặt</button></div>
     </form>
   </div>`;
 }
-
 window.saveSet = async e => {
-  e.preventDefault();
-  const f    = e.target;
-  const info = {
-    name:     f.name.value.trim(),
-    address:  f.address.value.trim(),
-    phone:    f.phone.value.trim(),
-    email:    f.email.value.trim(),
-    vat:      Number(f.vat.value),
-    currency: f.currency.value,
-    map:      f.map.value.trim(),
-    facebook: f.facebook.value.trim(),
-    tiktok:   f.tiktok.value.trim()
-  };
-  await updateDoc(doc(db, "Branches", curBrId), { info, updatedAt: serverTimestamp() });
-  showT("Đã lưu cài đặt!", "ok");
+  e.preventDefault(); const f = e.target;
+  const info = {name:f.name.value.trim(),address:f.address.value.trim(),phone:f.phone.value.trim(),email:f.email.value.trim(),vat:Number(f.vat.value),currency:f.currency.value,map:f.map.value.trim(),facebook:f.facebook.value.trim(),tiktok:f.tiktok.value.trim()};
+  await updateDoc(doc(db,"Branches",curBrId),{info,updatedAt:serverTimestamp()});
+  showT("Đã lưu cài đặt!","ok");
 };
 
 // ══════════════════════════════════════════════════════
@@ -1196,35 +1115,21 @@ window.closeMo2 = () => document.getElementById("mo").classList.remove("open");
 //  UTILS
 // ══════════════════════════════════════════════════════
 function donut(sl) {
-  const sz = 96, cx = 48, cy = 48, r = 34, sw = 11;
-  let cum = 0;
+  const sz=96,cx=48,cy=48,r=34,sw=11; let cum=0;
   const paths = sl.map(s => {
-    const a1 = cum * Math.PI * 2 - Math.PI / 2;
-    const a2 = (cum + s.v) * Math.PI * 2 - Math.PI / 2;
-    cum += s.v;
-    if (s.v <= 0) return "";
-    const x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
-    const x2 = cx + r * Math.cos(a2), y2 = cy + r * Math.sin(a2);
-    return `<path d="M${x1},${y1} A${r},${r} 0 ${s.v > .5 ? 1 : 0} 1 ${x2},${y2}"
-      fill="none" stroke="${s.c}" stroke-width="${sw}" stroke-linecap="round"/>`;
+    const a1=cum*Math.PI*2-Math.PI/2, a2=(cum+s.v)*Math.PI*2-Math.PI/2; cum+=s.v;
+    if(s.v<=0) return "";
+    const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+    return `<path d="M${x1},${y1} A${r},${r} 0 ${s.v>.5?1:0} 1 ${x2},${y2}" fill="none" stroke="${s.c}" stroke-width="${sw}" stroke-linecap="round"/>`;
   }).join("");
   return `<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" style="flex-shrink:0">${paths}</svg>`;
 }
-
-function fmt(n) {
-  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(n || 0);
-}
-function fD(d) {
-  return d instanceof Date ? d.toISOString().slice(0, 10) : "";
-}
-
+function fmt(n) { return new Intl.NumberFormat("vi-VN",{style:"currency",currency:"VND"}).format(n||0); }
+function fD(d) { return d instanceof Date ? d.toISOString().slice(0,10) : ""; }
 let _t;
-function showT(msg, type = "inf") {
-  const el = document.getElementById("toast");
-  el.textContent = msg;
-  el.className   = "show " + type;
-  clearTimeout(_t);
-  _t = setTimeout(() => el.className = "", 3200);
+function showT(msg, type="inf") {
+  const el = document.getElementById("toast"); el.textContent=msg; el.className="show "+type;
+  clearTimeout(_t); _t=setTimeout(()=>el.className="",3200);
 }
 window.showT = showT;
 </script>

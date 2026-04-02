@@ -500,7 +500,7 @@ img{display:block;max-width:100%}
     <div class="mh-top">
       <button class="mh-back" onclick="backToPicker()" id="back-btn">←</button>
       <div class="mh-info">
-        <div class="mh-name" id="mh-name">PhoBut</div>
+        <div class="mh-name" id="mh-name">Veggie Saigon</div>
         <div class="mh-addr" id="mh-addr">...</div>
       </div>
       <div class="mh-actions">
@@ -516,7 +516,7 @@ img{display:block;max-width:100%}
   <div class="hero-banner" id="hero-banner">
     <div class="hero-banner-overlay">
       <div class="hero-banner-txt">
-        <div class="hero-banner-name" id="banner-name">PhoBut</div>
+        <div class="hero-banner-name" id="banner-name">Veggie Saigon</div>
         <div class="hero-banner-tag" id="banner-tag" data-i18n="banner_tag">🕐 Đang mở cửa · Đặt ngay</div>
       </div>
     </div>
@@ -540,7 +540,7 @@ img{display:block;max-width:100%}
 
   <!-- Footer -->
   <footer class="store-footer" id="store-footer" style="display:none">
-    <div class="footer-brand" id="footer-brand">🍜 PhoBut</div>
+    <div class="footer-brand" id="footer-brand">🥗 Veggie Saigon</div>
     <div id="footer-addr"></div>
     <div id="footer-phone"></div>
     <div class="footer-links" id="footer-links"></div>
@@ -639,13 +639,7 @@ img{display:block;max-width:100%}
      FIREBASE + APP LOGIC
 ══════════════════════════════════════ -->
 <script type="module">
-import {
-  FIREBASE_CONFIG,
-  DEFAULT_BRANCH_ID,
-  APP_NAME,
-  APP_LOGO_EMOJI,
-  DEFAULT_VAT
-} from './config.js';
+import { FIREBASE_CONFIG, DEFAULT_BRANCH_ID, APP_NAME, APP_LOGO_EMOJI, DEFAULT_VAT } from './config.js';
 import { initializeApp }
   from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, doc,
@@ -658,11 +652,10 @@ import { getFirestore, collection, doc,
 ══════════════════════════════════════ */
 const fbApp = initializeApp(FIREBASE_CONFIG);
 const db    = getFirestore(fbApp);
-
-// ── Branding từ config (chạy ngay khi load) ───────────
-document.getElementById("splash-logo").textContent       = APP_LOGO_EMOJI + " " + APP_NAME;
-document.getElementById("picker-brand-name").textContent = APP_NAME;
-document.title = APP_NAME + " — Đặt món trực tuyến";
+// Branding from config
+document.getElementById('splash-logo').textContent = APP_LOGO_EMOJI + ' ' + APP_NAME;
+document.getElementById('picker-brand-name').textContent = APP_NAME;
+document.title = APP_NAME + ' — Đặt món trực tuyến';
 
 /* ══════════════════════════════════════
    i18n — Inline JSON
@@ -763,7 +756,7 @@ window.toggleLang = () => {
 ══════════════════════════════════════ */
 let branchId   = null;
 let branchInfo = {};
-let hiddenItems= [];
+// hiddenItems đã bỏ — dùng Branches/MenuStatus thay thế
 let branchVAT  = DEFAULT_VAT;
 let globalMenu = [];
 let categories = [];
@@ -849,7 +842,7 @@ async function loadBranch(id){
     branchId   = id;
     const bData = bSnap.data();
     branchInfo  = bData.info || {};
-    hiddenItems = bData.hidden_items || [];
+    // MenuStatus được load dalam loadGlobalMenu(), không cần hidden_items
     branchVAT   = branchInfo.vat ?? DEFAULT_VAT;
 
     // 2. Render header / footer
@@ -862,7 +855,7 @@ async function loadBranch(id){
     url.searchParams.set("store", id);
     history.replaceState(null,"",url);
     // Update page title
-    document.title = `${branchInfo.name || APP_NAME} — Đặt món`;
+    document.title = (branchInfo.name || APP_NAME) + ' — Đặt món';
 
     // 3. Load GlobalMenu
     await loadGlobalMenu();
@@ -898,14 +891,39 @@ function updateFooter(){
 /* ══════════════════════════════════════
    GLOBAL MENU
 ══════════════════════════════════════ */
+// ══════════════════════════════════════════════════════
+// LOAD MENU — Kiến trúc HQ-Branch
+// 1. GlobalMenu: thông tin gốc (Super Admin quản lý)
+// 2. Branches/{branchId}/MenuStatus: trạng thái cục bộ
+//    { available: bool, stock: number }
+// Merge hai nguồn → hiển thị trên trang đặt hàng
+// ══════════════════════════════════════════════════════
 async function loadGlobalMenu(){
-  const snap = await getDocs(collection(db,"GlobalMenu"));
-  // Filter out hidden items for this branch
-  globalMenu = snap.docs
-    .map(d=>({id:d.id,...d.data()}))
-    .filter(m=>!hiddenItems.includes(m.id));
-  // Build categories
-  categories = ["all",...[...new Set(globalMenu.map(m=>m.category).filter(Boolean))]];
+  // Fetch song song GlobalMenu và MenuStatus của chi nhánh
+  const [globalSnap, statusSnap] = await Promise.all([
+    getDocs(collection(db, "GlobalMenu")),
+    getDocs(collection(db, "Branches", branchId, "MenuStatus"))
+  ]);
+
+  // Build MenuStatus map: itemId -> { available, stock }
+  const statusMap = {};
+  statusSnap.docs.forEach(d => { statusMap[d.id] = d.data(); });
+
+  // Merge: GlobalMenu + MenuStatus của chi nhánh này
+  // - Nếu chưa có MenuStatus cho món này → mặc định available=true, stock=-1 (vô hạn)
+  // - Nếu available===false hoặc stock===0 → món bị ẩn/hết hàng trên trang khách
+  globalMenu = globalSnap.docs.map(d => {
+    const gItem  = { id: d.id, ...d.data() };
+    const status = statusMap[d.id] || { available: true, stock: -1 };
+    return {
+      ...gItem,
+      available: status.available !== false,
+      stock:     status.stock ?? -1
+    };
+  });
+
+  // Build categories từ GlobalMenu (không lọc theo available để hiện đủ categories)
+  categories = ["all", ...[...new Set(globalMenu.map(m=>m.category).filter(Boolean))]];
   renderCategoryStrip();
   renderMenuContent();
 }
@@ -959,8 +977,9 @@ function renderMenuContent(){
 function foodCard(m){
   const cartItem = cart.find(c=>c.id===m.id);
   const qty      = cartItem?.qty||0;
-  const oos      = m.stock===0;
-  const imgSrc   = m.image || `https://placehold.co/300x225/ffe8d6/b08060?text=${encodeURIComponent("🥗")}`;
+  // Hết hàng nếu available===false HOẶC stock===0
+  const oos      = !m.available || m.stock===0;
+  const imgSrc   = m.image||`https://placehold.co/300x225/ffe8d6/b08060?text=${encodeURIComponent("🥗")}`;
   return `
   <div class="food-card ${oos?"oos":""}" id="card-${m.id}">
     <div class="food-img-wrap">
@@ -991,7 +1010,8 @@ function foodCard(m){
 ══════════════════════════════════════ */
 window.addToCart = id => {
   const item = globalMenu.find(m=>m.id===id);
-  if(!item||item.stock===0) return;
+  // Kiểm tra cả available lẫn stock
+  if(!item || !item.available || item.stock===0) return;
   const ex = cart.find(c=>c.id===id);
   if(ex) ex.qty++;
   else cart.push({id,name:item.name,price:item.price,image:item.image||"",qty:1});
@@ -1095,7 +1115,7 @@ function renderCartSheet(){
   ${cart.map(c=>`
   <div class="cart-item">
     <img class="ci-img"
-      src="${c.image || "https://placehold.co/54x54/ffe8d6/b08060?text=🥗"}"
+      src="${c.image||"https://placehold.co/54x54/ffe8d6/b08060?text=🥗"}"
       onerror="this.src='https://placehold.co/54x54/ffe8d6/b08060?text=🥗'"/>
     <div class="ci-info">
       <div class="ci-name">${c.name}</div>
@@ -1238,7 +1258,7 @@ const STEPS_CONFIG = [
   {key:"paid",      icon:"✅", title:()=>t("s_pa"), desc:{vi:"Đơn hàng đã được xác nhận",en:"Your order is confirmed"}},
   {key:"preparing", icon:"👨‍🍳",title:()=>t("s_pr"), desc:{vi:"Bếp đang chế biến món ăn của bạn",en:"Kitchen is preparing your order"}},
   {key:"delivering",icon:"🛵", title:()=>t("s_de"), desc:{vi:"Đang trên đường giao đến bạn!",en:"On the way to you!"}},
-  {key:"completed", icon:"🎉", title:()=>t("s_co"), desc:{vi:"Giao hàng thành công! Chúc ngon miệng 🥗",en:"Delivered! Enjoy your meal 🥗"}},
+  {key:"completed", icon:"🎉", title:()=>t("s_co"), desc:{vi:"Giao hàng thành công! Chúc ngon miệng 🍜",en:"Delivered! Enjoy your meal 🥗"}},
 ];
 const STATUS_ORDER = ["pending","paid","preparing","delivering","completed","cancelled"];
 const TRACK_ICONS  = {pending:"📩",paid:"✅",preparing:"👨‍🍳",delivering:"🛵",completed:"🎉",cancelled:"❌"};
@@ -1261,7 +1281,7 @@ async function startOrderTracking(orderId, orderSnap){
     const data = snap.data();
     lastTrackStatus = data.status;
     renderTrackingSteps(data.status);
-    document.getElementById("track-icon").textContent  = TRACK_ICONS[data.status] || APP_LOGO_EMOJI;
+    document.getElementById("track-icon").textContent  = TRACK_ICONS[data.status]||APP_LOGO_EMOJI;
     document.getElementById("track-title").textContent = TRACK_TITLES[data.status]?.() || data.status;
     // Bounce animation on status change
     const ico = document.getElementById("track-icon");
@@ -1325,12 +1345,12 @@ window.startNewOrder = () => {
 
 window.backToPicker = () => {
   if(trackUnsub){ trackUnsub(); trackUnsub=null; }
-  branchId=null; branchInfo={}; hiddenItems=[];
+  branchId=null; branchInfo={};
   cart=[]; discPct=0; voucherCode="";
   const url = new URL(location.href);
   url.searchParams.delete("store");
   history.replaceState(null,"",url);
-  document.title = APP_NAME + " — Đặt món trực tuyến";
+  document.title = APP_NAME + ' — Đặt món trực tuyến';
   showScreen("picker");
   loadBranchPicker();
 };

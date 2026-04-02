@@ -12,6 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <style>
+/* ══ DESIGN TOKENS ══ */
 :root{
   --bg:#08090f;--s1:#0f1117;--s2:#161b27;--s3:#1c2233;--s4:#222840;
   --brd:#2c3450;--brd2:#1c2233;
@@ -36,44 +37,23 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 ::-webkit-scrollbar-thumb{background:var(--brd);border-radius:3px}
 
 /* AUTH */
-#auth-ov{
-  position:fixed;inset:0;z-index:9999;background:var(--bg);
-  display:flex;align-items:center;justify-content:center;padding:20px;
-}
-.auth-wrap{
-  width:100%;max-width:340px;
-  background:var(--s1);border:1px solid var(--brd);
-  border-radius:var(--r2);padding:36px 24px;text-align:center;
-}
+#auth-ov{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;}
+.auth-wrap{width:100%;max-width:340px;background:var(--s1);border:1px solid var(--brd);border-radius:var(--r2);padding:36px 24px;text-align:center;}
 .auth-ico{font-size:48px;margin-bottom:6px}
 .auth-ttl{font-size:22px;font-weight:900;color:var(--acc);letter-spacing:-0.5px}
 .auth-sub{font-size:12px;color:var(--txt2);margin:4px 0 24px}
-.auth-inp{
-  width:100%;background:var(--s3);border:1.5px solid var(--brd);
-  border-radius:var(--r);padding:12px 14px;color:var(--txt);
-  font-size:15px;outline:none;margin-bottom:10px;transition:border-color .2s;
-}
+.auth-inp{width:100%;background:var(--s3);border:1.5px solid var(--brd);border-radius:var(--r);padding:12px 14px;color:var(--txt);font-size:15px;outline:none;margin-bottom:10px;transition:border-color .2s;}
 .auth-inp:focus{border-color:var(--acc)}
-.auth-go{
-  width:100%;background:var(--acc);color:#fff;border-radius:var(--r);
-  padding:13px;font-size:15px;font-weight:800;letter-spacing:.3px;
-}
+.auth-go{width:100%;background:var(--acc);color:#fff;border-radius:var(--r);padding:13px;font-size:15px;font-weight:800;letter-spacing:.3px;}
 .auth-go:active{background:var(--acc2)}
 #auth-err{color:var(--red);font-size:12px;margin-top:8px;min-height:14px}
 
 /* TOPBAR */
-#topbar{
-  height:50px;flex-shrink:0;background:var(--s1);border-bottom:1px solid var(--brd);
-  display:flex;align-items:center;gap:8px;padding:0 12px;z-index:50;
-}
+#topbar{height:50px;flex-shrink:0;background:var(--s1);border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:8px;padding:0 12px;z-index:50;}
 .tb-logo{font-size:17px;font-weight:900;color:var(--acc);letter-spacing:-0.5px}
-.tb-br{
-  font-size:11px;color:var(--txt2);background:var(--s3);
-  border:1px solid var(--brd);padding:2px 8px;border-radius:14px;
-  max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
+.tb-br{font-size:11px;color:var(--txt2);background:var(--s3);border:1px solid var(--brd);padding:2px 8px;border-radius:14px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .tb-sp{flex:1}
-.tb-role{font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px;}
+.tb-role{font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px}
 .role-admin{background:var(--pur-d);color:var(--pur)}
 .role-cashier{background:var(--grn-d);color:var(--grn)}
 .tb-langbtn{background:var(--s3);border:1px solid var(--brd);color:var(--txt2);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;}
@@ -100,9 +80,10 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 .cat-p{white-space:nowrap;padding:5px 14px;border-radius:16px;border:1.5px solid var(--brd);color:var(--txt2);font-size:12px;font-weight:700;flex-shrink:0;transition:all .15s;background:none;}
 .cat-p.on{background:var(--acc-d);border-color:var(--acc);color:var(--acc)}
 #menu-grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px;align-content:start;}
+/* Menu card — bôi mờ khi hết hàng hoặc không available */
 .mc{background:var(--s2);border:1.5px solid var(--brd);border-radius:var(--r);overflow:hidden;cursor:pointer;position:relative;transition:border-color .12s,transform .1s;-webkit-user-select:none;user-select:none;}
 .mc:active{transform:scale(.95);border-color:var(--acc)}
-.mc.oos{opacity:.35;pointer-events:none}
+.mc.oos{opacity:.32;pointer-events:none}    /* hết hàng hoặc tắt — bôi mờ, không click được */
 .mc-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--s3);display:block}
 .mc-body{padding:8px 10px 10px}
 .mc-name{font-size:13px;font-weight:700;line-height:1.3;margin-bottom:3px}
@@ -272,6 +253,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 </head>
 <body>
 
+<!-- AUTH -->
 <div id="auth-ov">
   <div class="auth-wrap">
     <div class="auth-ico">🥗</div>
@@ -284,6 +266,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
   </div>
 </div>
 
+<!-- TOPBAR -->
 <div id="topbar">
   <div class="tb-logo" id="tb-logo">🥗 POS</div>
   <div class="tb-br" id="tb-br">...</div>
@@ -292,7 +275,9 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
   <button class="tb-langbtn" id="lb" onclick="toggleLang()">VI</button>
 </div>
 
+<!-- PAGES -->
 <div id="pages">
+
   <!-- MENU -->
   <div class="pg on" id="pg-menu">
     <div class="menu-topbar">
@@ -400,6 +385,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
   </div>
 </div>
 
+<!-- BOTTOM NAV -->
 <div id="bnav">
   <button class="bni on" id="bn-menu" onclick="gPage('menu')"><span class="bni-ico">🍽️</span><span data-i18n="nav_menu">Menu</span></button>
   <button class="bni" id="bn-bill" onclick="gPage('bill')"><span class="bni-ico">🧾</span><span data-i18n="nav_bill">Hoá đơn</span><span class="bni-badge" id="bn-bill-badge">0</span></button>
@@ -431,39 +417,29 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
     </div>
   </div>
 </div>
-
 <div id="toast"></div>
 
 <script type="module">
 // ══════════════════════════════════════════════════════
-//  IMPORT CONFIG — Không hardcode bất kỳ key nào ở đây
+//  IMPORT CONFIG
 // ══════════════════════════════════════════════════════
 import {
-  FIREBASE_CONFIG,
-  SUPER_ADMIN_EMAIL,
-  EMAILJS_CONFIG,
-  APP_NAME,
-  APP_LOGO_EMOJI,
-  DEFAULT_VAT
+  FIREBASE_CONFIG, SUPER_ADMIN_EMAIL, EMAILJS_CONFIG,
+  APP_NAME, APP_LOGO_EMOJI, DEFAULT_VAT
 } from './config.js';
 
-import { initializeApp }
-  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import {
-  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import {
-  getFirestore, collection, doc, onSnapshot, query,
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, collection, doc, onSnapshot, query,
   where, orderBy, limit, addDoc, updateDoc, getDoc,
-  getDocs, serverTimestamp, Timestamp
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  getDocs, serverTimestamp, Timestamp }
+  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// ── Init Firebase ──────────────────────────────────────
 const fbApp = initializeApp(FIREBASE_CONFIG);
 const auth  = getAuth(fbApp);
 const db    = getFirestore(fbApp);
 
-// ── Cập nhật branding từ config ───────────────────────
 document.getElementById('auth-app-name').textContent = APP_NAME + ' POS';
 document.getElementById('tb-logo').textContent = APP_LOGO_EMOJI + ' ' + APP_NAME;
 document.title = APP_NAME + ' — Thu Ngân';
@@ -481,8 +457,8 @@ const LANG = {
     subtotal:"Tạm tính", discount:"Giảm giá", total:"TỔNG",
     clear:"Xoá tất cả", apply:"Áp dụng", checkout:"Thanh Toán",
     language:"Ngôn ngữ", lang_name:"Tiếng Việt",
-    all_cat:"Tất cả", sold_out:"Hết hàng", no_items:"Vui lòng chọn món",
-    order_ok:"✅ Đặt đơn thành công!",
+    all_cat:"Tất cả", sold_out:"Hết hàng", unavailable:"Tạm ngừng",
+    no_items:"Vui lòng chọn món", order_ok:"✅ Đặt đơn thành công!",
     lbl_pdf:"Xuất PDF", btn_download_pdf:"Tải Hoá Đơn PDF",
     lbl_send_email:"Gửi hoá đơn qua Email", btn_send:"Gửi", btn_close:"Đóng",
     pdf_gen:"Đang tạo PDF...", email_ok:"📧 Đã gửi email!", email_err:"Lỗi gửi email",
@@ -498,8 +474,8 @@ const LANG = {
     subtotal:"Subtotal", discount:"Discount", total:"TOTAL",
     clear:"Clear all", apply:"Apply", checkout:"Checkout",
     language:"Language", lang_name:"English",
-    all_cat:"All", sold_out:"Sold out", no_items:"Please select items",
-    order_ok:"✅ Order placed!",
+    all_cat:"All", sold_out:"Sold out", unavailable:"Unavailable",
+    no_items:"Please select items", order_ok:"✅ Order placed!",
     lbl_pdf:"Export PDF", btn_download_pdf:"Download Invoice PDF",
     lbl_send_email:"Send invoice via Email", btn_send:"Send", btn_close:"Close",
     pdf_gen:"Generating PDF...", email_ok:"📧 Email sent!", email_err:"Email error",
@@ -529,12 +505,16 @@ window.toggleLang = () => {
 //  STATE
 // ══════════════════════════════════════════════════════
 let me = null, myRole = null, brId = null, brName = "";
-let branchVAT = DEFAULT_VAT; // % — lấy từ config, sẽ overwrite bởi branch settings
+let branchVAT = DEFAULT_VAT;
+// menuItems là mảng đã MERGE giữa GlobalMenu và MenuStatus của branch
+// { id, name, price, image, category, available, stock }
 let menuItems = [], allCats = [];
 let cart = [], discPct = 0, vCode = "", pm = "cash", ot = "dinein";
-let liveUnsub = null, actUnsub = null;
+let liveUnsub = null, actUnsub = null, menuUnsub = null;
 let currentActOrders = [];
 let sheetOrder = null;
+// Map lưu MenuStatus realtime: itemId -> { available, stock }
+let menuStatusMap = {};
 
 // ══════════════════════════════════════════════════════
 //  AUTH
@@ -543,9 +523,8 @@ window.doLogin = async () => {
   const em = document.getElementById("ai-em").value.trim();
   const pw = document.getElementById("ai-pw").value;
   document.getElementById("auth-err").textContent = "";
-  try {
-    await signInWithEmailAndPassword(auth, em, pw);
-  } catch (e) {
+  try { await signInWithEmailAndPassword(auth, em, pw); }
+  catch (e) {
     document.getElementById("auth-err").textContent = "Email hoặc mật khẩu không đúng.";
     console.error("Auth error:", e.code);
   }
@@ -553,10 +532,7 @@ window.doLogin = async () => {
 window.doLogout = () => signOut(auth);
 
 onAuthStateChanged(auth, async user => {
-  if (!user) {
-    document.getElementById("auth-ov").style.display = "flex";
-    return;
-  }
+  if (!user) { document.getElementById("auth-ov").style.display = "flex"; return; }
   me = user;
   await resolveRole(user);
 });
@@ -565,35 +541,25 @@ async function resolveRole(user) {
   try {
     const bSnap = await getDocs(collection(db, "Branches"));
     if (user.email === SUPER_ADMIN_EMAIL) {
-      // Super admin: dùng chi nhánh đầu tiên
-      if (bSnap.empty) {
-        toast("Chưa có chi nhánh. Vào Admin để tạo.", "err");
-        return;
-      }
-      brId    = bSnap.docs[0].id;
-      const bData = bSnap.docs[0].data();
-      brName  = bData.info?.name || brId;
-      branchVAT = bData.info?.vat ?? DEFAULT_VAT;
-      myRole  = "admin";
+      if (bSnap.empty) { toast("Chưa có chi nhánh. Vào Admin để tạo.", "err"); return; }
+      brId      = bSnap.docs[0].id;
+      brName    = bSnap.docs[0].data().info?.name || brId;
+      branchVAT = bSnap.docs[0].data().info?.vat  ?? DEFAULT_VAT;
+      myRole    = "admin";
     } else {
       let found = false;
       for (const b of bSnap.docs) {
         const sd = await getDoc(doc(db, "Branches", b.id, "Staff", user.email));
         if (sd.exists()) {
-          brId    = b.id;
-          const bData = b.data();
-          brName  = bData.info?.name || b.id;
-          branchVAT = bData.info?.vat ?? DEFAULT_VAT;
-          myRole  = sd.data().role || "cashier";
-          found   = true;
+          brId      = b.id;
+          brName    = b.data().info?.name || b.id;
+          branchVAT = b.data().info?.vat  ?? DEFAULT_VAT;
+          myRole    = sd.data().role || "cashier";
+          found     = true;
           break;
         }
       }
-      if (!found) {
-        toast("Tài khoản chưa được phân công chi nhánh.", "err");
-        signOut(auth);
-        return;
-      }
+      if (!found) { toast("Tài khoản chưa được phân công chi nhánh.", "err"); signOut(auth); return; }
     }
     bootApp();
   } catch (e) {
@@ -613,7 +579,6 @@ function bootApp() {
   document.getElementById("p-role").textContent   = myRole === "admin" ? "ADMIN" : "THU NGÂN";
   document.getElementById("p-br").textContent     = brName;
   document.getElementById("vat-pct").textContent  = branchVAT;
-  // Init EmailJS nếu có config
   if (typeof emailjs !== "undefined" && EMAILJS_CONFIG.publicKey !== "YOUR_EMAILJS_PUBLIC_KEY") {
     emailjs.init(EMAILJS_CONFIG.publicKey);
   }
@@ -637,22 +602,73 @@ window.gPage = page => {
 };
 
 // ══════════════════════════════════════════════════════
-//  MENU — load từ Branches/{brId}/Menus (realtime)
+//  LOAD MENU — Merge GlobalMenu + MenuStatus (realtime)
+//
+//  Kiến trúc HQ-Branch:
+//  1. GlobalMenu/{id}         → tên, giá, ảnh, category (Super Admin quản)
+//  2. Branches/{b}/MenuStatus/{id} → { available, stock } (Branch Admin quản)
+//  Cả 2 listen realtime. Khi 1 trong 2 thay đổi → rebuildMenu()
 // ══════════════════════════════════════════════════════
-let menuUnsub = null;
+let rawGlobalMenu    = []; // Dữ liệu thô từ GlobalMenu
+let globalMenuUnsub  = null;
+let menuStatusUnsub  = null;
+
 function loadMenu() {
-  if (menuUnsub) menuUnsub();
-  menuUnsub = onSnapshot(collection(db, "Branches", brId, "Menus"), snap => {
-    menuItems = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    allCats   = [...new Set(menuItems.map(m => m.category).filter(Boolean))];
-    renderCats();
-    renderMenu();
+  // Dừng các listener cũ
+  if (globalMenuUnsub) { globalMenuUnsub(); globalMenuUnsub = null; }
+  if (menuStatusUnsub) { menuStatusUnsub(); menuStatusUnsub = null; }
+
+  // Listen GlobalMenu
+  globalMenuUnsub = onSnapshot(collection(db, "GlobalMenu"), snap => {
+    rawGlobalMenu = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    rebuildMenu();
   }, err => {
-    console.error("loadMenu error:", err);
+    console.error("GlobalMenu listen error:", err);
     toast("Lỗi tải thực đơn: " + err.message, "err");
   });
+
+  // Listen MenuStatus của chi nhánh này
+  menuStatusUnsub = onSnapshot(
+    collection(db, "Branches", brId, "MenuStatus"),
+    snap => {
+      menuStatusMap = {};
+      snap.docs.forEach(d => { menuStatusMap[d.id] = d.data(); });
+      rebuildMenu();
+    },
+    err => {
+      // MenuStatus có thể chưa có doc nào — không phải lỗi nghiêm trọng
+      console.warn("MenuStatus listen error:", err);
+      rebuildMenu(); // vẫn render với globalMenu
+    }
+  );
 }
 
+/**
+ * Ghép GlobalMenu + MenuStatus thành danh sách menuItems cuối cùng.
+ * Nếu một món chưa có trong MenuStatus → mặc định available=true, stock=-1 (vô hạn).
+ */
+function rebuildMenu() {
+  menuItems = rawGlobalMenu.map(gItem => {
+    const status = menuStatusMap[gItem.id] || { available: true, stock: -1 };
+    return {
+      id:        gItem.id,
+      name:      gItem.name,
+      price:     gItem.price,
+      image:     gItem.image || null,
+      category:  gItem.category || "",
+      description: gItem.description || "",
+      available: status.available !== false, // default true
+      stock:     status.stock     ?? -1,     // default vô hạn
+    };
+  });
+  allCats = [...new Set(menuItems.map(m => m.category).filter(Boolean))];
+  renderCats();
+  renderMenu();
+}
+
+// ══════════════════════════════════════════════════════
+//  RENDER MENU (Categories + Grid)
+// ══════════════════════════════════════════════════════
 let activeCat = "all", menuSearch = "";
 
 function renderCats() {
@@ -669,24 +685,35 @@ function renderMenu() {
   const g = document.getElementById("menu-grid");
   let items = menuItems;
   if (activeCat !== "all") items = items.filter(m => m.category === activeCat);
-  if (menuSearch) items = items.filter(m => m.name?.toLowerCase().includes(menuSearch));
+  if (menuSearch) items = items.filter(m =>
+    m.name?.toLowerCase().includes(menuSearch) ||
+    m.description?.toLowerCase().includes(menuSearch)
+  );
   if (!items.length) {
     g.innerHTML = `<div class="ldr" style="grid-column:1/-1;color:var(--txt3)"><span>Không có món</span></div>`;
     return;
   }
-  g.innerHTML = items.map(m => `
-  <div class="mc ${m.stock === 0 ? "oos" : ""}" onclick="addToCart('${m.id}')">
-    ${m.stock === 0 ? `<span class="mc-oos-lbl">${t("sold_out")}</span>` : ""}
-    <img class="mc-img"
-      src="${m.image || "https://placehold.co/300x225/1c2233/3d4f70?text=🥗"}"
-      alt="${m.name}" loading="lazy"
-      onerror="this.src='https://placehold.co/300x225/1c2233/3d4f70?text=🥗'"/>
-    <div class="mc-body">
-      <div class="mc-name">${m.name}</div>
-      <div class="mc-price">${fmt(m.price)}</div>
-      <div class="mc-stk">${m.stock >= 0 ? "Còn: " + m.stock : "∞"}</div>
-    </div>
-  </div>`).join("");
+  g.innerHTML = items.map(m => {
+    // Xác định trạng thái: hết hàng nếu available=false HOẶC stock=0
+    const isOOS = !m.available || m.stock === 0;
+    // Nhãn hiển thị
+    const oosLabel = !m.available ? t("unavailable") : t("sold_out");
+    // Hiển thị tồn kho: stock >= 0 hiện số, -1 là vô hạn
+    const stockDisplay = m.stock >= 0 ? "Còn: " + m.stock : "∞";
+    return `
+    <div class="mc ${isOOS ? "oos" : ""}" onclick="addToCart('${m.id}')">
+      ${isOOS ? `<span class="mc-oos-lbl">${oosLabel}</span>` : ""}
+      <img class="mc-img"
+        src="${m.image || "https://placehold.co/300x225/1c2233/3d4f70?text=🥗"}"
+        alt="${m.name}" loading="lazy"
+        onerror="this.src='https://placehold.co/300x225/1c2233/3d4f70?text=🥗'"/>
+      <div class="mc-body">
+        <div class="mc-name">${m.name}</div>
+        <div class="mc-price">${fmt(m.price)}</div>
+        <div class="mc-stk">${stockDisplay}</div>
+      </div>
+    </div>`;
+  }).join("");
 }
 
 // ══════════════════════════════════════════════════════
@@ -694,7 +721,8 @@ function renderMenu() {
 // ══════════════════════════════════════════════════════
 window.addToCart = id => {
   const item = menuItems.find(m => m.id === id);
-  if (!item || item.stock === 0) return;
+  // Kiểm tra cả available lẫn stock
+  if (!item || !item.available || item.stock === 0) return;
   const ex = cart.find(c => c.id === id);
   if (ex) ex.qty++;
   else cart.push({ id, name: item.name, price: item.price, qty: 1 });
@@ -731,15 +759,10 @@ function renderCart() {
   const list  = document.getElementById("bill-list");
   const empty = document.getElementById("bill-empty");
   list.querySelectorAll(".ci").forEach(e => e.remove());
-  if (!cart.length) {
-    empty.style.display = "flex";
-    updateBill();
-    return;
-  }
+  if (!cart.length) { empty.style.display = "flex"; updateBill(); return; }
   empty.style.display = "none";
   cart.forEach(c => {
-    const d = document.createElement("div");
-    d.className = "ci";
+    const d = document.createElement("div"); d.className = "ci";
     d.innerHTML = `
     <div class="ci-info">
       <div class="ci-name">${c.name}</div>
@@ -788,30 +811,24 @@ window.applyVoucher = async () => {
   try {
     const vs = await getDoc(doc(db, "Branches", brId, "Vouchers", code));
     if (!vs.exists() || vs.data().active === false) {
-      msg.style.color = "var(--red)";
-      msg.textContent = "Mã không hợp lệ hoặc hết hạn";
-      discPct = 0; updateBill();
-      return;
+      msg.style.color = "var(--red)"; msg.textContent = "Mã không hợp lệ hoặc hết hạn";
+      discPct = 0; updateBill(); return;
     }
-    discPct = vs.data().percent || 0;
-    vCode   = code;
-    msg.style.color = "var(--grn)";
-    msg.textContent = `✓ Giảm ${discPct}%`;
+    discPct = vs.data().percent || 0; vCode = code;
+    msg.style.color = "var(--grn)"; msg.textContent = `✓ Giảm ${discPct}%`;
     updateBill();
   } catch (e) {
-    msg.style.color = "var(--red)";
-    msg.textContent = "Lỗi kiểm tra mã";
-    console.error("applyVoucher error:", e);
+    msg.style.color = "var(--red)"; msg.textContent = "Lỗi kiểm tra mã";
+    console.error("applyVoucher:", e);
   }
 };
 
 // ══════════════════════════════════════════════════════
-//  CHECKOUT — lưu đơn, reset giỏ hàng
+//  CHECKOUT
 // ══════════════════════════════════════════════════════
 window.checkout = async () => {
   if (!cart.length) { toast(t("no_items"), "err"); return; }
-  const btn = document.getElementById("co-btn");
-  btn.disabled = true;
+  const btn = document.getElementById("co-btn"); btn.disabled = true;
   const orderData = {
     items:         cart.map(c => ({ id: c.id, name: c.name, price: c.price, qty: c.qty })),
     subtotal:      window._bill.sub,
@@ -831,20 +848,17 @@ window.checkout = async () => {
     cart = []; discPct = 0; vCode = "";
     document.getElementById("v-code").value = "";
     document.getElementById("v-msg").textContent = "";
-    renderCart();
-    updateBadge();
+    renderCart(); updateBadge();
     toast(t("order_ok"), "ok");
     gPage("menu");
   } catch (e) {
     toast("Lỗi đặt đơn: " + e.message, "err");
     console.error("checkout error:", e);
-  } finally {
-    btn.disabled = false;
-  }
+  } finally { btn.disabled = false; }
 };
 
 // ══════════════════════════════════════════════════════
-//  LIVE ORDERS
+//  LIVE ORDERS (realtime onSnapshot)
 // ══════════════════════════════════════════════════════
 const SLIST  = ["pending","paid","preparing","delivering","delivered","completed","cancelled"];
 const S_KEY  = { pending:"s_pe",paid:"s_pa",preparing:"s_pr",delivering:"s_de",delivered:"s_dd",completed:"s_co",cancelled:"s_ca" };
@@ -858,20 +872,16 @@ function subscribeOrders() {
   const q = query(
     collection(db, "Branches", brId, "Orders"),
     where("status", "in", ["pending","paid","preparing","delivering"]),
-    orderBy("createdAt", "desc"),
-    limit(60)
+    orderBy("createdAt", "desc"), limit(60)
   );
   liveUnsub = onSnapshot(q, snap => {
     const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderLiveOrders(orders);
     const n = orders.length;
     const b = document.getElementById("bn-orders-badge");
-    b.style.display = n ? "flex" : "none";
-    b.textContent   = n;
+    b.style.display = n ? "flex" : "none"; b.textContent = n;
     document.getElementById("orders-cnt").textContent = n ? `${n} đang hoạt động` : "";
-  }, err => {
-    console.error("subscribeOrders error:", err);
-  });
+  }, err => console.error("subscribeOrders:", err));
 }
 
 function renderLiveOrders(orders) {
@@ -886,7 +896,7 @@ function renderLiveOrders(orders) {
   }
   list.innerHTML = orders.map(o => {
     const ts    = o.createdAt?.toDate?.() || new Date();
-    const tstr  = ts.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+    const tstr  = ts.toLocaleTimeString("vi-VN", { hour:"2-digit", minute:"2-digit" });
     const chips = SLIST.map(s =>
       `<button class="sch ${S_CLS[s]} ${o.status === s ? "cur" : ""}" onclick="setSt('${o.id}','${s}')">${t(S_KEY[s])}</button>`
     ).join("");
@@ -908,21 +918,18 @@ function renderLiveOrders(orders) {
 
 window.setSt = async (id, s) => {
   try {
-    await updateDoc(doc(db, "Branches", brId, "Orders", id), {
-      status: s, updatedAt: serverTimestamp()
-    });
+    await updateDoc(doc(db, "Branches", brId, "Orders", id), { status: s, updatedAt: serverTimestamp() });
     toast(t(S_KEY[s]), "inf");
   } catch (e) {
     toast("Lỗi cập nhật: " + e.message, "err");
-    console.error("setSt error:", e);
+    console.error("setSt:", e);
   }
 };
 
 // ══════════════════════════════════════════════════════
-//  ACTIVITY
+//  ACTIVITY (Lịch sử đơn hàng)
 // ══════════════════════════════════════════════════════
 let currentActFilter = "today";
-
 window.setActFilter = filter => {
   currentActFilter = filter;
   document.querySelectorAll(".af-btn").forEach(b => b.classList.toggle("on", b.dataset.f === filter));
@@ -932,27 +939,23 @@ window.setActFilter = filter => {
 async function loadActivity(filter) {
   document.getElementById("act-list").innerHTML = `<div class="ldr"><div class="spin"></div></div>`;
   if (actUnsub) { actUnsub(); actUnsub = null; }
-  const now = new Date();
-  let fromDate = new Date();
+  const now = new Date(); let fromDate = new Date();
   if      (filter === "today") { fromDate.setHours(0, 0, 0, 0); }
   else if (filter === "week")  { fromDate.setDate(now.getDate() - 7); }
   else if (filter === "month") { fromDate.setDate(now.getDate() - 30); }
   else                         { fromDate = new Date(2020, 0, 1); }
 
   const q = filter === "all"
-    ? query(collection(db, "Branches", brId, "Orders"), orderBy("createdAt", "desc"), limit(120))
-    : query(
-        collection(db, "Branches", brId, "Orders"),
-        where("createdAt", ">=", Timestamp.fromDate(fromDate)),
-        orderBy("createdAt", "desc"),
-        limit(120)
-      );
+    ? query(collection(db, "Branches", brId, "Orders"), orderBy("createdAt","desc"), limit(120))
+    : query(collection(db, "Branches", brId, "Orders"),
+        where("createdAt",">=", Timestamp.fromDate(fromDate)),
+        orderBy("createdAt","desc"), limit(120));
 
   actUnsub = onSnapshot(q, snap => {
     currentActOrders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderActList(currentActOrders);
   }, err => {
-    console.error("loadActivity error:", err);
+    console.error("loadActivity:", err);
     toast("Lỗi tải lịch sử: " + err.message, "err");
   });
 }
@@ -974,7 +977,7 @@ function renderActList(orders) {
   }
   list.innerHTML = orders.map(o => {
     const ts      = o.createdAt?.toDate?.() || new Date();
-    const tstr    = ts.toLocaleString("vi-VN", { day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit" });
+    const tstr    = ts.toLocaleString("vi-VN", { day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit" });
     const st      = o.status || "pending";
     const stColor = ST_COLOR[st] || "var(--txt3)";
     const itemStr = (o.items || []).map(i => `${i.name} ×${i.qty}`).join(", ");
@@ -1007,30 +1010,25 @@ window.openInvoiceSheet = async orderId => {
       const snap = await getDoc(doc(db, "Branches", brId, "Orders", orderId));
       if (!snap.exists()) { toast("Không tìm thấy đơn", "err"); return; }
       order = { id: snap.id, ...snap.data() };
-    } catch (e) {
-      toast("Lỗi: " + e.message, "err");
-      return;
-    }
+    } catch (e) { toast("Lỗi: " + e.message, "err"); return; }
   }
   sheetOrder = order;
   buildInvoice(order);
   document.getElementById("sh-email").value = order.customerEmail || "";
   document.getElementById("sheet-ov").classList.add("open");
 };
-
 window.closeSheetBg = e => { if (e.target === document.getElementById("sheet-ov")) closeSheet(); };
 window.closeSheet   = () => { document.getElementById("sheet-ov").classList.remove("open"); sheetOrder = null; };
 
 function buildInvoice(o) {
-  const ts = o.createdAt?.toDate?.() || new Date();
-  const rows = (o.items || []).map(i =>
-    `<tr>
+  const ts   = o.createdAt?.toDate?.() || new Date();
+  const rows = (o.items || []).map(i => `
+    <tr>
       <td>${i.name}</td>
       <td style="text-align:center">${i.qty}</td>
       <td style="text-align:right">${fmt(i.price)}</td>
       <td style="text-align:right">${fmt(i.price * i.qty)}</td>
-    </tr>`
-  ).join("");
+    </tr>`).join("");
   document.getElementById("inv-card").innerHTML = `
   <div class="inv-top">
     <div class="inv-logo">${APP_LOGO_EMOJI} ${APP_NAME}</div>
@@ -1058,57 +1056,42 @@ function buildInvoice(o) {
   <div class="inv-foot">Cảm ơn quý khách! Hẹn gặp lại 🙏</div>`;
 }
 
-// ══════════════════════════════════════════════════════
-//  PDF
-// ══════════════════════════════════════════════════════
 window.downloadPDF = () => {
   if (!sheetOrder) return;
   toast(t("pdf_gen"), "inf");
   html2pdf().set({
-    margin:      [8, 8, 8, 8],
-    filename:    `HoaDon-${sheetOrder.id.slice(-8).toUpperCase()}.pdf`,
-    image:       { type: "jpeg", quality: .95 },
-    html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
-    jsPDF:       { unit: "mm", format: "a5", orientation: "portrait" }
+    margin:[8,8,8,8], filename:`HoaDon-${sheetOrder.id.slice(-8).toUpperCase()}.pdf`,
+    image:{type:"jpeg",quality:.95},
+    html2canvas:{scale:2,useCORS:true,backgroundColor:"#ffffff"},
+    jsPDF:{unit:"mm",format:"a5",orientation:"portrait"}
   }).from(document.getElementById("inv-card")).save();
 };
 
-// ══════════════════════════════════════════════════════
-//  GỬI EMAIL
-// ══════════════════════════════════════════════════════
 window.sendPDFEmail = async () => {
   const email = document.getElementById("sh-email").value.trim();
   if (!email) { toast("Nhập email khách hàng", "err"); return; }
   if (!sheetOrder) return;
   if (typeof emailjs === "undefined" || EMAILJS_CONFIG.publicKey === "YOUR_EMAILJS_PUBLIC_KEY") {
-    toast("Chưa cấu hình EmailJS trong config.js", "err");
-    return;
+    toast("Chưa cấu hình EmailJS trong config.js", "err"); return;
   }
   toast("Đang tạo PDF & gửi email...", "inf");
   try {
     const pdfBase64 = await html2pdf().set({
-      margin: [8, 8, 8, 8],
-      image:  { type: "jpeg", quality: .9 },
-      html2canvas: { scale: 2, backgroundColor: "#ffffff" },
-      jsPDF:  { unit: "mm", format: "a5", orientation: "portrait" }
+      margin:[8,8,8,8], image:{type:"jpeg",quality:.9},
+      html2canvas:{scale:2,backgroundColor:"#ffffff"},
+      jsPDF:{unit:"mm",format:"a5",orientation:"portrait"}
     }).from(document.getElementById("inv-card")).outputPdf("datauristring");
-
     await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.invoiceTemplate, {
-      to_email:    email,
-      branch_name: brName,
+      to_email:    email, branch_name: brName,
       order_id:    sheetOrder.id.slice(-8).toUpperCase(),
-      order_total: fmt(sheetOrder.total),
-      cashier:     me.email,
-      pdf_content: pdfBase64
+      order_total: fmt(sheetOrder.total), cashier: me.email, pdf_content: pdfBase64
     });
     toast(t("email_ok"), "ok");
-    // Lưu customerEmail lên Firestore
     await updateDoc(doc(db, "Branches", brId, "Orders", sheetOrder.id), {
-      customerEmail: email,
-      updatedAt:     serverTimestamp()
+      customerEmail: email, updatedAt: serverTimestamp()
     });
   } catch (e) {
-    console.error("sendPDFEmail error:", e);
+    console.error("sendPDFEmail:", e);
     toast(t("email_err") + ": " + e.message, "err");
   }
 };
@@ -1117,21 +1100,15 @@ window.sendPDFEmail = async () => {
 //  UTILS
 // ══════════════════════════════════════════════════════
 function fmt(n) {
-  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(n || 0);
+  return new Intl.NumberFormat("vi-VN", { style:"currency", currency:"VND" }).format(n || 0);
 }
-
 let _toastTimer;
 window.toast = (msg, type = "inf") => {
   const el = document.getElementById("toast");
-  el.textContent = msg;
-  el.className   = "show " + type;
-  clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(() => el.className = "", 3000);
+  el.textContent = msg; el.className = "show " + type;
+  clearTimeout(_toastTimer); _toastTimer = setTimeout(() => el.className = "", 3000);
 };
-
-// ── Khởi tạo ──────────────────────────────────────────
-updateBill();
-applyLang();
+updateBill(); applyLang();
 </script>
 </body>
 </html>
