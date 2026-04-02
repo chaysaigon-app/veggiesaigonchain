@@ -26,8 +26,8 @@ export const CLOUDINARY_UPLOAD_PRESET = "qjrpdbhs";
 // Đăng ký tại https://www.emailjs.com/ để lấy các giá trị này
 export const EMAILJS_CONFIG = {
   serviceId:       "service_j8kubcd",        // ← Thay bằng Service ID thật
-  invoiceTemplate: "template_invoice",    // ← Template gửi hoá đơn
-  reportTemplate:  "template_report",     // ← Template gửi báo cáo
+  invoiceTemplate: "template_pbqe9ew",    // ← Template gửi hoá đơn
+  reportTemplate:  "template_3ee7url",     // ← Template gửi báo cáo
   publicKey:       "67fQLu2LTz1bZmT5L" // ← Public Key
 };
 
