@@ -891,7 +891,7 @@ function subscribeOrders() {
   liveUnsub = onSnapshot(q, snap => {
     const allOrders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     // Dùng Javascript tự lọc ra các đơn đang hoạt động
-    const liveOrders = allOrders.filter(o => ["pending","paid","preparing","delivering"].includes(o.status));
+    const liveOrders = allOrders.filter(o => o.status !== "completed" && o.status !== "cancelled");
 
     renderLiveOrders(liveOrders);
     const n = liveOrders.length;
