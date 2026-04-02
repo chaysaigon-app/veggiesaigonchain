@@ -447,6 +447,28 @@ img{display:block;max-width:100%}
 .toast.err{background:#e55353}
 
 .divider{height:8px;background:var(--cream2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:12px 0}
+/* --- Đoạn code để biến ảnh thành hình vuông --- */
+
+/* 1. Chọn vùng chứa ảnh (container) */
+/* Tôi đoán bạn có thể dùng các class như .pi-img hoặc .img-food trong file của bạn.
+   Dưới đây là mã mẫu. Hãy thay thế '.pi-img' bằng class thật trong code của bạn
+   nếu nó khác biệt. */
+.pi-img {
+  width: 100%;             /* Giữ chiều rộng 100% của card */
+  aspect-ratio: 1 / 1;      /* ÉP BUỘC TỶ LỆ HÌNH VUÔNG */
+  overflow: hidden;         /* Cắt bỏ phần ảnh thừa ra ngoài vùng vuông */
+  display: block;
+}
+
+/* 2. Cấu hình thẻ <img> bên trong vùng chứa */
+.pi-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;        /* Đây là "phép thuật"! Nó sẽ cắt và lấp đầy vùng vuông
+                               từ tâm ảnh gốc mà không làm méo hình. */
+  object-position: center;  /* Cố định tâm ảnh ở giữa vùng cắt */
+  display: block;
+}
 </style>
 </head>
 <body>
