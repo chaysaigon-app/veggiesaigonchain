@@ -943,7 +943,11 @@ window.filterMenu = () => { searchQ=document.getElementById("search-inp").value.
 function renderMenuContent(){
   let items = globalMenu;
   if(activeCat!=="all") items = items.filter(m=>m.category===activeCat);
-  if(searchQ)           items = items.filter(m=>m.name?.toLowerCase().includes(searchQ)||(m.description||"").toLowerCase().includes(searchQ));
+  if (searchQ) {
+  const toNoSign = s => (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase();
+  const sq = toNoSign(searchQ);
+  items = items.filter(m => toNoSign(m.name).includes(sq) || toNoSign(m.description).includes(sq));
+}
 
   const container = document.getElementById("menu-content");
   if(!items.length){
