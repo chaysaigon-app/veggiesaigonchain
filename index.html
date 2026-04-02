@@ -543,6 +543,7 @@ img{display:block;max-width:100%}
     <div class="footer-brand" id="footer-brand">🥗 Veggie Saigon</div>
     <div id="footer-addr"></div>
     <div id="footer-phone"></div>
+<div id="footer-hours"></div>
     <div class="footer-links" id="footer-links"></div>
   </footer>
 </div>
@@ -818,7 +819,7 @@ async function loadBranchPicker(){
         <div class="branch-card-ico" style="font-size:26px">🥗</div>
         <div class="branch-card-info">
           <div class="branch-card-name">${info.name||d.id}</div>
-          <div class="branch-card-addr">📍 ${info.address||"—"}</div>
+          <div class="branch-card-addr">📍 ${info.address||"—"} ${info.hours ? ` | 🕐 ${info.hours}` : ''}</div>
         </div>
         <div class="branch-card-arr">›</div>
       </div>`;
@@ -848,7 +849,8 @@ async function loadBranch(id){
     branchVAT   = branchInfo.vat ?? DEFAULT_VAT;
 
     // 2. Render header / footer
-    document.getElementById("mh-name").textContent    = branchInfo.name || APP_NAME;
+    document.getElementById("banner-name").textContent= branchInfo.name || APP_NAME;
+document.getElementById("banner-tag").textContent = branchInfo.hours ? `🕐 ${branchInfo.hours} · Đặt ngay` : t("banner_tag");
     document.getElementById("mh-addr").textContent    = branchInfo.address || "";
     document.getElementById("banner-name").textContent= branchInfo.name || APP_NAME;
     updateFooter();
@@ -882,6 +884,7 @@ function updateFooter(){
   document.getElementById("footer-brand").textContent = APP_LOGO_EMOJI + " " + (branchInfo.name || APP_NAME);
   document.getElementById("footer-addr").textContent  = branchInfo.address ? "📍 "+branchInfo.address : "";
   document.getElementById("footer-phone").textContent = branchInfo.phone ? "📞 "+branchInfo.phone : "";
+document.getElementById("footer-hours").textContent = branchInfo.hours ? "🕐 "+branchInfo.hours : "";
   // Links
   const links = [];
   if(branchInfo.map)     links.push(`<a class="footer-link" href="${branchInfo.map}" target="_blank">🗺️ Bản đồ</a>`);
