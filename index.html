@@ -517,7 +517,7 @@ img{display:block;max-width:100%}
     <div class="hero-banner-overlay">
       <div class="hero-banner-txt">
         <div class="hero-banner-name" id="banner-name">Veggie Saigon</div>
-        <div class="hero-banner-tag" id="banner-tag" data-i18n="banner_tag">🕐 Đang mở cửa · Đặt ngay</div>
+        <div class="hero-banner-tag" id="banner-tag">🕐 Đang mở cửa · Đặt ngay</div>
       </div>
     </div>
   </div>
@@ -739,11 +739,47 @@ const LANG = {
 let lang = localStorage.getItem("pb_lang") || "vi";
 const t  = k => LANG[lang][k] || k;
 
+function updateBannerStatus() {
+  const bannerTag = document.getElementById("banner-tag");
+  if (!bannerTag || !branchInfo) return;
+
+  if (branchInfo.hours) {
+    try {
+      const [openStr, closeStr] = branchInfo.hours.split('-').map(s => s.trim());
+      const now = new Date();
+      const currentMins = now.getHours() * 60 + now.getMinutes();
+
+      const openMins = parseInt(openStr.split(':')[0]) * 60 + parseInt(openStr.split(':')[1] || 0);
+      const closeMins = parseInt(closeStr.split(':')[0]) * 60 + parseInt(closeStr.split(':')[1] || 0);
+
+      let isOpen = false;
+      if (openMins <= closeMins) {
+        isOpen = (currentMins >= openMins && currentMins <= closeMins);
+      } else {
+        isOpen = (currentMins >= openMins || currentMins <= closeMins); // Xử lý nếu quán mở qua đêm
+      }
+
+      if (isOpen) {
+        bannerTag.textContent = `🕐 ${branchInfo.hours} · ${lang === 'vi' ? 'Đang mở cửa' : 'Open'}`;
+        bannerTag.style.background = "rgba(255,255,255,.2)"; // Nền sáng
+      } else {
+        bannerTag.textContent = `💤 ${branchInfo.hours} · ${lang === 'vi' ? 'Đã đóng cửa' : 'Closed'}`;
+        bannerTag.style.background = "rgba(0,0,0,.5)"; // Nền tối
+      }
+    } catch (e) {
+      bannerTag.textContent = `🕐 ${branchInfo.hours}`;
+    }
+  } else {
+    bannerTag.textContent = t("banner_tag");
+  }
+}
+
 function applyLang(){
   document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = t(el.dataset.i18n));
   const si = document.getElementById("search-inp");
   if(si) si.placeholder = t("search_ph");
   document.getElementById("lang-btn").textContent = lang==="vi" ? "EN" : "VI";
+  updateBannerStatus();
 }
 window.toggleLang = () => {
   lang = lang==="vi" ? "en" : "vi";
@@ -849,11 +885,12 @@ async function loadBranch(id){
     branchVAT   = branchInfo.vat ?? DEFAULT_VAT;
 
     // 2. Render header / footer
-    document.getElementById("banner-name").textContent= branchInfo.name || APP_NAME;
-document.getElementById("banner-tag").textContent = branchInfo.hours ? `🕐 ${branchInfo.hours} · Đặt ngay` : t("banner_tag");
+    document.getElementById("mh-name").textContent    = branchInfo.name || APP_NAME;
     document.getElementById("mh-addr").textContent    = branchInfo.address || "";
     document.getElementById("banner-name").textContent= branchInfo.name || APP_NAME;
+    updateBannerStatus();
     updateFooter();
+     
     // Update URL silently
     const url = new URL(location.href);
     url.searchParams.set("store", id);
