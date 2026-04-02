@@ -1226,7 +1226,7 @@ window.placeOrder = async () => {
   const {sub,vat,disc,tot} = calcBill();
   const orderData = {
     items: cart.map(c=>({id:c.id,name:c.name,price:c.price,qty:c.qty})),
-    customer: {name, phone, address:addr||null},
+    customer: {name, phone, taxId:tax||null, address:addr||null},
     subtotal: sub, vat, discount:disc, total:tot,
     paymentMethod: payMethod,
     orderType: "weborder",
