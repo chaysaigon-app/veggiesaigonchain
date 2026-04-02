@@ -28,7 +28,7 @@ export const EMAILJS_CONFIG = {
   serviceId:       "service_j8kubcd",        // ← Thay bằng Service ID thật
   invoiceTemplate: "template_invoice",    // ← Template gửi hoá đơn
   reportTemplate:  "template_report",     // ← Template gửi báo cáo
-  publicKey:       "YOUR_EMAILJS_PUBLIC_KEY" // ← Public Key
+  publicKey:       "67fQLu2LTz1bZmT5L" // ← Public Key
 };
 
 // ── Customer Web Ordering (index.html) ───────────────────────
