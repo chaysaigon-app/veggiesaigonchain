@@ -410,7 +410,7 @@ window.goP = async p => {
 // ═══════════════════════════════════════════════════════════════
 function addExportButtons(title, targetId = 'pg-c') {
   pendingReportTitle = title; _expTarget = targetId;
-  document.getElementById('pg-acts').innerHTML =
+  document.getElementById('pg-acts').innerHTML +=
     `<button class="hdr-export-btn pdf" onclick="exportReportPDF('${targetId}','${title}')">📥 Tải PDF</button>` +
     `<button class="hdr-export-btn email" onclick="openEmailMo('${targetId}','${title}')">📧 Gửi Email</button>`;
 }
