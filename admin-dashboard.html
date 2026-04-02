@@ -1023,6 +1023,7 @@ function brForm(inf = {}, bid = '') {
   <div class="ff full"><label>Tên *</label><input id="br-name" value="${inf.name||''}" required placeholder="Veggie Saigon - Quận 1"/></div>
   <div class="ff full"><label>Địa chỉ</label><input id="br-addr" value="${inf.address||''}" placeholder="123 Nguyễn Huệ, Q.1"/></div>
   <div class="ff"><label>SĐT</label><input id="br-phone" value="${inf.phone||''}"/></div>
+  <div class="ff"><label>Giờ mở cửa</label><input id="br-hours" value="${inf.hours||''}" placeholder="07:00 - 22:00"/></div>
   <div class="ff"><label>Email</label><input id="br-email" type="email" value="${inf.email||''}"/></div>
   <div class="ff"><label>VAT (%)</label><input id="br-vat" type="number" value="${inf.vat!=null?inf.vat:DEFAULT_VAT}" min="0" max="100"/></div>
   <div class="ff"><label>Link Map</label><input id="br-map" value="${inf.map||''}"/></div>
@@ -1044,6 +1045,7 @@ window.saveBr = async bid => {
     name,
     address:  document.getElementById('br-addr')?.value.trim()  || '',
     phone:    document.getElementById('br-phone')?.value.trim() || '',
+    hours:    document.getElementById('br-hours')?.value.trim() || '',
     email:    document.getElementById('br-email')?.value.trim() || '',
     vat:      Number(document.getElementById('br-vat')?.value   || DEFAULT_VAT),
     map:      document.getElementById('br-map')?.value.trim()   || '',
@@ -1091,6 +1093,7 @@ async function rSettings() {
         <div class="ff full"><label>Tên chi nhánh</label><input id="se-name" value="${info.name||''}" required/></div>
         <div class="ff full"><label>Địa chỉ</label><input id="se-addr" value="${info.address||''}"/></div>
         <div class="ff"><label>Số điện thoại</label><input id="se-phone" value="${info.phone||''}"/></div>
+        <div class="ff"><label>Giờ mở cửa</label><input id="br-hours" value="${inf.hours||''}" placeholder="07:00 - 22:00"/></div>
         <div class="ff"><label>Email</label><input id="se-email" type="email" value="${info.email||''}"/></div>
         <div class="ff"><label>VAT (%)</label><input id="se-vat" type="number" value="${info.vat!=null?info.vat:DEFAULT_VAT}" min="0" max="100"/></div>
         <div class="ff"><label>Tiền tệ</label>
