@@ -249,6 +249,19 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
 .spin{width:28px;height:28px;border:3px solid var(--brd);border-top-color:var(--acc);border-radius:50%;animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .ldr{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:12px;color:var(--txt2)}
+/* ══════════════════════════════════════
+   GIAO DIỆN MÁY TÍNH (TỰ ĐỘNG THU GỌN VÀO GIỮA)
+══════════════════════════════════════ */
+@media (min-width: 768px) {
+  body {
+    max-width: 480px;          /* Ép chiều ngang tối đa bằng cái máy tính bảng nhỏ */
+    margin: 0 auto;            /* Canh giữa màn hình */
+    border-left: 1px solid var(--brd);
+    border-right: 1px solid var(--brd);
+    box-shadow: 0 0 50px rgba(0,0,0,0.6); /* Đổ bóng cho nó nổi lên như 1 cái app thực thụ */
+    position: relative;
+  }
+}
 </style>
 </head>
 <body>
