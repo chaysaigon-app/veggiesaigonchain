@@ -1073,10 +1073,14 @@ function updateCartBar(){
 }
 
 function calcBill(){
-  const sub  = cart.reduce((s,c)=>s+c.price*c.qty,0);
-  const vat  = Math.round(sub*branchVAT/100);
-  const disc = Math.round(sub*discPct/100);
-  const tot  = sub+vat-disc;
+  const cartSum = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const disc = Math.round(cartSum*discPct/100);
+  let tot = cartSum - disc;
+  if (tot < 0) tot = 0;
+  
+  const sub = Math.round(tot / (1 + branchVAT/100));
+  const vat = tot - sub;
+  
   return {sub,vat,disc,tot};
 }
 
