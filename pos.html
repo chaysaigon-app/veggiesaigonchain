@@ -902,10 +902,15 @@ function renderLiveOrders(orders) {
     const ts    = o.createdAt?.toDate?.() || new Date();
     const tstr  = ts.toLocaleTimeString("vi-VN", { hour:"2-digit", minute:"2-digit" });
     const chips = SLIST.map(s =>
-      `<button class="sch ${S_CLS[s]} ${o.status === s ? "cur" : ""}" onclick="setSt('${o.id}','${s}')">${t(S_KEY[s])}</button>`
+      `<button class="sch ${S_CLS[s]} ${o.status === s ? "cur" : ""}" onclick="event.stopPropagation(); setSt('${o.id}','${s}')">${t(S_KEY[s])}</button>`
     ).join("");
+
+    const c = o.customer || {};
+    const custHtml = c.name ? `<div style="font-size:11px;color:var(--blu);margin:4px 0">👤 <b>${c.name}</b> - 📞 ${c.phone||''} <br/>📍 ${c.address||'Lấy tại quán'}</div>` : '';
+    const noteHtml = o.note ? `<div style="font-size:11px;color:var(--ylw);margin:4px 0">📝 <b>Ghi chú:</b> ${o.note}</div>` : '';
+
     return `
-    <div class="oc">
+    <div class="oc" onclick="openInvoiceSheet('${o.id}')" style="cursor:pointer; transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--acc)'" onmouseout="this.style.borderColor='var(--brd)'">
       <div class="oc-top">
         <div>
           <div class="oc-id">#${o.id.slice(-6).toUpperCase()}</div>
@@ -913,6 +918,8 @@ function renderLiveOrders(orders) {
         </div>
         <div class="oc-time">${tstr}</div>
       </div>
+      ${custHtml}
+      ${noteHtml}
       <div class="oc-items">${(o.items || []).map(i => `${i.name} ×${i.qty}`).join(" · ")}</div>
       <div class="oc-total">${fmt(o.total)}</div>
       <div class="status-wrap">${chips}</div>
