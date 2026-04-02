@@ -430,7 +430,25 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
     </div>
   </div>
 </div>
-<div id="toast"></div>
+<div id="qr-mo" onclick="closeQRBg(event)" style="position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--s1);border:1px solid var(--brd);border-radius:24px;padding:24px;width:100%;max-width:320px;text-align:center;">
+    <div style="font-size:40px;margin-bottom:8px">📱</div>
+    <h3 style="font-size:18px;font-weight:800;color:var(--acc);margin-bottom:4px">Khách quét mã tại đây</h3>
+    <p style="font-size:18px;font-weight:900;color:#fff;margin-bottom:16px" id="qr-amount-txt">0 ₫</p>
+    
+    <div style="background:#fff;padding:12px;border-radius:16px;display:inline-block;margin-bottom:20px">
+      <img id="qr-img" src="" style="width:220px;height:220px;display:block;object-fit:contain" />
+    </div>
+    
+    <button onclick="confirmQRCheckout()" style="width:100%;background:var(--grn);color:#000;border-radius:12px;padding:16px;font-size:15px;font-weight:900;margin-bottom:10px;box-shadow:0 4px 12px rgba(0,217,126,0.3)">
+      ✅ ĐÃ NHẬN TIỀN
+    </button>
+    <button onclick="closeQRModal()" style="width:100%;background:none;border:1.5px solid var(--brd);color:var(--txt2);border-radius:12px;padding:12px;font-size:14px;font-weight:700">
+      Đóng / Hủy
+    </button>
+  </div>
+</div>
+  <div id="toast"></div>
 
 <script type="module">
 // ══════════════════════════════════════════════════════
