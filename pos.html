@@ -685,10 +685,11 @@ function renderMenu() {
   const g = document.getElementById("menu-grid");
   let items = menuItems;
   if (activeCat !== "all") items = items.filter(m => m.category === activeCat);
-  if (menuSearch) items = items.filter(m =>
-    m.name?.toLowerCase().includes(menuSearch) ||
-    m.description?.toLowerCase().includes(menuSearch)
-  );
+  if (menuSearch) {
+  const toNoSign = s => (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase();
+  const sq = toNoSign(menuSearch);
+  items = items.filter(m => toNoSign(m.name).includes(sq) || toNoSign(m.description).includes(sq));
+}
   if (!items.length) {
     g.innerHTML = `<div class="ldr" style="grid-column:1/-1;color:var(--txt3)"><span>Không có món</span></div>`;
     return;
