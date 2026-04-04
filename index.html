@@ -367,6 +367,27 @@ img{display:block;max-width:100%}
    SCREEN: ORDER TRACKING
 ══════════════════════════════════════ */
 #screen-tracking{background:var(--cream);min-height:100vh}
+   .track-close-btn {
+  position: absolute;
+  top: calc(var(--sat) + 16px);
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.2s;
+}
+.track-close-btn:active {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0.9);
+}
 .tracking-header{
   background:linear-gradient(135deg,var(--saffron),#ff8c42);
   padding:calc(var(--sat) + 20px) 20px 80px;
@@ -633,7 +654,8 @@ img{display:block;max-width:100%}
 ══════════════════════════════════════ -->
 <div class="screen" id="screen-tracking">
   <div class="tracking-header">
-    <div class="tracking-icon" id="track-icon">🥗</div>
+    <button class="track-close-btn" onclick="startNewOrder()">✕</button>
+     <div class="tracking-icon" id="track-icon">🥗</div>
     <div class="tracking-status-title" id="track-title" data-i18n="track_waiting">Chờ xác nhận</div>
     <div class="tracking-order-id" id="track-order-id"></div>
   </div>
@@ -1343,9 +1365,22 @@ async function startOrderTracking(orderId, orderSnap){
     renderTrackingSteps(data.status);
     document.getElementById("track-icon").textContent  = TRACK_ICONS[data.status]||APP_LOGO_EMOJI;
     document.getElementById("track-title").textContent = TRACK_TITLES[data.status]?.() || data.status;
-    // Bounce animation on status change
+    
     const ico = document.getElementById("track-icon");
-    ico.style.animation="none"; requestAnimationFrame(()=>ico.style.animation="");
+    if (data.status === "completed" || data.status === "cancelled") {
+      // Dừng nhún nhảy khi đơn đã xong hoặc bị huỷ
+      ico.style.animation = "none";
+      // Tự động đóng màn hình tracking sau 5 giây để khách về lại menu
+      setTimeout(() => {
+         if(document.getElementById("screen-tracking").classList.contains("active")){
+            startNewOrder();
+         }
+      }, 5000); 
+    } else {
+      // Hiệu ứng nhún nhảy cho các trạng thái đang xử lý
+      ico.style.animation = "none"; 
+      requestAnimationFrame(() => ico.style.animation = "bounce 2s ease infinite");
+    }
   });
 }
 
