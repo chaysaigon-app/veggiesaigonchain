@@ -347,7 +347,14 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
         <button class="pm-btn" data-pm="card" onclick="setPM('card')">💳 Thẻ</button>
         <button class="pm-btn" data-pm="transfer" onclick="setPM('transfer')">🏦 CK</button>
       </div>
-      <button id="co-btn" onclick="checkout()">✅ <span data-i18n="checkout">Thanh Toán</span></button>
+      <div style="display:flex; gap:8px; margin-top:6px;">
+        <button id="save-btn" onclick="saveOrder()" style="flex:1; background:var(--blu); color:#fff; border-radius:var(--r); padding:13px; font-size:14px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:8px; border:none;">
+          ⏳ Lưu Đơn
+        </button>
+        <button id="co-btn" onclick="checkout()" style="flex:1; background:var(--acc); color:#fff; border-radius:var(--r); padding:13px; font-size:14px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:8px; border:none;">
+          ✅ Thanh Toán
+        </button>
+      </div>
     </div>
   </div>
 
@@ -873,15 +880,18 @@ window.confirmQRCheckout = async () => {
   await processOrder("completed"); // Thu ngân bấm Đã nhận tiền -> Chốt đơn bay thẳng vào Lịch sử
 };
 
+window.saveOrder = async () => {
+  if (!cart.length) { toast(t("no_items"), "err"); return; }
+  await processOrder("pending"); 
+};
+
 window.checkout = async () => {
   if (!cart.length) { toast(t("no_items"), "err"); return; }
   
-  // NẾU KHÁCH CHỌN CHUYỂN KHOẢN -> HIỆN MÃ QR LÊN ĐIỆN THOẠI
   if (pm === "transfer") {
-    // 🔴 BÁC THAY THÔNG TIN NGÂN HÀNG CỦA BÁC VÀO 3 DÒNG DƯỚI ĐÂY:
-    const bankId  = "MB";            // VD: MB, VCB, ACB, TPB...
-    const accNo   = "0909108890";    // Số tài khoản của bác
-    const accName = "VEGGIE SAIGON"; // Tên chủ tài khoản (Không dấu)
+    const bankId  = "MB";            
+    const accNo   = "0909108890";    
+    const accName = "VEGGIE SAIGON"; 
     
     const amount  = window._bill.tot;
     const memo    = "Thanh toan POS " + Math.floor(Math.random() * 10000);
@@ -890,11 +900,10 @@ window.checkout = async () => {
     document.getElementById("qr-img").src = qrUrl;
     document.getElementById("qr-amount-txt").textContent = fmt(amount);
     document.getElementById("qr-mo").style.display = "flex";
-    return; // Dừng hệ thống lại, chờ thu ngân chìa màn hình cho khách quét
+    return;
   }
   
-  // NẾU LÀ TIỀN MẶT / THẺ -> LÊN ĐƠN BÌNH THƯỜNG
-  await processOrder("pending");
+  await processOrder("completed"); 
 };
 
 async function processOrder(targetStatus) {
