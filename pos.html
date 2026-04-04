@@ -424,6 +424,7 @@ input,select,textarea{font-family:var(--font);color:var(--txt);background:none}
     </div>
     <div class="sh-body">
       <div id="inv-card"></div>
+      <button id="btn-edit-order" class="sh-act-btn" style="background:var(--blu-d); border:1.5px solid var(--blu); color:var(--blu); display:none;" onclick="startEditOrder()">✏️ Thêm món / Sửa đơn này</button>
       <div class="sh-section-lbl" data-i18n="lbl_pdf">Xuất PDF</div>
       <button class="sh-act-btn sh-pdf-btn" onclick="downloadPDF()">📥 <span data-i18n="btn_download_pdf">Tải Hoá Đơn PDF</span></button>
       <div class="sh-email-wrap">
@@ -550,7 +551,7 @@ let menuItems = [], allCats = [];
 let cart = [], discPct = 0, vCode = "", pm = "cash", ot = "dinein";
 let liveUnsub = null, actUnsub = null, menuUnsub = null;
 let currentActOrders = [];
-let sheetOrder = null;
+let sheetOrder = null; let editingOrderId = null;
 // Map lưu MenuStatus realtime: itemId -> { available, stock }
 let menuStatusMap = {};
 
@@ -779,7 +780,7 @@ window.chQty = (id, d) => {
 };
 
 window.clearCart = () => {
-  cart = []; discPct = 0; vCode = "";
+  cart = []; discPct = 0; vCode = ""; editingOrderId = null;
   document.getElementById("v-code").value = "";
   document.getElementById("v-msg").textContent = "";
   renderCart();
@@ -919,22 +920,32 @@ async function processOrder(targetStatus) {
     voucherCode:   vCode || null,
     status:        targetStatus, 
     cashierEmail:  me.email,
-    createdAt:     serverTimestamp(),
     updatedAt:     serverTimestamp()
   };
   try {
-    await addDoc(collection(db, "Branches", brId, "Orders"), orderData);
+    if (editingOrderId) {
+      // Nếu đang sửa đơn thì GHI ĐÈ dữ liệu mới vào đơn cũ
+      await updateDoc(doc(db, "Branches", brId, "Orders", editingOrderId), orderData);
+      toast("✅ Đã cập nhật thêm món!", "ok");
+      editingOrderId = null; // Làm sạch bộ nhớ
+    } else {
+      // Tạo đơn mới toanh
+      orderData.createdAt = serverTimestamp();
+      await addDoc(collection(db, "Branches", brId, "Orders"), orderData);
+      toast(targetStatus === "completed" ? "✅ Đơn hoàn thành, đã lưu vào Lịch sử!" : t("order_ok"), "ok");
+    }
+    
     cart = []; discPct = 0; vCode = "";
     document.getElementById("v-code").value = "";
     document.getElementById("v-msg").textContent = "";
     renderCart(); updateBadge();
-    toast(targetStatus === "completed" ? "✅ Đơn hoàn thành, đã lưu vào Lịch sử!" : t("order_ok"), "ok");
-    gPage("menu"); // Trở về màn hình Menu để đón khách tiếp theo
+    gPage("menu"); 
   } catch (e) {
     toast("Lỗi đặt đơn: " + e.message, "err");
     console.error("checkout error:", e);
   } finally { btn.disabled = false; }
 }
+ 
 
 // ══════════════════════════════════════════════════════
 //  LIVE ORDERS (realtime onSnapshot)
@@ -1104,7 +1115,32 @@ window.openInvoiceSheet = async orderId => {
   sheetOrder = order;
   buildInvoice(order);
   document.getElementById("sh-email").value = order.customerEmail || "";
+  
+  // Hiện nút Sửa đơn nếu chưa thanh toán xong/chưa huỷ
+  const btnEdit = document.getElementById("btn-edit-order");
+  if (btnEdit) {
+    btnEdit.style.display = (order.status !== "completed" && order.status !== "cancelled") ? "flex" : "none";
+  }
   document.getElementById("sheet-ov").classList.add("open");
+};
+
+window.startEditOrder = () => {
+  if (!sheetOrder) return;
+  // Kéo món từ đơn cũ về lại giỏ hàng
+  cart = sheetOrder.items ? JSON.parse(JSON.stringify(sheetOrder.items)) : [];
+  ot = sheetOrder.orderType || "dinein";
+  pm = sheetOrder.paymentMethod || "cash";
+  editingOrderId = sheetOrder.id; 
+  
+  discPct = 0; vCode = "";
+  document.getElementById("v-code").value = "";
+  document.getElementById("v-msg").textContent = "";
+
+  setOT(ot); setPM(pm);
+  renderCart(); updateBadge();
+  closeSheet();
+  toast("✏️ Đang thêm món cho đơn #" + editingOrderId.slice(-6).toUpperCase(), "inf");
+  gPage("menu"); 
 };
 window.closeSheetBg = e => { if (e.target === document.getElementById("sheet-ov")) closeSheet(); };
 window.closeSheet   = () => { document.getElementById("sheet-ov").classList.remove("open"); sheetOrder = null; };
